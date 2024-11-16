@@ -5,10 +5,11 @@ import dbConnect from './config/dbConnect.js';
 
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
+import userRoutes from "./routes/user.routes.js"
 
 
 const app = express();
-const PORT = process.env.PORT || 5000 
+const PORT = process.env.PORT || 8000 
 dotenv.config();
 
 app.use(express.json());
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 
 app.use("/api/messages",messageRoutes)
 app.use("/api/auth",authRoutes)
+app.use("/api/users",userRoutes)
 
 app.listen(PORT,()=>{
     dbConnect()
