@@ -1,7 +1,7 @@
 
 const Conversation = () => {
   return (
-    <div className=" w-full hidden md:flex md:w-[50vw]">Conversation</div>
+    <div className=" w-full hidden lg:flex lg:w-[50vw]">Conversation</div>
   )
 }
 

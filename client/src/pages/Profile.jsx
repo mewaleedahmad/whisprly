@@ -1,13 +1,17 @@
-import { TfiSave } from "react-icons/tfi";
+import { FaCamera } from "react-icons/fa";
+import {Link} from "react-router-dom"
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
 const Profile = () => {
   return (
     <div className="w-full bg-primary h-screen flex items-center justify-center">
-      <div className="w-full h-full md:w-[40vw] p-8 items-center  flex flex-col  md:h-[85vh] rounded-xl bg-secondary">
-        <form>
-          <div className="avatar">
-            <div className="w-40 rounded-full">
+      <div className="w-full relative h-full md:w-[35vw] p-8 items-center  flex flex-col  md:h-[80%] rounded-xl bg-secondary">
+        <Link to={"/"} className="absolute left-2 top-2 text-lg items-center text-gray-400 hover:text-gray-500 gap-1 flex"><MdOutlineKeyboardBackspace className="text-xl"/>Back</Link>
+        <form >
+          <div className="avatar flex items-center justify-center">
+            <div className="w-40 relative  rounded-full">
               <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
             </div>
+              <button className="rounded-full  bg-primary text-white size-11 flex items-center justify-center -bottom-1 right-20 absolute hover:bg-secondary ring-gray-800 hover:ring-2"><FaCamera/></button>
           </div>
 
           <div className="flex w-full mt-8 flex-col justify-center items-center gap-3">
@@ -75,10 +79,8 @@ const Profile = () => {
               </svg>
               <input type="password" className="w-60" placeholder="Confirm Password" />
             </label>
-            <button className="btn w-full flex items-center bg-blue-900 hover:bg-primary hover:text-gray-300 text-gray-300 btn-outline">
-                <TfiSave/>
-                  Save
-                </button>
+            <button type="button" className="mt-4 w-full text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Update</button>
+
           </div>
         </form>
       </div>

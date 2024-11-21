@@ -6,7 +6,11 @@ html,
 body {
   width: 100%;
   height: 100%;
-  background-color: black;
+  background-color: #adb5bd;
+}
+:root {
+  --color-primary: theme('colors.primary');
+  --color-secondary: theme('colors.secondary');
 }
 
 @layer base {
@@ -26,6 +30,6 @@ body {
   }
 }
 .scrollable-div {
-  scrollbar-color: #1d232a #171b1d;
+  scrollbar-color: var(--color-secondary) var(--color-primary);;
   scrollbar-width: thin;
 }
