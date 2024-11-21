@@ -6,10 +6,8 @@ import userModel from "../models/user.model.js";
     const { token } = req.cookies;
     const decoded = jwt.verify(token, process.env.TOKEN_SECRET);
 
-    if (!decoded || !token) {
-      return res
-        .status(401)
-        .json({ error: "You are not authorized! Please login" });
+    if (!token || !decoded ) {
+      return res.status(401).json({ error: "You are not authorized! Please login" });
     }
 
     const user = await userModel.findById(decoded.id).select("-password");

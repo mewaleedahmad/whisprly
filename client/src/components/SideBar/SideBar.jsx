@@ -5,7 +5,7 @@ import Friends from "./Friends"
 
 const SideBar = () => {
   return (
-    <div className=" w-screen h-full lg:w-[23vw] border-r overflow-y-scroll  borderColor">
+    <div className=" w-screen h-full lg:w-[23vw] border-r overflow-y-scroll overflow-x-hidden borderColor">
     <Profile/>
     <Search/>
     <Friends/>
