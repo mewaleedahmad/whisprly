@@ -29,7 +29,9 @@ body {
 }
 
 @layer components{
-  
+  .background-blur{
+    @apply overflow-hidden backdrop-filter backdrop-blur-2xl bg-opacity-10 bg-primary shadow-2xl rounded-xl
+  }
 }
 
 @layer utilities {
@@ -38,6 +40,9 @@ body {
   }
   .gradient-text{
     @apply bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] bg-clip-text text-transparent
+  }
+  .bg-gradient{
+    @apply bg-gradient-to-r from-[#863ffa] to-[#3ec0fc]
   }
   .scrollable-div {
     scrollbar-color: var(--color-secondary) var(--color-primary);;

@@ -3,8 +3,8 @@ import Conversation from "../components/Conversation/Conversation"
 
 const Home = () => {
   return (
-     <div className=" w-full h-screen flex items-center justify-center  ">
-     <div className="flex h-screen  lg:h-[85vh] lg:rounded-xl  bg-primary">
+     <div className=" w-full h-screen flex items-center justify-center background-blur    ">
+     <div className="flex h-full  lg:h-[85vh] lg:rounded-xl bg-primary bg-opacity-30 ">
      <SideBar/>
      <Conversation/>
      </div>

@@ -1,19 +1,16 @@
 import { IoKey } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
 import { Link } from "react-router-dom";
+import Logo from "../components/Logo";
 const Login = () => {
   return (
     <div className="w-full min-h-screen flex  justify-center overflow-hidden  ">
-      <div className=" w-full  lg:flex lg:flex-col lg:justify-center   py-5 pb-12  overflow-hidden backdrop-filter backdrop-blur-2xl bg-opacity-10   bg-primary shadow-2xl rounded-xl">
-        <div className="hello text-xl lg:absolute lg:top-6 lg:left-3 mx-4 flex items-center gap-1">
-          <img src="/favicon.png" className="size-8" />
-          <p className="font-bold gradient-text">Whisperly</p>
-        </div>
+      <div className=" w-full  lg:flex lg:flex-col lg:justify-center py-5 pb-12  overflow-hidden background-blur ">
+        <Logo/>
         <div className="flex flex-col items-center justify-center mt-40 lg:mt-6 ">
           <h1 className="text-center text-[2.4rem] font-semibold gradient-text ">
             Login
           </h1>
-
           <form className="w-72 flex flex-col gap-3 mt-6">
 
             <label className="input input-bordered  flex items-center gap-2">

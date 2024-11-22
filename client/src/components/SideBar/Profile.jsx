@@ -18,7 +18,7 @@ const Profile = () => {
         <Link to={"/profile"} ><h5 className="hover:underline">My Account</h5></Link>
       </div>
       </div>
-      <div className={`dropdown ${isMobile ? "dropdown-left": "dropdown"} `}>
+      <div className={`dropdown ${isMobile ? "dropdown-left": "dropdown"} z-50 `}>
          <div tabIndex={0} role="button" className="btn bg-primary hover:bg-secondary  border-0 text-2xl "><TbMenuDeep/></div>
            <ul tabIndex={0} className="dropdown-content menu  bg-secondary rounded-md z-[1]   shadow">
             <li><Link to={"/profile"}><FaUserTie/>Profile</Link></li>

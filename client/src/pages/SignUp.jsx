@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser,BiMaleFemale } from "react-icons/bi";
 import { useState } from "react";
+import Logo from "../components/Logo";
 const SignUp = () => {
 
   const getValue = (e)=>{
@@ -13,11 +14,8 @@ const SignUp = () => {
   const [gender,setGender] = useState("")
   return (
     <div className="w-full min-h-screen flex  justify-center overflow-hidden  ">
-      <div className=" w-full  lg:flex lg:flex-col lg:justify-center   py-5 pb-12  overflow-hidden backdrop-filter backdrop-blur-2xl bg-opacity-10   bg-primary shadow-2xl rounded-xl">
-        <div className="hello text-xl lg:absolute lg:top-6 lg:left-3 mx-4 flex items-center gap-1">
-          <img src="/favicon.png" className="size-8" />
-          <p className="font-bold gradient-text">Whisperly</p>
-        </div>
+      <div className=" w-full  lg:flex lg:flex-col lg:justify-center py-5 pb-12 overflow-hidden background-blur">
+        <Logo/>
         <div className="flex flex-col items-center justify-center mt-20">
           <h1 className="text-center text-[2rem] font-semibold gradient-text ">
             Create Your Account
