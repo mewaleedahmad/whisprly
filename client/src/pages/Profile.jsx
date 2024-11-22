@@ -11,7 +11,10 @@ const Profile = () => {
             <div className="w-40 relative  rounded-full">
               <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
             </div>
-              <button className="rounded-full  bg-primary text-white size-11 flex items-center justify-center -bottom-1 right-20 absolute hover:bg-secondary ring-gray-800 hover:ring-2"><FaCamera/></button>
+            <button className="rounded-full overflow-hidden  bg-primary text-white size-11 flex items-center justify-center -bottom-1 right-20 absolute hover:bg-secondary ring-gray-800 hover:ring-2">
+            <input type="file" className="size-12  rounded-full opacity-100 relative "/>
+            <FaCamera className="z-10 absolute "/>
+            </button>
           </div>
 
           <div className="flex w-full mt-8 flex-col justify-center items-center gap-3">

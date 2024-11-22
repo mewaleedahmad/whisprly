@@ -4,7 +4,7 @@ import Conversation from "../components/Conversation/Conversation"
 const Home = () => {
   return (
      <div className=" w-full h-screen flex items-center justify-center  ">
-     <div className="flex h-screen  lg:h-[85vh] lg:rounded-xl overflow-hidden bg-primary">
+     <div className="flex h-screen  lg:h-[85vh] lg:rounded-xl  bg-primary">
      <SideBar/>
      <Conversation/>
      </div>
