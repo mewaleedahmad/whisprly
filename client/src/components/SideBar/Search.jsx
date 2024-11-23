@@ -1,11 +1,11 @@
 import { GoSearch } from "react-icons/go";
 const Search = () => {
   return (
-    <div className="w-full p-4">
-      <label className="input input-bordered flex items-center  bg-secondary border borderColor">
-        <input type="text" className="grow" placeholder="Add Friends" />
-        <button>
-          <GoSearch />
+    <div className="w-full p-4 my-2">
+      <label className="input input-bordered flex items-center  bg-transparent border borderColor">
+        <input type="search" className="grow text-gray-300 " placeholder="Find Friends" />
+        <button className="pl-3 text-gray-300">
+          <GoSearch   />
         </button>
       </label>
     </div>

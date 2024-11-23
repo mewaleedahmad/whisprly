@@ -1,30 +1,20 @@
-import { TbMenuDeep } from "react-icons/tb";
-import { BiLogOut  } from "react-icons/bi";
-import { FaUserTie } from "react-icons/fa6";
+import { GrLogout } from "react-icons/gr";
 import { Link } from "react-router-dom";
-import {useMobile} from "../../hooks/useMobile.js"
 const Profile = () => {
-  const isMobile = useMobile();
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
-      <div className="flex gap-2">
+     <Link to="/profile" className="flex  gap-2">
       <div className="avatar">
         <div className="w-12 rounded-full">
           <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
         </div>
       </div>
       <div className="name">
-        <h2 className="">Waleed Ahmad</h2>
-        <Link to={"/profile"} ><h5 className="hover:underline">My Account</h5></Link>
+        <h2>Waleed Ahmad</h2>
+        <h5>My Account</h5>
       </div>
-      </div>
-      <div className={`dropdown ${isMobile ? "dropdown-left": "dropdown"} z-50 `}>
-         <div tabIndex={0} role="button" className="btn bg-primary hover:bg-secondary  border-0 text-2xl "><TbMenuDeep/></div>
-           <ul tabIndex={0} className="dropdown-content menu  bg-secondary rounded-md z-[1]   shadow">
-            <li><Link to={"/profile"}><FaUserTie/>Profile</Link></li>
-            <li><Link to={"/logout"}><BiLogOut />Logout</Link></li>
-           </ul>
-      </div>
+      </Link>
+      <Link to="/logout" className="bg-transparent btn border-none text-lg"><GrLogout/></Link>
     </div>
   );
 };

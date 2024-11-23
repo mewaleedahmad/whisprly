@@ -2,9 +2,9 @@
 const Friends = () => {
   const active = true
   return (
-    <div className="w-full">
-      <h2 className=" px-6 ">All Friends</h2>
-      <div className="flex gap-5 px-4 pt-4 pb-3  overflow-x-scroll  scrollable-div items-center">
+    <div className="w-full px-5">
+      <h2 className="px-1">All Friends</h2>
+      <div className="flex gap-5  pt-4 pb-3  overflow-x-auto  scrollable-div items-center">
         <div className="Friend cursor-pointer">
         <div className={`avatar ${active ? "online": "offline"} `}>
           <div className="w-14 rounded-full">
@@ -13,8 +13,9 @@ const Friends = () => {
         </div>
          <h5 className="text-center">Waleed</h5>
         </div>
+      
         
-       
+
       </div>
     </div>
   );
