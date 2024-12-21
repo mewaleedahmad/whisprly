@@ -1,5 +1,14 @@
 const Message = () => {
   const online = true
+
+  const message = "What are you doing right now , Can we talk ?"
+  const handleMessageSlice =(message,limit)=>{
+    if(message.length > limit){
+      return message.slice(0,limit) + "....";
+    }else return message
+  }
+
+  
   return (
     <div className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
       <div className="flex gap-3 items-center">
@@ -10,7 +19,7 @@ const Message = () => {
         </div>
         <div className="name">
           <h3>Waleed Ahmad</h3>
-          <h5>Where are you ?</h5>
+          <h5>{handleMessageSlice(message,28)}</h5>
         </div>
       </div>
       <h5 className="text-xs">8:40 PM</h5>
