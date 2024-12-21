@@ -1,0 +1,33 @@
+import { Link } from "react-router-dom";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { LuUserMinus2 } from "react-icons/lu";
+import { MdDeleteOutline } from "react-icons/md";
+
+ const online = true
+ const time = "4:50 PM"
+const User = () => {
+  return (
+    <div className="w-full flex items-center justify-between p-5  border-b borderColor">
+     <Link to="/profile" className="flex  gap-4">
+      <div className={`avatar ${online ? "online": ""}`}>
+        <div className="w-12 rounded-full">
+          <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+        </div>
+      </div>
+      <div className="name">
+        <h2>Waleed Ahmad</h2>
+       {online ?  <h5 className="pl-1 text-tertiary">Online</h5> : <h5 className="pl-1 text-gray-300">Last Seen {time}</h5>}
+      </div>
+      </Link>
+     <div className="dropdown dropdown-bottom  dropdown-end">
+       <div tabIndex={0} role="button" className="btn text-xl bg-primary "><BsThreeDotsVertical/></div>
+        <ul tabIndex={0} className="dropdown-content menu bg-primary rounded-box z-[1] w-52 p-2 shadow">
+         <li><button className="text-red-500 text-sm"><p>Remove Friend</p><LuUserMinus2/></button></li>
+         <li><button className="text-sm text-gray-400"><p>Delete Chat</p><MdDeleteOutline /></button></li>
+        </ul>
+     </div>
+    </div>
+  );
+};
+
+export default User;

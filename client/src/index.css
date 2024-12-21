@@ -14,6 +14,7 @@ body {
 :root {
   --color-primary: theme('colors.primary');
   --color-secondary: theme('colors.secondary');
+  --color-tertiary: theme('colors.tertiary');
 }
 
 @layer base {
@@ -32,6 +33,14 @@ body {
   .background-blur{
     @apply overflow-hidden backdrop-filter backdrop-blur-2xl  bg-opacity-50 bg-primary shadow-2xl rounded-xl
   }
+  .avatar.online:before{
+    background-color : var(--color-tertiary);
+    width: 16%;
+    height: 16%;
+    top: 8%;
+    right: 0%
+  }
+  
 }
 
 @layer utilities {
@@ -45,7 +54,7 @@ body {
     @apply bg-gradient-to-r from-[#863ffa] to-[#3ec0fc]
   }
   .scrollable-div {
-    scrollbar-color: var(--color-secondary) transparent;;
+    scrollbar-color: transparent transparent;;
     scrollbar-width: thin;
   }
   .auth-btn{
@@ -60,8 +69,4 @@ input:-webkit-autofill {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-
-option:disabled{
-  opacity :0.1
-}
 
