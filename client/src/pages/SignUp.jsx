@@ -28,13 +28,11 @@ const SignUp = () => {
   const {
     register,
     handleSubmit,
-    reset,
     formState : { errors, isSubmitting },
   } = useForm({resolver : zodResolver(signUpSchema)})
   
   const onSubmit = async(data)=>{
     await signUp(data)
-    console.log(data)
     setSelectedGender("")
   }
 

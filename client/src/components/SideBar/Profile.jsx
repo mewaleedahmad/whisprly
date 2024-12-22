@@ -16,7 +16,7 @@ const Profile = () => {
         <h5>My Account</h5>
       </div>
       </Link>
-      <div  className="bg-transparent btn border-none text-lg"><GrLogout onClick={logout} /></div>
+      <button onClick={logout}  className="bg-transparent btn border-none text-lg"><GrLogout /></button>
     </div>
   );
 };

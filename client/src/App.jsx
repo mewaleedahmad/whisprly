@@ -4,9 +4,9 @@ import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Profile from "./pages/Profile.jsx";
 import { Toaster } from "react-hot-toast";
+import { useAuthContext } from "./context/AuthContext.jsx";
 const App = () => {
-  const token = localStorage.getItem('token');
-  console.log(token)
+  const {authUser} = useAuthContext()
   return (
     <div>
       <div>
@@ -19,9 +19,9 @@ const App = () => {
         }}/>
       </div>
       <Routes>
-        <Route path="/" element={token ? <Home /> : <Navigate to="/login" /> } />
-        <Route path="/login" element={token ? <Navigate to="/" /> : <Login />} />
-        <Route path="/signup" element={token ? <Navigate to="/" /> : <SignUp />} />
+        <Route path="/" element={authUser ? <Home /> : <Navigate to="/login" /> } />
+        <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
+        <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </div>

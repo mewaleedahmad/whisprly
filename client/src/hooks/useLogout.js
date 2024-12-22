@@ -1,7 +1,8 @@
 import toast from "react-hot-toast";
+import { useAuthContext } from "../context/AuthContext";
 
 const useLogout = () => {
-
+const {setAuthUser} = useAuthContext()
   const logout = async () => {
 
     try {
@@ -17,7 +18,8 @@ const useLogout = () => {
         throw new Error(data.message || "An error occurred");
       }
 
-      localStorage.removeItem("token");
+      localStorage.removeItem("authUser");
+      setAuthUser(null)
       toast.success(data.message);
 
     } catch (error) {
