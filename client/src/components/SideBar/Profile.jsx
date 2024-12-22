@@ -1,6 +1,8 @@
 import { GrLogout } from "react-icons/gr";
 import { Link } from "react-router-dom";
+import useLogout from "../../hooks/useLogout";
 const Profile = () => {
+  const {logout} = useLogout()
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
      <Link to="/profile" className="flex  gap-2">
@@ -14,7 +16,7 @@ const Profile = () => {
         <h5>My Account</h5>
       </div>
       </Link>
-      <Link to="/logout" className="bg-transparent btn border-none text-lg"><GrLogout/></Link>
+      <div  className="bg-transparent btn border-none text-lg"><GrLogout onClick={logout} /></div>
     </div>
   );
 };

@@ -60,6 +60,9 @@ body {
   .auth-btn{
     @apply  w-full text-gray-200
   }
+  .error-msg{
+    @apply text-red-500 text-xs ps-2
+  }
 }
 
 input:-webkit-autofill {

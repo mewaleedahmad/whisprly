@@ -1,17 +1,43 @@
 import { IoKey } from "react-icons/io5";
 import { MdEmail } from "react-icons/md";
-import { Link } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser,BiMaleFemale } from "react-icons/bi";
-import { useState } from "react";
-import Logo from "../components/Logo";
-const SignUp = () => {
 
-  const getValue = (e)=>{
-    const value = e.target.value
-    setGender(value)
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import {useForm} from "react-hook-form"
+import { zodResolver } from '@hookform/resolvers/zod';
+
+import Logo from "../components/Logo";
+import useSignUp from "../hooks/useSignUp";
+import signUpSchema from "../lib/signUpSchema";
+
+const SignUp = () => {
+  const [selectedGender, setSelectedGender] = useState("");
+
+  const handleSelectGender = (e) => {
+    setSelectedGender(e.target.value);
+  };
+  const handleUsernameChange = (e) => {
+    const value = e.target.value;
+    e.target.value = value.toLowerCase().replace(/\s+/g, "");
+  };
+  
+  const {signUp,loading} = useSignUp()
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState : { errors, isSubmitting },
+  } = useForm({resolver : zodResolver(signUpSchema)})
+  
+  const onSubmit = async(data)=>{
+    await signUp(data)
+    console.log(data)
+    setSelectedGender("")
   }
-  const [gender,setGender] = useState("")
+
   return (
     <div className="w-full min-h-screen flex  justify-center overflow-hidden  ">
       <div className=" w-full  lg:flex lg:flex-col lg:justify-center py-5 pb-12 overflow-hidden background-blur">
@@ -21,43 +47,66 @@ const SignUp = () => {
             Create Your Account
           </h1>
 
-          <form className="w-72 flex flex-col gap-3 mt-10">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-72 flex flex-col gap-3 mt-10">
 
             <label className="input input-bordered  flex items-center gap-2">
               <MdEmail />
-              <input type="text" className="auth-btn  " placeholder="Email" />
+              <input {...register("email")} type="email" className="auth-btn" name="email"  placeholder="Email" />
             </label>
+            {errors.email && (
+              <p className="error-msg">{errors.email.message}</p>
+            )}
             <label className="input input-bordered flex items-center gap-2">
               <FaUserCircle />
-              <input type="text" className="auth-btn" placeholder="Username" />
+              <input {...register("userName")} onChange={handleUsernameChange} type="text" className="auth-btn" name="userName"  placeholder="Username" />
             </label>
+            {errors.userName && (
+              <p className="error-msg">{errors.userName.message}</p>
+            )}
             <label className="input input-bordered flex items-center gap-2">
               <BiSolidUser  />
-              <input type="text" className="auth-btn" placeholder="Full Name" />
+              <input {...register("fullName")} type="text" className="auth-btn" name="fullName"  placeholder="Full Name" />
             </label>
+            {errors.fullName && (
+              <p className="error-msg">{errors.fullName.message}</p>
+            )}
             <label className="input input-bordered overflow-hidden flex items-center ">
               <BiMaleFemale />
-              <select onChange={getValue} className={`select px-2 capitalize ${(gender === "male" || gender === "female") ? "auth-btn" : ""} text-base focus:outline-none focus:ring-0 focus:border-0 w-full max-w-xs`}>
-             <option disabled selected>Gender</option>
-             <option>male</option>
-             <option>female</option>
+              <select
+               {...register("gender")}
+               value={selectedGender}
+               onChange={handleSelectGender}
+               className={`select px-2 capitalize text-base focus:outline-none focus:ring-0 focus:border-0 w-full max-w-xs ${selectedGender === "male" || selectedGender === "female" ? 'auth-btn' : ''}`}
+              >
+             <option value="" disabled>Gender</option>
+             <option value="male">male</option>
+             <option value="female">female</option>
            </select>
             </label>
+            {errors.gender && (
+              <p className="error-msg">{errors.gender.message}</p>
+            )}
             <label className="input input-bordered flex items-center gap-2">
               <IoKey />
-              <input type="password" className="auth-btn" placeholder="Password" />
+              <input {...register("password")} type="password" className="auth-btn" name="password"  placeholder="Password" />
             </label>
+            {errors.password && (
+              <p className="error-msg">{errors.password.message}</p>
+            )}
             <label className="input input-bordered flex items-center gap-2">
               <IoKey />
-              <input type="password" className="auth-btn " placeholder="Confirm Password" />
+              <input {...register("confirmPassword")} type="password" className="auth-btn " name="confirmPassword"  placeholder="Confirm Password" />
             </label>
-
+            {errors.confirmPassword && (
+              <p className="error-msg">{errors.confirmPassword.message}</p>
+            )}
+            <button
+            disabled={isSubmitting}
+              type="submit"
+              className={`text-white w-72 mt-2 bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-800 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
+                {isSubmitting ? "Submitting..." : "Register"}
+            </button>
           </form>
-        <button
-          type="button"
-          className="text-white w-72 mt-5 bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-800 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">
-            Register
-        </button>
         <div className="flex items-center mt-1 gap-2 text-sm">
           <p className="capitalize">account already exists ?</p>
           <Link to="/login" className="text-[#3e88cc] hover:underline">Login</Link>
