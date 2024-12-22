@@ -1,33 +1,33 @@
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 
-const useSignUp = () => {
+const useLogin = () => {
     const {setAuthUser} = useAuthContext()
 
-    const signUp = async ({ email, userName, fullName, gender, password, confirmPassword }) => {
+    const login = async ({ email,password }) => {
         try {
-            const response = await fetch('/api/auth/signup', {
+            const response = await fetch('/api/auth/login', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, userName, fullName, gender, password, confirmPassword }),
+                body: JSON.stringify({ email,password }),
             });
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || "An error occurred");
+                throw new Error( data.message );
             }
            localStorage.setItem("authUser",JSON.stringify(data))
            setAuthUser(data)
            toast.success(data.message);
            
         } catch {
-            toast.error( "Something went wrong");
+            toast.error("Something went wrong");
         } 
     };
 
-    return { signUp };
+    return { login };
 };
 
-export default useSignUp;
+export default useLogin;

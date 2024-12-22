@@ -38,7 +38,7 @@ export const signup = async(req,res)=>{
             res.status(200).json({
                 _id: newUser._id,
                 fullName: newUser.fullName,
-                userName : newUser.username,
+                userName : newUser.userName,
                 profilePic: newUser.profilePic,
                 message: "Account Created Successfully"
             })
@@ -57,12 +57,18 @@ export const login =async (req,res)=>{
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
 
         if(!isPasswordCorrect || !user){
-          return res.status(400).json({error: "Invalid username or password"})
+          return res.status(400).json({message: "Invalid username or password"})
         }
 
         if(isPasswordCorrect ){
             generateTokenAndSetCookie(user._id,res)
-            res.status(200).json({message: "Login successful"})
+            res.status(200).json({
+                _id: user._id,
+                fullName: user.fullName,
+                userName : user.userName,
+                profilePic: user.profilePic,
+                message: "Login successful",
+            })
         }
 
     } catch (error) {

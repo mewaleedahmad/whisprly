@@ -23,7 +23,7 @@ const SignUp = () => {
     e.target.value = value.toLowerCase().replace(/\s+/g, "");
   };
   
-  const {signUp,loading} = useSignUp()
+  const {signUp} = useSignUp()
 
   const {
     register,
@@ -102,7 +102,7 @@ const SignUp = () => {
             disabled={isSubmitting}
               type="submit"
               className={`text-white w-72 mt-2 bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-800 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2`}>
-                {isSubmitting ? "Submitting..." : "Register"}
+                {isSubmitting ? <span className="loading loading-spinner"></span> : "Register"}
             </button>
           </form>
         <div className="flex items-center mt-1 gap-2 text-sm">
