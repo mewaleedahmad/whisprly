@@ -11,9 +11,9 @@ const Profile = () => {
           <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
         </div>
       </div>
-      <div className="name">
+      <div className="name ">
         <h2>Waleed Ahmad</h2>
-        <h5>My Account</h5>
+        <h5 className="ps-1 text-xs">waleed_gondal</h5>
       </div>
       </Link>
       <button onClick={logout}  className="bg-transparent btn border-none text-lg"><GrLogout /></button>
