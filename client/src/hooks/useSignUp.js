@@ -16,14 +16,14 @@ const useSignUp = () => {
             const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || "An error occurred");
+                throw new Error(data.error || "An error occurred");
             }
            localStorage.setItem("authUser",JSON.stringify(data))
            setAuthUser(data)
            toast.success(data.message);
            
-        } catch {
-            toast.error( "Something went wrong");
+        } catch(error) {
+            toast.error(error.message || "Something went wrong");
         } 
     };
 

@@ -33,7 +33,6 @@ const SignUp = () => {
   
   const onSubmit = async(data)=>{
     await signUp(data)
-    setSelectedGender("")
   }
 
   return (

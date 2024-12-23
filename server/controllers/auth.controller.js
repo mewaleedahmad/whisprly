@@ -10,11 +10,11 @@ export const signup = async(req,res)=>{
         }
         const checkUserExists = await userModel.findOne({email})
         if (checkUserExists) {
-           return res.status(400).json({message: 'A user with this email already exists.'})
+           return res.status(400).json({error: 'A user with this email already exists.'})
         }
         const checkUniqueUsername = await userModel.findOne({userName})
         if(checkUniqueUsername) {
-            return res.status(400).json({message: 'Username must be unique'})
+            return res.status(400).json({error: 'Username must be unique'})
         }
         
         const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${userName}`
@@ -57,7 +57,7 @@ export const login =async (req,res)=>{
         const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
 
         if(!isPasswordCorrect || !user){
-          return res.status(400).json({message: "Invalid username or password"})
+          return res.status(400).json({error: "Invalid username or password"})
         }
 
         if(isPasswordCorrect ){
