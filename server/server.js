@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import getUsersRoutes from "./routes/getUsers.routes.js"
 import friendRoutes from "./routes/friend.routes.js"
+import profileRoutes from "./routes/profile.routes.js"
 
 const app = express();
 const PORT = process.env.PORT || 8000 
@@ -21,6 +22,7 @@ app.use("/api/auth",authRoutes)
 app.use("/api/messages",messageRoutes)
 app.use("/api/getusers",getUsersRoutes)
 app.use("/api/friends",friendRoutes)
+app.use("/api/profile",profileRoutes)
 
 app.listen(PORT,()=>{
     dbConnect()
