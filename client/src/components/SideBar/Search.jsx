@@ -1,42 +1,43 @@
-import { useState } from "react";
 import { GoSearch } from "react-icons/go";
 import { MdPersonAddAlt } from "react-icons/md";
 import { CgUserRemove } from "react-icons/cg";
+
 import useGetUsers from "../../hooks/useGetUsers";
 
+import { useState } from "react";
+
 const Search = () => {
-  // const [loading,setLoading] = useState(false)
   const [searchText, setSearchText] = useState("");
-  const {getUsers} = useGetUsers()
-  const [users,setUsers] = useState([]);
-
+  const { getUsers } = useGetUsers();
+  const [users, setUsers] = useState([]);
   const alreadyFriend = false;
-
-  const filteredUsers = users.filter((user) => 
-    user.userName.toLowerCase().includes(searchText.toLowerCase())
-  );
-   const handleSubmit = async () => {
-    const data = await getUsers()
-    setUsers(data)
-   }
 
   const handleInputChange = (e) => {
     const sanitizedInput = e.target.value.toLowerCase().replace(/\s+/g, "");
     setSearchText(sanitizedInput);
   };
 
+  const filteredUsers = users.filter((user) =>
+    user.userName.toLowerCase().includes(searchText.toLowerCase())
+  );
+
+  const handleSubmit = async () => {
+    const data = await getUsers();
+    setUsers(data);
+  };
+
   return (
-    <div  className="relative w-full p-4 my-2">
+    <div className="relative w-full p-4 my-2">
       <label className="input input-bordered flex items-center bg-transparent border borderColor">
         <input
           type="search"
           className="grow text-gray-300 bg-transparent focus:outline-none"
-          placeholder="Search Users"
+          placeholder="Search by username"
           value={searchText}
           onChange={handleInputChange}
           onClick={handleSubmit}
         />
-        <button  className="pl-3 text-gray-300 hover:text-gray-50">
+        <button className="pl-3 text-gray-300 cursor-default hover:text-gray-50">
           <GoSearch />
         </button>
       </label>
@@ -56,8 +57,8 @@ const Search = () => {
                     </div>
                   </div>
                   <div className="-space-y-1">
-                  <h2>{user.fullName}</h2>
-                  <h5 className=" text-[11px]">{user.userName}</h5>
+                    <h2>{user.fullName}</h2>
+                    <h5 className=" text-[11px]">{user.userName}</h5>
                   </div>
                 </div>
                 {alreadyFriend ? (

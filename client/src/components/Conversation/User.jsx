@@ -16,7 +16,6 @@ const User = () => {
       <div className="name">
         <h2>Waleed Ahmad</h2>
         <h5 className="ps-1 ">waleed_gondal</h5>
-       {/* {online ?  <h5 className="pl-1 text-tertiary">Online</h5> : <h5 className="pl-1 text-gray-300">Last Seen {time}</h5>} */}
       </div>
       </div>
      <div className="dropdown dropdown-bottom  dropdown-end">

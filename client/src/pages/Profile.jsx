@@ -1,10 +1,12 @@
+import {MdEmail } from "react-icons/md";
 import { FaCamera } from "react-icons/fa";
 import {Link} from "react-router-dom"
-import {MdEmail } from "react-icons/md";
 import { IoKey } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
+
 import Logo from "../components/Logo";
+
 const Profile = () => {
   return (
     <div className="w-full h-screen flex  justify-center overflow-hidden  ">

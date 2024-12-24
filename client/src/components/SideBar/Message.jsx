@@ -1,25 +1,24 @@
 const Message = () => {
-  const online = true
+  const online = true;
+  const message = "What are you doing right now , Can we talk ?";
 
-  const message = "What are you doing right now , Can we talk ?"
-  const handleMessageSlice =(message,limit)=>{
-    if(message.length > limit){
-      return message.slice(0,limit) + "....";
-    }else return message
-  }
+  const handleMessageSlice = (message, limit) => {
+    if (message.length > limit) {
+      return message.slice(0, limit) + "....";
+    } else return message;
+  };
 
-  
   return (
     <div className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
       <div className="flex gap-3 items-center">
-        <div className={`avatar ${online ? "online": ""}`}>
+        <div className={`avatar ${online ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
           </div>
         </div>
         <div className="name">
           <h3>Waleed Ahmad</h3>
-          <h5>{handleMessageSlice(message,28)}</h5>
+          <h5>{handleMessageSlice(message, 28)}</h5>
         </div>
       </div>
       <h5 className="text-xs">8:40 PM</h5>

@@ -1,10 +1,12 @@
 import { Navigate, Route, Routes } from "react-router-dom";
+
 import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/Signup.jsx";
 import Profile from "./pages/Profile.jsx";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext.jsx";
+
 const App = () => {
   const {authUser} = useAuthContext()
   return (
