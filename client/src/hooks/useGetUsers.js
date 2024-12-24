@@ -3,9 +3,7 @@ const useGetUsers = () => {
     
     const getUsers = async () => {
         try {
-            const response = await fetch('/api/getusers',{
-                credentials : "include"
-            })
+            const response = await fetch('/api/getusers')
             const data = await response.json()
             
             if (!response.ok) {
