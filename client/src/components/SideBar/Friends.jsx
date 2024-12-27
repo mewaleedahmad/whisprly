@@ -15,10 +15,12 @@ const Friends = () => {
     };
 
     handleFriends();
-  },[]); 
+  },[]);
+  
+  const truncateName = (name, maxLength) => {
+    return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
+  };
 
-
-  console.log(friends);
   return (
     <div className="w-full px-5">
       <h2 className="px-1">All Friends</h2>
@@ -32,9 +34,9 @@ const Friends = () => {
                   <img src={users.profilePic} />
                 </div>
               </div>
-              <h5 className="text-center">{users.fullName}</h5>
+              <h5 className="text-center text-nowrap max-w-14">{truncateName(users.fullName,9)}</h5>
             </div>
-          ))) : <h5>No Friends</h5>
+          ))) : <h5 className="text-base ps-2 pb-3 pt-2">No Friends</h5>
         } 
        </>
       }

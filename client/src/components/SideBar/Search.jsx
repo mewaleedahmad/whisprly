@@ -3,13 +3,19 @@ import { MdPersonAddAlt } from "react-icons/md";
 import { CgUserRemove } from "react-icons/cg";
 
 import useGetUsers from "../../hooks/useGetUsers";
+import useSendFriendReq from "../../hooks/useSendFriendReq";
+import useRemoveFriend from "../../hooks/useRemoveFriend";
 
 import { useState } from "react";
 
 const Search = () => {
-  const [searchText, setSearchText] = useState("");
   const { getUsers } = useGetUsers();
+  const { removeFriend } = useRemoveFriend()
+  const {sendFriendReq}= useSendFriendReq()
+
+  const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
+
   const alreadyFriend = false;
 
   const handleInputChange = (e) => {
@@ -26,6 +32,14 @@ const Search = () => {
     setUsers(data);
   };
 
+  const handleSendReq = async (id) => {
+    await sendFriendReq(id);
+  };
+
+  const handleRemoveFriend = async (id) => {
+    await removeFriend(id);
+  }
+  
   return (
     <div className="relative w-full p-4 my-2">
       <label className="input input-bordered flex items-center bg-transparent border borderColor">
@@ -48,7 +62,7 @@ const Search = () => {
             filteredUsers.map((user) => (
               <div
                 key={user._id}
-                className="w-full flex items-center  justify-between py-2 px-4 cursor-default hover:bg-secondary"
+                className="w-full flex items-center  justify-between py-2 px-4 cursor-default hover:bg-transparent"
               >
                 <div className="flex gap-3 items-center">
                   <div className={`avatar`}>
@@ -58,15 +72,47 @@ const Search = () => {
                   </div>
                   <div className="-space-y-1">
                     <h2>{user.fullName}</h2>
-                    <h5 className=" text-[11px]">{user.userName}</h5>
+                    <h5 className=" text-[11px] ps-1">{user.userName}</h5>
                   </div>
                 </div>
+
+                <dialog id="removeFriend" className="modal ">
+                  <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-secondary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+                    <form method="dialog">
+                      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                        ✕
+                      </button>
+                    </form>
+                    <h3 className="p-2 pt-8 text-lg ">Are you sure you want to remove this friend ?</h3>
+                    <div className="flex justify-center gap-2 pt-2">
+                      <form method="dialog">
+                      <button className="text-sm hover:bg-gray-800 bg-gray-700 text-gray-200 rounded-md px-3 py-1">
+                        Cancel
+                      </button>
+                      </form>
+                     <form method="dialog">
+                     <button onClick={()=>handleRemoveFriend(user._id)} className="text-sm hover:bg-red-800 bg-red-700 text-gray-200 rounded-md px-3 py-1">
+                        Remove
+                      </button>
+                     </form>
+                    </div>
+                  </div>
+                </dialog>
+
                 {alreadyFriend ? (
-                  <button className="text-2xl text-red-500">
+                  <button
+                    onClick={() =>
+                      document.getElementById("removeFriend").showModal()
+                    }
+                    className="text-2xl text-red-500"
+                  >
                     <CgUserRemove />
                   </button>
                 ) : (
-                  <button className="text-2xl">
+                  <button
+                    onClick={() => handleSendReq(user._id)}
+                    className="text-2xl text-blue-400"
+                  >
                     <MdPersonAddAlt />
                   </button>
                 )}

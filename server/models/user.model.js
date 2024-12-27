@@ -34,6 +34,12 @@ const userSchema = new mongoose.Schema({
             ref: "User"
         }
     ],
+    friendRequests: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
 },{timestamps:true})
 
 const userModel = mongoose.model('User',userSchema)

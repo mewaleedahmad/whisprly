@@ -60,6 +60,14 @@ export const addFriend = async (req, res) => {
         { $addToSet: { friends: receiverId } },
         { $new: true }
       ),
+      userModel.findByIdAndUpdate(receiverId, {
+        $pull: { friendRequests: senderId },
+        $new: true,
+      }),
+      userModel.findByIdAndUpdate(senderId, { 
+        $pull: { friendRequests: receiverId },
+        $new: true,
+      }),
     ]);
     res.status(200).json({ message: "Friend Added" });
   } catch (error) {
