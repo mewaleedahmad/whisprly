@@ -1,17 +1,43 @@
+import { useEffect, useState } from "react";
+import useGetFriends from "../../hooks/useGetFriends";
+
 const Friends = () => {
   const online = true;
+  const [loading,setLoading] = useState(false);
+  const [friends, setFriends] = useState([]);
+  const { getFriends } = useGetFriends();
+
+  useEffect(() => {
+    const handleFriends = async () => {
+        const data = await getFriends();
+        setFriends(data);
+        setLoading(true);
+    };
+
+    handleFriends();
+  },[]); 
+
+
+  console.log(friends);
   return (
     <div className="w-full px-5">
       <h2 className="px-1">All Friends</h2>
       <div className="flex gap-5  pt-4 pb-3  overflow-x-auto  scrollable-div items-center">
-        <div className="Friend cursor-pointer">
-          <div className={`avatar ${online ? "online" : ""} `}>
-            <div className="w-14 rounded-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+      {!loading ? (<span className="loading loading-spinner pt-4 pb-3"></span>) : 
+       <>
+       {!friends.message  ? ( friends.friends.map((users)=> (
+            <div key={users._id} className="Friend cursor-pointer">
+              <div className={`avatar ${online ? "online" : ""} `}>
+                <div className="w-14 rounded-full">
+                  <img src={users.profilePic} />
+                </div>
+              </div>
+              <h5 className="text-center">{users.fullName}</h5>
             </div>
-          </div>
-          <h5 className="text-center">Waleed</h5>
-        </div>
+          ))) : <h5>No Friends</h5>
+        } 
+       </>
+      }
       </div>
     </div>
   );

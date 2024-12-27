@@ -3,7 +3,6 @@ import { LuUserMinus2 } from "react-icons/lu";
 import { MdDeleteOutline } from "react-icons/md";
 
  const online = true
-//  const time = "4:50 PM"
 const User = () => {
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
@@ -13,7 +12,7 @@ const User = () => {
           <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
         </div>
       </div>
-      <div className="name">
+      <div className="name -space-y-1">
         <h2>Waleed Ahmad</h2>
         <h5 className="ps-1 ">waleed_gondal</h5>
       </div>

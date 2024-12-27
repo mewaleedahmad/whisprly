@@ -45,9 +45,9 @@ const Search = () => {
       {searchText && (
         <div className="absolute overflow-auto max-h-[50vh] scrollable-div left-0 right-0 mt-2 py-1 mx-3 bg-primary border border-gray-600 rounded-md shadow-lg z-50">
           {filteredUsers.length > 0 ? (
-            filteredUsers.map((user, index) => (
+            filteredUsers.map((user) => (
               <div
-                key={index}
+                key={user._id}
                 className="w-full flex items-center  justify-between py-2 px-4 cursor-default hover:bg-secondary"
               >
                 <div className="flex gap-3 items-center">

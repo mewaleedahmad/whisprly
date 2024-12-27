@@ -5,22 +5,28 @@ import { FaUserFriends } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 import useLogout from "../../hooks/useLogout";
+import { useAuthContext } from "../../context/AuthContext";
 
 const Profile = () => {
+  
+  const {authUser}  = useAuthContext()
   const { logout } = useLogout();
+
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
-      <Link to="/profile" className="flex  gap-2">
-        <div className="avatar">
-          <div className="w-12 rounded-full">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+     {authUser && (
+        <Link to="/profile" key={authUser._id} className="flex gap-2">
+          <div className="avatar">
+            <div className="w-12 rounded-full">
+              <img src={authUser.profilePic} alt="Profile Pic" />
+            </div>
           </div>
-        </div>
-        <div className="name ">
-          <h2>Waleed Ahmad</h2>
-          <h5 className="ps-1 text-xs">waleed_gondal</h5>
-        </div>
-      </Link>
+          <div className="name -space-y-1">
+            <h2>{authUser.fullName}</h2>
+            <h5 className="ps-1 text-xs">{authUser.userName}</h5>
+          </div>
+        </Link>
+      )}
 
       <div className="dropdown dropdown-bottom dropdown-end">
         <div  tabIndex={0}  role="button"  className="btn text-2xl btn-ghost text-gray-300 hover:bg-secondary ">
