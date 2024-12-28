@@ -72,7 +72,7 @@ const Profile = () => {
 
 
       <dialog id="my_modal_3" className="modal ">
-        <div className="modal-box absolute py-6 top-24 lg:relative lg:top-0  bg-secondary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+        <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-secondary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕

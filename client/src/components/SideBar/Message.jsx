@@ -1,6 +1,13 @@
+import { useEffect,useState } from "react";
+import useGetConversations from "../../hooks/useGetConversations";
+
 const Message = () => {
-  const online = true;
+  const {getConversations} = useGetConversations()
+  const [conversations,setConversations] = useState([])
+  const [loading,setLoading] = useState(false)
+  
   const message = "What are you doing right now , Can we talk ?";
+  const online = true;
 
   const handleMessageSlice = (message, limit) => {
     if (message.length > limit) {
@@ -8,21 +15,43 @@ const Message = () => {
     } else return message;
   };
 
+  useEffect(()=>{
+    const fetchConversations = async()=>{
+    const data =  await getConversations()
+    setConversations(data)
+      setLoading(true)
+    }
+    fetchConversations()
+  },[])
+
+  console.log(conversations)
+
   return (
-    <div className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
+    <>
+    {!loading ? <span className="loading loading-spinner w-10 mt-4 mb-3 mx-5"></span> :  (
+      <>
+      {conversations.message ? <p className="px-6 text-gray-400 text-base text-wrap ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
+      nestedArray.map((conversation)=>(
+        <div key={conversation._id} className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
       <div className="flex gap-3 items-center">
         <div className={`avatar ${online ? "online" : ""}`}>
           <div className="w-12 rounded-full">
-            <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+            <img src={conversation.profilePic} />
           </div>
         </div>
         <div className="name">
-          <h3>Waleed Ahmad</h3>
+          <h3>{conversation.fullName}</h3>
           <h5>{handleMessageSlice(message, 28)}</h5>
         </div>
       </div>
       <h5 className="text-xs">8:40 PM</h5>
     </div>
+      ))
+    ))}
+      </>
+    )}
+    
+    </>
   );
 };
 

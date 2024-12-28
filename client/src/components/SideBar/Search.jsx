@@ -16,7 +16,7 @@ const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
 
-  const alreadyFriend = false;
+  const alreadyFriend = true;
 
   const handleInputChange = (e) => {
     const sanitizedInput = e.target.value.toLowerCase().replace(/\s+/g, "");
