@@ -6,7 +6,7 @@ const useSelectedConversation = create((set) => ({
     messages : [],
     setMessages : (messages) => set({messages}),
     loadingState : false,
-    setLoadingState : (loadingState) => set({loadingState})
+    setLoadingState : (loadingState) => set({loadingState}),
 }));
 
 export default useSelectedConversation;

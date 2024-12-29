@@ -18,7 +18,6 @@ const Friends = () => {
         setFriends(data);
         setLoading(true);
     };
-
     handleFriends();
   },[]);
 
@@ -28,11 +27,18 @@ const Friends = () => {
     setMessages(data)
     setLoadingState(false)
   }
-
   
   const truncateName = (name, maxLength) => {
     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
   };
+
+  useEffect(()=>{
+    return ()=>{
+    setSelectedConversation(null)
+    setMessages([])
+    setLoadingState(false)
+    }
+  },[setLoadingState, setMessages, setSelectedConversation])
 
   return (
     <div className="w-full px-5">

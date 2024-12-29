@@ -28,7 +28,6 @@ const Message = () => {
     setLoadingState(false)
   }
 
-
   useEffect(()=>{
     const fetchConversations = async()=>{
     const data =  await getConversations()
@@ -37,6 +36,15 @@ const Message = () => {
     }
     fetchConversations()
   },[])
+
+  useEffect(()=>{
+    return ()=>{
+    setSelectedConversation(null)
+    setMessages([])
+    setLoadingState(false)
+    }
+  },[setLoadingState, setMessages, setSelectedConversation])
+
 
   return (
     <>
