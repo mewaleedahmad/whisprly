@@ -27,7 +27,7 @@ const SendMessage = () => {
     <form onSubmit={handleSubmit(onSubmit)}  className="w-full ps-4 flex gap-2 items-center justify-between px-3 py-4 bg-transparent  border-t borderColor">
     <div className="input-text grow">
     <label className="input input-bordered flex items-center  bg-transparent border borderColor">
-        <input {...register("message")}  type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
+        <input {...register("message")} autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
     <button disabled={isSubmitting}  type="submit"  className="bg-transparent rounded-badge hover:text-gray-200   text-3xl">

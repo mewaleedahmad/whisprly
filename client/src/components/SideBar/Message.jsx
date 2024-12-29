@@ -9,7 +9,7 @@ const Message = () => {
   const [loading,setLoading] = useState(false)
 
   const {getConversations} = useGetConversations()
-  const {selectedConversation,setSelectedConversation,setMessages} = useSelectedConversation();
+  const {selectedConversation,setSelectedConversation,setMessages,setLoadingState} = useSelectedConversation();
   const {getMessages} = useGetMessages()
 
   const message = "What are you doing right now , Can we talk ?";
@@ -22,8 +22,10 @@ const Message = () => {
   };
 
   const handleGetMessages = async (id) => {
+    setLoadingState(true)
     const data = await getMessages(id)
     setMessages(data)
+    setLoadingState(false)
   }
 
 

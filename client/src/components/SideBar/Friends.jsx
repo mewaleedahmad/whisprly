@@ -8,7 +8,7 @@ const Friends = () => {
   const [loading,setLoading] = useState(false);
   const [friends, setFriends] = useState([]);
 
-  const {setSelectedConversation,setMessages} = useSelectedConversation();
+  const {setSelectedConversation,setMessages,setLoadingState} = useSelectedConversation();
   const { getFriends } = useGetFriends();
   const {getMessages} = useGetMessages()
 
@@ -23,8 +23,10 @@ const Friends = () => {
   },[]);
 
   const handleGetMessages = async (id) => {
+    setLoadingState(true)
     const data = await getMessages(id)
     setMessages(data)
+    setLoadingState(false)
   }
 
   

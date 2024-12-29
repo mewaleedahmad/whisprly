@@ -51,10 +51,10 @@ const Profile = () => {
       )}
 
       <div className="dropdown dropdown-bottom dropdown-end">
-        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-primary ">
+        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-secondary ">
           <TbMenuDeep />
         </div>
-        <ul tabIndex={0} className="dropdown-content bg-primary menu text-gray-300  rounded-box z-[1] w- shadow">
+        <ul tabIndex={0} className="dropdown-content bg-secondary menu text-gray-300  rounded-box z-[1] w- shadow">
           <li>
             <button  onClick={() => {document.getElementById("my_modal_3").showModal(),handleFriendRequests();}}  className="text-md">
               <span className="text-nowrap">Friend Requests</span>
@@ -73,7 +73,7 @@ const Profile = () => {
       <dialog id="my_modal_3" className="modal ">
         <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button className="btn btn-md text-xl btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
