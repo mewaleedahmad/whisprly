@@ -6,8 +6,10 @@ import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 
 import Logo from "../components/Logo";
+import { useAuthContext } from "../context/AuthContext.jsx";
 
 const Profile = () => {
+  const {authUser} = useAuthContext()
   return (
     <div className="w-full h-screen flex  justify-center overflow-hidden  ">
       <div className=" w-full  flex flex-col justify-center items-center py-5 pb-12 background-blur">
@@ -15,7 +17,7 @@ const Profile = () => {
         <form  >
           <div className="avatar  flex justify-center mt-6">
             <div className="w-44  rounded-full">
-              <img src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
+              <img src={authUser.profilePic} />
               <div className="absolute -bottom-1 right-16">
              <label
                htmlFor="file-input" className="size-11 flex items-center justify-center bg-gradient text-white rounded-full cursor-pointer hover:bg-blue-700">
@@ -31,15 +33,15 @@ const Profile = () => {
      <div className="w-72 flex justify-center flex-col gap-3 mt-10">
         <label className="input input-bordered  flex items-center gap-2">
           <MdEmail />
-          <input type="text" className="auth-btn  " placeholder="Email" />
+          <input type="text" value={authUser.email} className="auth-btn  " placeholder="Email" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <FaUserCircle />
-          <input type="text" className="auth-btn" placeholder="Username" />
+          <input type="text" value={authUser.userName} className="auth-btn" placeholder="Username" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <BiSolidUser  />
-          <input type="text" className="auth-btn" placeholder="Full Name" />
+          <input type="text" value={authUser.fullName} className="auth-btn" placeholder="Full Name" />
         </label>
         <label className="input input-bordered flex items-center gap-2">
           <IoKey />
