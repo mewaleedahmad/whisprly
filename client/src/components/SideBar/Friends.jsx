@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import useGetFriends from "../../hooks/useGetFriends";
+import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGetMessages from "../../hooks/useGetMessages";
 
 const Friends = () => {
   const online = true;
   const [loading,setLoading] = useState(false);
   const [friends, setFriends] = useState([]);
+
+  const {setSelectedConversation,setMessages} = useSelectedConversation();
   const { getFriends } = useGetFriends();
+  const {getMessages} = useGetMessages()
 
   useEffect(() => {
     const handleFriends = async () => {
@@ -16,6 +21,12 @@ const Friends = () => {
 
     handleFriends();
   },[]);
+
+  const handleGetMessages = async (id) => {
+    const data = await getMessages(id)
+    setMessages(data)
+  }
+
   
   const truncateName = (name, maxLength) => {
     return name.length > maxLength ? `${name.slice(0, maxLength)}...` : name;
@@ -34,7 +45,7 @@ const Friends = () => {
       </div> : 
        <>
        {!friends.message  ? ( friends.friends.map((users)=> (
-            <div key={users._id} className="Friend cursor-pointer">
+            <div onClick={()=>{setSelectedConversation(users),handleGetMessages(users._id)}} key={users._id} className="Friend cursor-pointer">
               <div className={`avatar ${online ? "online" : ""} `}>
                 <div className="w-14 rounded-full">
                   <img src={users.profilePic} />

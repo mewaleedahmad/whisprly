@@ -1,32 +1,36 @@
-import { FaPaperclip } from "react-icons/fa6";
+// import { FaPaperclip } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
 
-import {  useState } from "react";
+// import {  useState } from "react";
+import useSendMessage from "../../hooks/useSendMessage";
+import useSelectedConversation from "../../zustand/useSelectedConversation";
+import { useForm } from "react-hook-form";
 
 const SendMessage = () => {
-  const [message,setMessage] = useState()
+  // const [message,setMessage] = useState()
+  const {sendMessage} = useSendMessage()
+  const {selectedConversation} = useSelectedConversation()
   
-  const sendMessage =(e)=>{
-    e.preventDefault()
-    setMessage("")
-    console.log(message)
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: {isSubmitting}
+} = useForm()
+
+  const onSubmit = async(message)=>{
+    await sendMessage(selectedConversation._id,message)
+    reset()
   }
 
   return (
-    <form onSubmit={sendMessage} className="w-full flex gap-2 items-center justify-between px-3 py-4 bg-transparent  border-t borderColor">
-    <div className="input-file">
-    <label htmlFor="file-input" className="size-11 flex items-center hover:text-gray-200 text-2xl cursor-pointer justify-center ">
-       <FaPaperclip/>
-     </label>
-     <input type="file" id="file-input" className="hidden"
-       onChange={(e) => console.log(e.target.files[0])} />
-    </div>
+    <form onSubmit={handleSubmit(onSubmit)}  className="w-full ps-4 flex gap-2 items-center justify-between px-3 py-4 bg-transparent  border-t borderColor">
     <div className="input-text grow">
     <label className="input input-bordered flex items-center  bg-transparent border borderColor">
-        <input onChange={(e)=>setMessage(e.target.value)} value={message} type="text" className="grow text-gray-300 " placeholder={`What's in your mind.....`} />
+        <input {...register("message")}  type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
-    <button  type="submit"  className="bg-transparent rounded-badge hover:text-gray-200   text-3xl">
+    <button disabled={isSubmitting}  type="submit"  className="bg-transparent rounded-badge hover:text-gray-200   text-3xl">
         <IoMdSend/>
     </button>
     </form>
@@ -34,3 +38,26 @@ const SendMessage = () => {
 };
 
 export default SendMessage;
+
+
+ {/* <div className="input-file">
+    <label htmlFor="file-input" className="size-11 flex items-center hover:text-gray-200 text-2xl cursor-pointer justify-center ">
+       <FaPaperclip/>
+     </label>
+     <input type="file" id="file-input" className="hidden"
+       onChange={(e) => console.log(e.target.files[0])} />
+    </div> */}
+
+
+     // const handleSendMessage = async(e)=>{
+  //   e.preventDefault()
+  //   if (!message.trim()) {
+  //     return;
+  //   }
+  //   try {
+  //     await sendMessage(selectedConversation._id, message); 
+  //     setMessage(""); 
+  //   } catch (error) {
+  //     console.error("Error sending message:", error);
+  //   }
+  // }

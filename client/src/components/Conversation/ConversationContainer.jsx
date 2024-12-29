@@ -1,20 +1,30 @@
+import { useAuthContext } from "../../context/AuthContext";
+import useSelectedConversation from "../../zustand/useSelectedConversation";
+
 const ConversationContainer = () => {
+  const {messages,selectedConversation} = useSelectedConversation()
+  const {authUser} = useAuthContext()
+  const myMessage = authUser._id
+  const myPic = authUser.profilePic
+
   return (
     <div className="w-full py-2 h-full">
       <section className="px-5 py-6 flex scrollable-div flex-col gap-4">
-          <div className="chat chat-end">
+          {messages.map((msg)=>(
+            <div key={msg._id} className={`chat ${msg.senderId === myMessage ? "chat-end" : "chat-start"}`}>
             <div className="chat-image avatar">
               <div className="w-11 rounded-full">
                 <img
                   alt="Tailwind CSS chat bubble component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src={msg.senderId === myMessage ? myPic : selectedConversation.profilePic}
                 />
               </div>
             </div>
-            <div className="chat-bubble text-gray-100 bg-secondary ">
-              What are you doing ?
+            <div  className={`chat-bubble text-gray-100 ${msg.senderId === myMessage ? "bg-violet-800" : "bg-secondary"} `}>
+              {msg.message}
             </div>
           </div>
+          ))}
       </section>
     </div>
   );

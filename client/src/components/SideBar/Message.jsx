@@ -1,11 +1,17 @@
 import { useEffect,useState } from "react";
 import useGetConversations from "../../hooks/useGetConversations";
+import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGetMessages from "../../hooks/useGetMessages";
+
 
 const Message = () => {
-  const {getConversations} = useGetConversations()
   const [conversations,setConversations] = useState([])
   const [loading,setLoading] = useState(false)
-  
+
+  const {getConversations} = useGetConversations()
+  const {selectedConversation,setSelectedConversation,setMessages} = useSelectedConversation();
+  const {getMessages} = useGetMessages()
+
   const message = "What are you doing right now , Can we talk ?";
   const online = true;
 
@@ -15,6 +21,12 @@ const Message = () => {
     } else return message;
   };
 
+  const handleGetMessages = async (id) => {
+    const data = await getMessages(id)
+    setMessages(data)
+  }
+
+
   useEffect(()=>{
     const fetchConversations = async()=>{
     const data =  await getConversations()
@@ -23,7 +35,6 @@ const Message = () => {
     }
     fetchConversations()
   },[])
-
 
   return (
     <>
@@ -38,16 +49,16 @@ const Message = () => {
         </div>
       </div> :  (
       <>
-      {conversations.message ? <p className="px-6 py-4 text-gray-400 text-base text-wrap ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
+      {(conversations.message) || (conversations.error) ? <p className="px-6 py-4 text-gray-400 text-base  ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
       nestedArray.map((conversation)=>(
-        <div key={conversation._id} className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
+     <div onClick={()=>{setSelectedConversation(conversation),handleGetMessages(conversation._id)}}  key={conversation._id} className={`w-full flex items-center justify-between py-2 px-6 cursor-pointer ${selectedConversation?._id === conversation?._id ? "bg-secondary" : ""} hover:bg-secondary`}>
       <div className="flex gap-3 items-center">
         <div className={`avatar ${online ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img src={conversation.profilePic} />
           </div>
         </div>
-        <div className="name">
+        <div className="name ">
           <h3>{conversation.fullName}</h3>
           <h5>{handleMessageSlice(message, 28)}</h5>
         </div>
