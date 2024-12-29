@@ -16,7 +16,7 @@ const Search = () => {
   const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
 
-  const alreadyFriend = true;
+  const alreadyFriend = false;
 
   const handleInputChange = (e) => {
     const sanitizedInput = e.target.value.toLowerCase().replace(/\s+/g, "");
@@ -41,7 +41,7 @@ const Search = () => {
   }
   
   return (
-    <div className="relative w-full p-4 my-2">
+    <div className="relative w-full p-4 mt-1">
       <label className="input input-bordered flex items-center bg-transparent border borderColor">
         <input
           type="search"

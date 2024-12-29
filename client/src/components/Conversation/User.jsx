@@ -1,6 +1,5 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuUserMinus2 } from "react-icons/lu";
-import { MdDeleteOutline } from "react-icons/md";
 
  const online = true
 const User = () => {
@@ -18,10 +17,9 @@ const User = () => {
       </div>
       </div>
      <div className="dropdown dropdown-bottom  dropdown-end">
-       <div tabIndex={0} role="button" className="btn text-xl bg-primary "><BsThreeDotsVertical/></div>
+       <div tabIndex={0} role="button" className="btn text-xl bg-transparent border-none "><BsThreeDotsVertical/></div>
         <ul tabIndex={0} className="dropdown-content menu bg-primary rounded-box z-[1] w-52 p-2 shadow">
          <li><button className="text-red-500 text-sm"><p>Remove Friend</p><LuUserMinus2/></button></li>
-         <li><button className="text-sm text-gray-400"><p>Delete Chat</p><MdDeleteOutline /></button></li>
         </ul>
      </div>
     </div>

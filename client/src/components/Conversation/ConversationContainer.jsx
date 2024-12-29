@@ -2,7 +2,6 @@ const ConversationContainer = () => {
   return (
     <div className="w-full py-2 h-full">
       <section className="px-5 py-6 flex scrollable-div flex-col gap-4">
-        <div className="message-received ">
           <div className="chat chat-end">
             <div className="chat-image avatar">
               <div className="w-11 rounded-full">
@@ -16,7 +15,6 @@ const ConversationContainer = () => {
               What are you doing ?
             </div>
           </div>
-        </div>
       </section>
     </div>
   );

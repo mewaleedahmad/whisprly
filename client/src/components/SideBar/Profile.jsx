@@ -51,10 +51,10 @@ const Profile = () => {
       )}
 
       <div className="dropdown dropdown-bottom dropdown-end">
-        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-secondary ">
+        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-primary ">
           <TbMenuDeep />
         </div>
-        <ul tabIndex={0} className="dropdown-content bg-secondary menu text-gray-300  rounded-box z-[1] w- shadow">
+        <ul tabIndex={0} className="dropdown-content bg-primary menu text-gray-300  rounded-box z-[1] w- shadow">
           <li>
             <button  onClick={() => {document.getElementById("my_modal_3").showModal(),handleFriendRequests();}}  className="text-md">
               <span className="text-nowrap">Friend Requests</span>
@@ -70,20 +70,28 @@ const Profile = () => {
         </ul>
       </div>
 
-
       <dialog id="my_modal_3" className="modal ">
-        <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-secondary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+        <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
           <form method="dialog">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-          <h3 className="font-semibold text-2xl mb-5 mt-1">Friend Requests</h3>
-         {!loading ? <span className="loading loading-spinner"></span> : 
-         <>
+          <h3 className="font-semibold text-2xl mb-5 ">Friend Requests</h3>
+         {!loading ? 
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="skeleton h-10 w-10 shrink-0 rounded-full bg-secondary"></div>
+              <div className="flex flex-col gap-1">
+                <div className="skeleton h-3 w-24 bg-secondary"></div>
+                <div className="skeleton h-3 w-20 bg-secondary"></div>
+              </div>
+            </div>
+          </div>   
+          : <>
            {(!requests.message) || requests.length === 0  ? (
             requests.friendRequests.map((user)=>(
-              <div key={user._id} className="w-full flex items-center justify-between py-2  cursor-default hover:bg-secondary">
+              <div key={user._id} className="w-full flex items-center justify-between py-2  cursor-default">
            <div className="flex gap-2 items-center  flex-grow">
              <div className={`avatar`}>
                <div className="w-10 rounded-full">
@@ -106,7 +114,7 @@ const Profile = () => {
          </div>
             ))
           ) : (
-            <p className=" text-base text-gray-300 ">Your friend request list is empty. Check back later!</p>
+            <p className=" text-base pt-3 text-gray-300 ">Your friend request list is empty. Check back later!</p>
           )}
          </>
          }

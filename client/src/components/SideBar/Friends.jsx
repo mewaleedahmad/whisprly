@@ -25,7 +25,13 @@ const Friends = () => {
     <div className="w-full px-5">
       <h2 className="px-1">All Friends</h2>
       <div className="flex gap-5  pt-4 pb-3  overflow-x-auto  scrollable-div items-center">
-      {!loading ? (<span className="loading loading-spinner w-10 mt-4 mb-4"></span>) : 
+      {!loading ? 
+      <div>
+        <div className="flex flex-col  items-center gap-2">
+          <div className="skeleton h-14 w-14 shrink-0 rounded-full bg-secondary"></div>
+          <div className="skeleton h-3 w-14 bg-secondary"></div>
+        </div>
+      </div> : 
        <>
        {!friends.message  ? ( friends.friends.map((users)=> (
             <div key={users._id} className="Friend cursor-pointer">
@@ -36,7 +42,7 @@ const Friends = () => {
               </div>
               <h5 className="text-center text-nowrap max-w-14">{truncateName(users.fullName,9)}</h5>
             </div>
-          ))) : <h5 className="text-base text-gray-400 ps-2 pb-4 pt-4">No friends found. Add someone!</h5>
+          ))) : <h5 className="text-base text-gray-400 ps-2 py-6">No friends found. Add someone!</h5>
         } 
        </>
       }

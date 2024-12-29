@@ -24,13 +24,21 @@ const Message = () => {
     fetchConversations()
   },[])
 
-  console.log(conversations)
 
   return (
     <>
-    {!loading ? <span className="loading loading-spinner w-10 mt-4 mb-3 mx-5"></span> :  (
+    {!loading ? 
+      <div className="flex w-52 mt-4  mx-5 flex-col gap-4">
+        <div className="flex items-center gap-3">
+          <div className="skeleton h-12 w-12 shrink-0 rounded-full bg-secondary"></div>
+          <div className="flex flex-col gap-1">
+            <div className="skeleton h-4 w-20 bg-secondary"></div>
+            <div className="skeleton h-4 w-32 bg-secondary"></div>
+          </div>
+        </div>
+      </div> :  (
       <>
-      {conversations.message ? <p className="px-6 text-gray-400 text-base text-wrap ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
+      {conversations.message ? <p className="px-6 py-4 text-gray-400 text-base text-wrap ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
       nestedArray.map((conversation)=>(
         <div key={conversation._id} className="w-full flex items-center justify-between py-2 px-6 cursor-pointer hover:bg-secondary">
       <div className="flex gap-3 items-center">
