@@ -5,6 +5,7 @@ const useGetMessages = () => {
     try {
       const response = await fetch(`/api/messages/${id}`, {
         method: "POST",
+        credentials: 'include',
       });
       const data = await response.json();
 

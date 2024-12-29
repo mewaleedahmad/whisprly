@@ -6,6 +6,7 @@ const useRemoveFriend = () => {
         try {
             const response = await fetch(`/api/friends/remove/${id}`,{
                 method : "DELETE",
+                credentials: 'include',
             })
             const data = await response.json();
 

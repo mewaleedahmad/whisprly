@@ -5,7 +5,8 @@ const useAddFriend = () => {
     const addFriend = async (id) => {
         try {
             const response = await fetch(`/api/friends/add/${id}`,{
-                method : "POST"
+                method : "POST",
+                credentials: 'include',
             })
             const data = await response.json();
 

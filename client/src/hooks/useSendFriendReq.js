@@ -5,7 +5,8 @@ const useSendFriendReq = () => {
     const sendFriendReq = async(id)=>{
         try {
             const response = await fetch(`/api/friends/request/send/${id}`,{
-                method: "POST"
+                method: "POST",
+                credentials: 'include',
             })
             const data = await response.json();
 

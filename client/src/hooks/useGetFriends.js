@@ -1,7 +1,9 @@
 const useGetFriends = () => {
   const getFriends = async () => {
     try {
-      const response = await fetch("/api/friends");
+      const response = await fetch("/api/friends",{
+        credentials: 'include',
+      });
 
       const data = await response.json();
 

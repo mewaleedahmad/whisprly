@@ -6,9 +6,7 @@ const useRejectFriendRequest = () => {
     try {
       const response = await fetch(`/api/friends/request/reject/${id}`, {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        credentials: 'include',
       });
       const data = await response.json();
 
