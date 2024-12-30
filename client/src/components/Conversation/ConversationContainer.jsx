@@ -9,7 +9,7 @@ const ConversationContainer = () => {
 
   return (
     <div className="w-full py-2 h-full">
-      <section className="lg:px-5 px-3 py-6 flex scrollable-div flex-col gap-1">
+      <section className="lg:px-5 px-3 py-6 flex hidden-scrollable-div flex-col gap-1">
         {loadingState ? 
           <>
           <div className="chat chat-end">

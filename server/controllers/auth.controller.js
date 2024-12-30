@@ -40,7 +40,7 @@ export const signup = async(req,res)=>{
                 fullName: newUser.fullName,
                 userName : newUser.userName,
                 profilePic: newUser.profilePic,
-                email : user.email,
+                email : newUser.email,
                 message: "Account Created Successfully"
             })
         }

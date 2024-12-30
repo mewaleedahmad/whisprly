@@ -1,3 +1,5 @@
+import conversationModel from "../models/conversation.model.js";
+import messageModel from "../models/message.model.js";
 import userModel from "../models/user.model.js";
 
 export const getFriends = async (req, res) => {
@@ -106,6 +108,13 @@ export const removeFriend = async (req, res) => {
         { $pull: { friends: receiverId } },
         { $new: true }
       ),
+      conversationModel.deleteOne({
+        participants: { $all: [senderId, receiverId] },
+      }),
+      messageModel.deleteMany({
+        senderId: senderId,
+        receiverId: receiverId,
+      })
     ]);
 
     res.status(200).json({ message: "Friend Removed" });

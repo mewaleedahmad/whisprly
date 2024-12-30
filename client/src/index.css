@@ -54,10 +54,14 @@ body {
     @apply bg-gradient-to-r from-[#863ffa] to-[#3ec0fc]
   }
   .scrollable-div {
+    scrollbar-color: var(--color-secondary) transparent;;
+    scrollbar-width: thin;
+  }
+  .hidden-scrollable-div {
     scrollbar-color: transparent transparent;;
     scrollbar-width: thin;
-    
   }
+  
   .auth-btn{
     @apply  w-full text-gray-200
   }
