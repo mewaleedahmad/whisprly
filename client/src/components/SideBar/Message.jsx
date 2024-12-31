@@ -2,17 +2,17 @@ import { useEffect,useState } from "react";
 import useGetConversations from "../../hooks/useGetConversations";
 import useSelectedConversation from "../../zustand/useSelectedConversation";
 import useGetMessages from "../../hooks/useGetMessages";
-
+import useGetLastMessage from "../../hooks/useGetLastMessage";
 
 const Message = () => {
   const [conversations,setConversations] = useState([])
   const [loading,setLoading] = useState(false)
 
+  const {selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage,setLastMessage} = useSelectedConversation();
   const {getConversations} = useGetConversations()
-  const {selectedConversation,setSelectedConversation,setMessages,setLoadingState} = useSelectedConversation();
   const {getMessages} = useGetMessages()
+  const {getLastMessage} = useGetLastMessage()
 
-  const message = "What are you doing right now , Can we talk ?";
   const online = true;
 
   const handleMessageSlice = (message, limit) => {
@@ -37,15 +37,30 @@ const Message = () => {
     fetchConversations()
   },[])
 
-  useEffect(()=>{
-    return ()=>{
+useEffect(()=>{
+  const handleGetLastMessage = async()=>{
+   const data = await getLastMessage()
+   setLastMessage(data)
+  }
+  handleGetLastMessage()
+},[])
+
+useEffect(()=>{
+  return ()=>{
     setSelectedConversation(null)
     setMessages([])
     setLoadingState(false)
-    }
-  },[setLoadingState, setMessages, setSelectedConversation])
+  }
+},[setLoadingState, setMessages, setSelectedConversation])
 
-
+function getLocalTime(isoString) {
+  try {
+    const date = new Date(isoString); // Parse the ISO string
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+  } catch (error) {
+    console.error("Invalid ISO string provided:", error);
+  }
+}
   return (
     <>
     {!loading ? 
@@ -59,24 +74,51 @@ const Message = () => {
         </div>
       </div> :  (
       <>
-      {(conversations.message) || (conversations.error) ? <p className="px-6 py-4 text-gray-400 text-base  ">Your chats will appear here.  Send a message to get started!</p> : conversations.map((nestedArray)=>(
-      nestedArray.map((conversation)=>(
-     <div onClick={()=>{setSelectedConversation(conversation),handleGetMessages(conversation._id)}}  key={conversation._id} className={`w-full flex items-center justify-between py-2 px-6 cursor-pointer ${selectedConversation?._id === conversation?._id ? "bg-secondary" : ""} hover:bg-secondary`}>
-      <div className="flex gap-3 items-center">
-        <div className={`avatar ${online ? "online" : ""}`}>
-          <div className="w-12 rounded-full">
-            <img src={conversation.profilePic} />
+      {(conversations.message) || (conversations.error) ? (
+  <p className="px-6 py-4 text-gray-400 text-base">Your chats will appear here. Send a message to get started!</p>
+) : (
+  conversations.map((nestedArray) =>
+    nestedArray.map((conversation) => {
+      const matchingMessage = lastMessage.find(
+        (msg) => conversation._id === msg.senderId || conversation._id === msg.receiverId
+      );
+      return (
+        <div
+          onClick={() => {
+            setSelectedConversation(conversation);
+            handleGetMessages(conversation._id);
+          }}
+          key={conversation._id}
+          className={`w-full flex items-center justify-between py-2 px-6 cursor-pointer ${
+            selectedConversation?._id === conversation?._id ? "bg-secondary" : ""
+          } hover:bg-secondary`}
+        >
+          <div className="flex gap-3 items-center">
+            <div className={`avatar ${online ? "online" : ""}`}>
+              <div className="w-12 rounded-full">
+                <img src={conversation.profilePic} alt="Profile" />
+              </div>
+            </div>
+            <div className="name">
+              <h3>{conversation.fullName}</h3>
+              {matchingMessage ? (
+                <h5>{handleMessageSlice(matchingMessage.message, 28)}</h5>
+              ) : (
+                <h5></h5>
+              )}
+            </div>
           </div>
+          {matchingMessage ? (
+          <h5 className="text-xs">{getLocalTime(matchingMessage.createdAt)}</h5>
+              ) : (
+                <h5></h5>
+              )}
         </div>
-        <div className="name ">
-          <h3>{conversation.fullName}</h3>
-          <h5>{handleMessageSlice(message, 28)}</h5>
-        </div>
-      </div>
-      <h5 className="text-xs">8:40 PM</h5>
-    </div>
-      ))
-    ))}
+      );
+    })
+  )
+)}
+
       </>
     )}
     

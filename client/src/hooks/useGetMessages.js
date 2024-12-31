@@ -16,9 +16,9 @@ const [isLoading,setIsLoading] = useState(false)
       }
 
       return data
-    } catch (error) {
+    }catch (error) {
       console.log(error.getMessages, "Error in useGetMessages");
-    }finally{
+    } finally{
       setIsLoading(false)
     }
   };

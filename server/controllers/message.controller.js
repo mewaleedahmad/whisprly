@@ -63,24 +63,42 @@ export const getConversations = async (req, res) => {
     const authUser = req.user._id;
 
     const conversations = await conversationModel.find(
-      { participants: { $in: [authUser] } }, // Match conversations with the authUser in participants
+      { participants: { $in: [authUser] } },
       { participants: 1 } // Project only the participants field
     ).populate({
       path: 'participants',
-      match: { _id: { $ne: authUser } }, // Exclude the authenticated user
+      match: { _id: { $ne: authUser } }, 
       select: '-email -password -gender -friends -friendRequests -createdAt -updatedAt', 
-    });
+    }).sort({ updatedAt: -1 });
 
     if(!conversations || conversations.length === 0) {
       return res.status(404).json({ message: 'No conversations found' });
     }
-
-    // Extract only the populated participants array
     const participantData = conversations.map(convo => convo.participants);
-
     res.status(200).json(participantData);
+
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
     console.error('Error in getConversations in messageController:', error.message);
   }
 };
+
+export const getLastMessage = async (req,res) =>{
+  try {
+     const authUser = req.user._id
+
+     const findMessage = await conversationModel.find({
+      participants : {$in : [authUser]},
+     })
+     .select({messages : {$slice :-1}})
+     .populate({
+      path : "messages"
+     })
+
+     const lastMessage = findMessage.flatMap((lastMsg)=>lastMsg.messages)
+     res.status(200).json(lastMessage)
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error in getLastMessage in messageController:', error.message);
+  }
+}

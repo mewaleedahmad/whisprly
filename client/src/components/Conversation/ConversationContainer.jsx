@@ -16,7 +16,31 @@ const ConversationContainer = () => {
           <div className="chat-image   avatar">
             <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
           </div>
-          <div className="chat-bubble bg-secondary  skeleton w-40 "></div>
+          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
+        </div>
+          <div className="chat chat-start">
+          <div className="chat-image   avatar">
+            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+          </div>
+          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
+        </div>
+          <div className="chat chat-end">
+          <div className="chat-image   avatar">
+            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+          </div>
+          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
+        </div>
+          <div className="chat chat-start">
+          <div className="chat-image   avatar">
+            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+          </div>
+          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
+        </div>
+          <div className="chat chat-end">
+          <div className="chat-image   avatar">
+            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+          </div>
+          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
         </div>
           <div className="chat chat-start">
           <div className="chat-image   avatar">
