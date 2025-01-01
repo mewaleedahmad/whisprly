@@ -1,21 +1,29 @@
 import { useEffect,useState } from "react";
 import useGetConversations from "../../hooks/useGetConversations";
-import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGlobalState from "../../zustand/useGlobalState";
 import useGetMessages from "../../hooks/useGetMessages";
 import useGetLastMessage from "../../hooks/useGetLastMessage";
+import { useSocketContext } from "../../context/SocketContext";
 
 const Message = () => {
-  const [conversations,setConversations] = useState([])
   const [loading,setLoading] = useState(false)
-
-  const {selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage,setLastMessage} = useSelectedConversation();
+  const {conversations,setConversations,selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage,setLastMessage} = useGlobalState();
   const {getConversations} = useGetConversations()
   const {getMessages} = useGetMessages()
   const {getLastMessage} = useGetLastMessage()
+  const {onlineUsers} = useSocketContext()
 
-  const online = true;
 
-  const handleMessageSlice = (message, limit) => {
+  function getLocalTime(isoString) {
+    try {
+      const date = new Date(isoString); // Parse the ISO string
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+    } catch (error) {
+      console.error("Invalid ISO string provided:", error);
+    }
+  }
+
+  const handleSliceMessage = (message, limit) => {
     if (message.length > limit) {
       return message.slice(0, limit) + "....";
     } else return message;
@@ -29,6 +37,7 @@ const Message = () => {
   }
 
   useEffect(()=>{
+    setLoading(false)
     const fetchConversations = async()=>{
     const data =  await getConversations()
     setConversations(data)
@@ -46,7 +55,7 @@ useEffect(()=>{
 },[])
 
 useEffect(()=>{
-  
+
   return ()=>{
     setSelectedConversation(null)
     setMessages([])
@@ -54,14 +63,7 @@ useEffect(()=>{
   }
 },[setLoadingState, setMessages, setSelectedConversation])
 
-function getLocalTime(isoString) {
-  try {
-    const date = new Date(isoString); // Parse the ISO string
-    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
-  } catch (error) {
-    console.error("Invalid ISO string provided:", error);
-  }
-}
+
   return (
     <>
     {!loading ? 
@@ -75,13 +77,14 @@ function getLocalTime(isoString) {
         </div>
       </div> :  (
       <>
-      {(conversations.message) || (conversations.error) ? (
+      {((conversations.message) || (conversations.error) || (conversations.length === 0)) ? (
   <p className="px-6 py-4 text-gray-400 text-base">Your chats will appear here. Send a message to get started!</p>
 ) : (
     conversations.map((convo) => {
       const matchingMessage = lastMessage.find(
         (msg) => convo._id === msg.senderId || convo._id === msg.receiverId
       );
+      const isActive = onlineUsers.includes(convo._id);
       return (
         <div
           onClick={() => {
@@ -94,7 +97,7 @@ function getLocalTime(isoString) {
           } hover:bg-secondary`}
         >
           <div className="flex gap-3 items-center">
-            <div className={`avatar ${online ? "online" : ""}`}>
+            <div className={`avatar ${isActive ? "online" : "offline"}`}>
               <div className="w-12 rounded-full">
                 <img src={convo.profilePic} alt="Profile" />
               </div>
@@ -102,7 +105,7 @@ function getLocalTime(isoString) {
             <div className="name">
               <h3>{convo.fullName}</h3>
               {matchingMessage ? (
-                <h5>{handleMessageSlice(matchingMessage.message, 28)}</h5>
+                <h5>{handleSliceMessage(matchingMessage.message, 28)}</h5>
               ) : (
                 <h5></h5>
               )}

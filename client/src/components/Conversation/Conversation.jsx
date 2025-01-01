@@ -1,11 +1,11 @@
-import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGlobalState from "../../zustand/useGlobalState";
 import ConversationContainer from "./ConversationContainer";
 import NoChatSelected from "./NoChatSelected";
 import SendMessage from "./SendMessage";
 import User from "./User";
 
 const Conversation = () => {
-  const {selectedConversation} = useSelectedConversation();
+  const {selectedConversation} = useGlobalState();
  
   return (
     <section className={`w-full h-full ${selectedConversation === null ? "hidden" : ""} lg:flex lg:flex-col lg:w-[50vw]`}>

@@ -3,13 +3,13 @@ import { IoMdSend } from "react-icons/io";
 
 // import {  useState } from "react";
 import useSendMessage from "../../hooks/useSendMessage";
-import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGlobalState from "../../zustand/useGlobalState";
 import { useForm } from "react-hook-form";
 
 const SendMessage = () => {
   // const [message,setMessage] = useState()
   const {sendMessage} = useSendMessage()
-  const {selectedConversation} = useSelectedConversation()
+  const {selectedConversation} = useGlobalState()
   
   const {
     register,

@@ -16,11 +16,11 @@ const userSocketMap = {}
 io.on("connection", (socket) => {
   
   const userId = socket.handshake.query.userId;
-  if(!userId === "undefined"){
+  if(userId != "undefined"){
     userSocketMap[userId] = socket.id}
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
-    
     console.log("user connected", userId);
+
   socket.on("disconnect", (socket) => {
     console.log("user disconnected", socket.id);
     delete userSocketMap[userId]

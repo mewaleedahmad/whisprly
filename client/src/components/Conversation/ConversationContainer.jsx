@@ -1,8 +1,8 @@
 import { useAuthContext } from "../../context/AuthContext";
-import useSelectedConversation from "../../zustand/useSelectedConversation";
+import useGlobalState from "../../zustand/useGlobalState";
 
 const ConversationContainer = () => {
-  const {messages,selectedConversation,loadingState} = useSelectedConversation()
+  const {messages,selectedConversation,loadingState} = useGlobalState()
   const {authUser} = useAuthContext()
   const myMessage = authUser._id
   const myPic = authUser.profilePic

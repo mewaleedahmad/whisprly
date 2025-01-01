@@ -40,6 +40,13 @@ body {
     top: 8%;
     right: 0%
   }
+  .avatar.offline:before{
+    background-color : #5a5a5a;
+    width: 16%;
+    height: 16%;
+    top: 8%;
+    right: 0%
+  }
   
 }
 
