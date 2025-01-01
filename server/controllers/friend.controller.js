@@ -13,7 +13,7 @@ export const getFriends = async (req, res) => {
     const user = await userModel.findById(senderId).populate({
       path: "friends",
       select: "-password -friends -__v -createdAt -updatedAt",
-    });
+    })
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
@@ -25,7 +25,7 @@ export const getFriends = async (req, res) => {
         .json({ message: "Currently you don't have any friends" });
     }
 
-    res.status(200).json({ friends: user.friends });
+    res.status(200).json(user.friends);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
     console.log("Error in getFriends in friendController", error.message);

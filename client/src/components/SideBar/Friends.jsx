@@ -2,24 +2,27 @@ import { useEffect, useState } from "react";
 import useGetFriends from "../../hooks/useGetFriends";
 import useSelectedConversation from "../../zustand/useSelectedConversation";
 import useGetMessages from "../../hooks/useGetMessages";
+import { useSocketContext } from "../../context/SocketContext";
 
 const Friends = () => {
-  const online = true;
   const [loading,setLoading] = useState(false);
   const [friends, setFriends] = useState([]);
+  const online = true;
 
   const {setSelectedConversation,setMessages,setLoadingState} = useSelectedConversation();
   const { getFriends } = useGetFriends();
   const {getMessages} = useGetMessages()
-
+  // const {onlineUsers} = useSocketContext()
+  
   useEffect(() => {
     const handleFriends = async () => {
-        const data = await getFriends();
-        setFriends(data);
-        setLoading(true);
+      const data = await getFriends();
+      setFriends(data);
+      setLoading(true);
     };
     handleFriends();
   },[]);
+  console.log(friends)
 
   const handleGetMessages = async (id) => {
     setLoadingState(true)
@@ -52,9 +55,9 @@ const Friends = () => {
         </div>
       </div> : 
        <>
-       {!friends.message  ? ( friends.friends.map((users)=> (
+       {!friends.message  ? ( friends.map((users)=> (
             <div onClick={()=>{setSelectedConversation(users),handleGetMessages(users._id)}} key={users._id} className="Friend cursor-pointer">
-              <div className={`avatar ${online ? "online" : ""} `}>
+              <div className={`avatar ${ online ? "online" : ""} `}>
                 <div className="w-14 rounded-full">
                   <img src={users.profilePic} />
                 </div>

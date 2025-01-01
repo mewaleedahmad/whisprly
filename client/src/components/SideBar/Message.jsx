@@ -46,6 +46,7 @@ useEffect(()=>{
 },[])
 
 useEffect(()=>{
+  
   return ()=>{
     setSelectedConversation(null)
     setMessages([])
@@ -77,30 +78,29 @@ function getLocalTime(isoString) {
       {(conversations.message) || (conversations.error) ? (
   <p className="px-6 py-4 text-gray-400 text-base">Your chats will appear here. Send a message to get started!</p>
 ) : (
-  conversations.map((nestedArray) =>
-    nestedArray.map((conversation) => {
+    conversations.map((convo) => {
       const matchingMessage = lastMessage.find(
-        (msg) => conversation._id === msg.senderId || conversation._id === msg.receiverId
+        (msg) => convo._id === msg.senderId || convo._id === msg.receiverId
       );
       return (
         <div
           onClick={() => {
-            setSelectedConversation(conversation);
-            handleGetMessages(conversation._id);
+            setSelectedConversation(convo);
+            handleGetMessages(convo._id);
           }}
-          key={conversation._id}
+          key={convo._id}
           className={`w-full flex items-center justify-between py-2 px-6 cursor-pointer ${
-            selectedConversation?._id === conversation?._id ? "bg-secondary" : ""
+            selectedConversation?._id === convo?._id ? "bg-secondary" : ""
           } hover:bg-secondary`}
         >
           <div className="flex gap-3 items-center">
             <div className={`avatar ${online ? "online" : ""}`}>
               <div className="w-12 rounded-full">
-                <img src={conversation.profilePic} alt="Profile" />
+                <img src={convo.profilePic} alt="Profile" />
               </div>
             </div>
             <div className="name">
-              <h3>{conversation.fullName}</h3>
+              <h3>{convo.fullName}</h3>
               {matchingMessage ? (
                 <h5>{handleMessageSlice(matchingMessage.message, 28)}</h5>
               ) : (
@@ -116,7 +116,7 @@ function getLocalTime(isoString) {
         </div>
       );
     })
-  )
+  
 )}
 
       </>
