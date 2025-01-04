@@ -86,17 +86,9 @@ useEffect(()=>{
       );
       const isActive = onlineUsers.includes(convo._id);
       return (
-        <div
-          onClick={() => {
-            setSelectedConversation(convo);
-            handleGetMessages(convo._id);
-          }}
-          key={convo._id}
-          className={`w-full flex items-center justify-between py-2 px-6 cursor-pointer ${
-            selectedConversation?._id === convo?._id ? "bg-secondary" : ""
-          } hover:bg-secondary`}
-        >
-          <div className="flex gap-3 items-center">
+        <div onClick={() => {setSelectedConversation(convo);handleGetMessages(convo._id);}} key={convo._id} 
+         className={`w-full flex items-center justify-between  py-2 px-6 cursor-pointer ${selectedConversation?._id === convo?._id ? "bg-secondary" : ""  } hover:bg-secondary`}>
+          <div className="flex gap-3 items-center ">
             <div className={`avatar ${isActive ? "online" : "offline"}`}>
               <div className="w-12 rounded-full">
                 <img src={convo.profilePic} alt="Profile" />

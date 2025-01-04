@@ -10,7 +10,7 @@ const NoChatSelected = () => {
         <p className="text-gray-300 text-3xl">
           Select a Friend to start Conversation
         </p>
-        <TiMessages className="size-16 text-gray-300" />
+        <TiMessages className="size-16  text-gray-300" />
       </div>
     </div>
   );

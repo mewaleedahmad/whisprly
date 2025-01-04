@@ -6,7 +6,7 @@ export const getReq = async (req, res) => {
   
       const user = await userModel.findById(authUser).populate({
         path: "friendRequests",
-        select: "-password -friends -__v -createdAt -updatedAt",
+        select: "_id email userName fullName profilePic",
       });
   
       if (!user) {
@@ -19,7 +19,7 @@ export const getReq = async (req, res) => {
         });
       }
   
-      res.status(200).json({ friendRequests: user.friendRequests });
+      res.status(200).json(user.friendRequests);
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
       console.log("Error in getReq in friendController", error.message);

@@ -14,6 +14,7 @@ const User = () => {
 
   const handleRemoveFriend = async (id) => {
     await removeFriend(id)
+    setSelectedConversation(null)
   }
   
   return (
@@ -30,10 +31,32 @@ const User = () => {
         <h5 className="ps-1 ">{selectedConversation.userName}</h5>
       </div>
       </div>
+      <dialog id="removeFriend" className="modal ">
+        <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <h3 className="p-2 pt-8 text-lg ">Are you sure you want to remove this friend ?</h3>
+          <div className="flex justify-center gap-2 pt-2">
+            <form method="dialog">
+            <button className="text-sm hover:bg-gray-800 bg-gray-700 text-gray-200 rounded-md px-3 py-1">
+              Cancel
+            </button>
+            </form>
+           <form method="dialog">
+           <button onClick={()=>handleRemoveFriend(selectedConversation._id)} className="text-sm hover:bg-red-800 bg-red-700 text-gray-200 rounded-md px-3 py-1">
+              Remove
+            </button>
+           </form>
+          </div>
+        </div>
+     </dialog>
      <div className="dropdown dropdown-bottom  dropdown-end">
        <div tabIndex={0} role="button" className="btn text-xl bg-transparent border-none "><BsThreeDotsVertical/></div>
         <ul tabIndex={0} className="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow">
-         <li><button onClick={()=>handleRemoveFriend(selectedConversation._id)} className="text-red-500 text-sm"><p>Remove Friend</p><LuUserMinus2/></button></li>
+         <li><button  onClick={() => document.getElementById("removeFriend").showModal()} className="text-red-500 text-sm"><p>Remove Friend</p><LuUserMinus2/></button></li>
         </ul>
      </div>
     </div>

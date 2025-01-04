@@ -22,7 +22,7 @@ const Friends = () => {
       setLoading(true);
     };
     handleFriends();
-  }, [getFriends, setFriends]);
+  }, []);
 
   const handleGetMessages = async (id) => {
     setLoadingState(true);

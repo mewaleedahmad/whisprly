@@ -10,6 +10,7 @@ import useRejectFriendRequest from "../../hooks/useRejectFriendRequest";
 
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import useGlobalState from "../../zustand/useGlobalState";
 
 const Profile = () => {
   const { authUser } = useAuthContext();
@@ -17,21 +18,29 @@ const Profile = () => {
   const {addFriend} = useAddFriend()
   const { getFriendRequests } = useGetFriendRequests()
   const {rejectFriendRequest} = useRejectFriendRequest();
+  const {friendRequests,setFriendRequests} =  useGlobalState();
 
   const [loading, setLoading] = useState(false);
-  const [requests, setRequests] = useState({ friendRequests: [] });
+  const [buttonLoading, setButtonLoading] = useState({});
   
   const handleFriendRequests = async () => {
     const data = await getFriendRequests();
-    setRequests(data);
+    setFriendRequests(data);
     setLoading(true)
   };
 
   const handleAddFriend = async (id) => {
+    setButtonLoading((prev=>({...prev,[id]:true})))
     await addFriend(id);
+    await handleFriendRequests();
+    setButtonLoading((prev=>({...prev,[id]:false})))
   }
   const handleRejectFriendRequest = async (id) => {
+    setButtonLoading((prev=>({...prev,[id]:true})))
     await rejectFriendRequest(id);
+    await handleFriendRequests();
+    setButtonLoading((prev=>({...prev,[id]:false})))
+
   }
 
   return (
@@ -55,8 +64,8 @@ const Profile = () => {
           <TbMenuDeep />
         </div>
         <ul tabIndex={0} className="dropdown-content bg-secondary menu text-gray-300  rounded-box z-[1] w- shadow">
-          <li>
-            <button  onClick={() => {document.getElementById("my_modal_3").showModal(),handleFriendRequests();}}  className="text-md">
+          <li >
+            <button  onClick={() => {document.getElementById("friendRequests").showModal(),handleFriendRequests();}}  className="text-md">
               <span className="text-nowrap">Friend Requests</span>
               <FaUserFriends />
             </button>
@@ -70,16 +79,16 @@ const Profile = () => {
         </ul>
       </div>
 
-      <dialog id="my_modal_3" className="modal ">
-        <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[400px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+      <dialog id="friendRequests" className="modal ">
+        <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[400px] lg:max-w-[500px]  rounded-xl shadow-lg p-3">
           <form method="dialog">
             <button className="btn btn-md text-xl btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-          <h3 className="font-semibold text-2xl mb-5 ">Friend Requests</h3>
+          <h3 className="font-semibold text-2xl mb-5  ">Friend Requests</h3>
          {!loading ? 
-          <div>
+          <div >
             <div className="flex items-center gap-2">
               <div className="skeleton h-10 w-10 shrink-0 rounded-full bg-secondary"></div>
               <div className="flex flex-col gap-1">
@@ -89,9 +98,9 @@ const Profile = () => {
             </div>
           </div>   
           : <>
-           {(!requests.message) || requests.length === 0  ? (
-            requests.friendRequests.map((user)=>(
-              <div key={user._id} className="w-full flex items-center justify-between py-2  cursor-default">
+           {(!friendRequests.message) || !friendRequests.length === 0  ? (
+            friendRequests.map((user,index)=>(
+              <div key={user._id} className={`w-full ${index < friendRequests.length - 1  ? "border-1 border-b border-secondary" : ""} flex items-center justify-between py-2  cursor-default`}>
            <div className="flex gap-2 items-center  flex-grow">
              <div className={`avatar`}>
                <div className="w-10 rounded-full">
@@ -104,10 +113,10 @@ const Profile = () => {
              </div>
            </div>
            <div className="flex gap-2">
-             <button  onClick={()=>handleRejectFriendRequest(user._id)} className="text-xs hover:bg-red-800 bg-red-700 text-gray-200 rounded-md px-3 py-1">
+             <button disabled={buttonLoading[user._id]} onClick={()=>handleRejectFriendRequest(user._id)} className={`text-xs disabled:cursor-wait hover:bg-red-800 bg-red-700 text-gray-200 rounded-md px-3 py-1`}>
                Reject
              </button>
-             <button onClick={()=>handleAddFriend(user._id)} className="text-xs hover:bg-green-700 bg-green-600 text-gray-200 rounded-md px-3 py-1">
+             <button disabled={buttonLoading[user._id]} onClick={()=>handleAddFriend(user._id)} className={`text-xs disabled:cursor-wait hover:bg-green-700 bg-green-600 text-gray-200 rounded-md px-3 py-1`}>
                Accept
              </button>
            </div>

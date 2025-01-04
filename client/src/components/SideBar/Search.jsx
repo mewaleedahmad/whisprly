@@ -7,11 +7,13 @@ import useSendFriendReq from "../../hooks/useSendFriendReq";
 import useRemoveFriend from "../../hooks/useRemoveFriend";
 
 import { useState } from "react";
+import useGlobalState from "../../zustand/useGlobalState";
 
 const Search = () => {
   const { getUsers } = useGetUsers();
   const { removeFriend } = useRemoveFriend()
   const {sendFriendReq}= useSendFriendReq()
+  const {setSelectedConversation} = useGlobalState()
 
   const [searchText, setSearchText] = useState("");
   const [users, setUsers] = useState([]);
@@ -38,6 +40,7 @@ const Search = () => {
 
   const handleRemoveFriend = async (id) => {
     await removeFriend(id);
+    setSelectedConversation(null);
   }
   
   return (
