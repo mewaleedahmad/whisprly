@@ -1,16 +1,17 @@
 import conversationModel from "../models/conversation.model.js";
 import messageModel from "../models/message.model.js";
 import userModel from "../models/user.model.js";
+import {io} from "../socket/socket.js"
 
 export const getFriends = async (req, res) => {
   try {
-    const senderId = req.user._id;
+    const authUser = req.user._id;
 
-    if (!senderId) {
-      return res.status(400).json({ error: "Sender ID is required" });
+    if (!authUser) {
+      return res.status(400).json({ error: "User is required" });
     }
 
-    const user = await userModel.findById(senderId).populate({
+    const user = await userModel.findById(authUser).populate({
       path: "friends",
       select: "_id  userName fullName profilePic",
     })
