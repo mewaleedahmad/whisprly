@@ -12,7 +12,7 @@ export const getFriends = async (req, res) => {
 
     const user = await userModel.findById(senderId).populate({
       path: "friends",
-      select: "-password -friends -__v -createdAt -updatedAt",
+      select: "_id  userName fullName profilePic",
     })
 
     if (!user) {
@@ -51,6 +51,8 @@ export const addFriend = async (req, res) => {
       return res.status(400).json({ error: "You are already friends" });
     }
 
+    const newFriend = await userModel.findById(receiverId).select("_id userName fullName profilePic")
+
     await Promise.all([
       userModel.findByIdAndUpdate(
         receiverId,
@@ -71,7 +73,7 @@ export const addFriend = async (req, res) => {
         $new: true,
       }),
     ]);
-    res.status(200).json({ message: "Friend Added" });
+    res.status(200).json(newFriend);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
     console.log("Error in addFriend in friendController", error.message);

@@ -7,14 +7,21 @@ import { useSocketContext } from "../../context/SocketContext";
 
 
 const User = () => {
-  const {setSelectedConversation,selectedConversation} = useGlobalState();
+  const {setSelectedConversation,selectedConversation,setRemoveFriend,setRemoveConversation} = useGlobalState();
   const {removeFriend} = useRemoveFriend()
   const {onlineUsers} = useSocketContext()
   const isActive = onlineUsers.includes(selectedConversation._id)
 
+
   const handleRemoveFriend = async (id) => {
+   try{
     await removeFriend(id)
+    setRemoveFriend(id)
+    setRemoveConversation(id)
     setSelectedConversation(null)
+   }catch(error){
+    console.log("Error Removing friend",error)
+   }
   }
   
   return (

@@ -13,7 +13,8 @@ const useAddFriend = () => {
             if(!response.ok){
                 throw new Error(data.error || "Something went wrong")
             }
-            toast.success(data.message);
+            toast.success("Friend Added");
+            return data
         } catch (error) {
             throw new Error(error.message || "Something went wrong");
         }

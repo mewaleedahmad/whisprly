@@ -114,7 +114,7 @@ const Search = () => {
                 ) : (
                   <button
                     onClick={() => handleSendReq(user._id)}
-                    className="text-2xl text-blue-400"
+                    className="text-2xl btn btn-ghost hover:bg-secondary text-blue-400"
                   >
                     <MdPersonAddAlt />
                   </button>

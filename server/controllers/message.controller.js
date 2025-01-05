@@ -72,7 +72,7 @@ export const getConversations = async (req, res) => {
     }).sort({ updatedAt: -1 });
 
     if(!conversations || conversations.length === 0) {
-      return res.status(404).json({ message: 'No conversations found' });
+      return res.status(200).json({ message: 'No conversations found' });
     }
     const participantData = conversations.flatMap(convo => convo.participants);
     res.status(200).json(participantData);

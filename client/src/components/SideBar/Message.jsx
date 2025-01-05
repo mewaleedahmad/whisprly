@@ -45,6 +45,8 @@ const Message = () => {
     }
     fetchConversations()
   },[])
+  console.log(conversations, "conversations" )
+  console.log(selectedConversation, "selected" )
 
 useEffect(()=>{
   const handleGetLastMessage = async()=>{
@@ -77,7 +79,7 @@ useEffect(()=>{
         </div>
       </div> :  (
       <>
-      {((conversations.message) || (conversations.error) || (conversations.length === 0)) ? (
+      {((conversations.message) || (conversations.length === 0)) ? (
   <p className="px-6 py-4 text-gray-400 text-base">Your chats will appear here. Send a message to get started!</p>
 ) : (
     conversations.map((convo) => {
@@ -95,7 +97,13 @@ useEffect(()=>{
               </div>
             </div>
             <div className="name">
+              <div className="flex gap-2 items-center">
               <h3>{convo.fullName}</h3>
+              
+              {convo.userName === "waleed_gondal" ? 
+               <div className="text-[10px]  bg-[#646ee4] text-white rounded-xl px-1">Creater</div> 
+              : ""}
+              </div>
               {matchingMessage ? (
                 <h5>{handleSliceMessage(matchingMessage.message, 28)}</h5>
               ) : (

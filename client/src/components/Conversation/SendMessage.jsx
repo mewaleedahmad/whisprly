@@ -9,8 +9,8 @@ import { useForm } from "react-hook-form";
 const SendMessage = () => {
   // const [message,setMessage] = useState()
   const {sendMessage} = useSendMessage()
-  const {selectedConversation} = useGlobalState()
-  
+  const {selectedConversation,conversations,setAddConversation} = useGlobalState()
+  const convoAlreadyExits = conversations.includes(selectedConversation)
   const {
     register,
     handleSubmit,
@@ -18,8 +18,13 @@ const SendMessage = () => {
     formState: {isSubmitting}
 } = useForm()
 
+
+
   const onSubmit = async(message)=>{
     await sendMessage(selectedConversation._id,message)
+    if(!convoAlreadyExits){
+      setAddConversation(selectedConversation)
+    }
     reset()
   }
 

@@ -18,7 +18,7 @@ const Profile = () => {
   const {addFriend} = useAddFriend()
   const { getFriendRequests } = useGetFriendRequests()
   const {rejectFriendRequest} = useRejectFriendRequest();
-  const {friendRequests,setFriendRequests} =  useGlobalState();
+  const {friendRequests,setFriendRequests,setHandleFriendRequest,setAddFriend} =  useGlobalState();
 
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState({});
@@ -31,14 +31,15 @@ const Profile = () => {
 
   const handleAddFriend = async (id) => {
     setButtonLoading((prev=>({...prev,[id]:true})))
-    await addFriend(id);
-    await handleFriendRequests();
+    const data = await addFriend(id);
+    await setAddFriend(data)
+    setHandleFriendRequest(id)
     setButtonLoading((prev=>({...prev,[id]:false})))
   }
   const handleRejectFriendRequest = async (id) => {
     setButtonLoading((prev=>({...prev,[id]:true})))
     await rejectFriendRequest(id);
-    await handleFriendRequests();
+    setHandleFriendRequest(id)
     setButtonLoading((prev=>({...prev,[id]:false})))
 
   }
