@@ -45,8 +45,6 @@ const Message = () => {
     }
     fetchConversations()
   },[])
-  console.log(conversations, "conversations" )
-  console.log(selectedConversation, "selected" )
 
 useEffect(()=>{
   const handleGetLastMessage = async()=>{
