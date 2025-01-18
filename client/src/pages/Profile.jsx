@@ -196,7 +196,7 @@ const handleAccountInfo =async (data) => {
       </div>
       
         
-       <Link to={"/"} className="text-xs w-72 btn mt-1 btn-ghost hover:bg-quaternary text-gray-500 ">Go Back</Link>
+       <Link to={"/"} className="text-xs w-72 btn mt-1 btn-ghost hover:bg-quaternary text-gray-400 ">Go Back</Link>
 
       </div>
     </div>

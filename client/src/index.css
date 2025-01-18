@@ -34,7 +34,11 @@ body {
     @apply overflow-hidden backdrop-filter backdrop-blur-2xl  bg-opacity-50 bg-primary shadow-2xl rounded-xl
   }
   .avatar.online:before{
+    /* background-color : #00f59f; */
     background-color : var(--color-tertiary);
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: black;
     width: 16%;
     height: 16%;
     top: 8%;
@@ -42,11 +46,16 @@ body {
   }
   .avatar.offline:before{
     background-color : #5a5a5a;
-    border-color : blue;
+    outline-style: solid;
+    outline-width: 1px;
+    outline-color: black;
     width: 16%;
     height: 16%;
     top: 8%;
     right: 0%
+  }
+  .avatar.offline{
+    border-color : black;
   }
   
 }
@@ -82,11 +91,21 @@ body {
   }
 }
 
-input:-webkit-autofill {
+
+
+ input:-webkit-autofill,
+select:-webkit-autofill,
+textarea:-webkit-autofill {
   background-color: transparent !important;
-  color: white !important;
-  box-shadow: 0 0 0px 1000px transparent inset !important; 
+  color: #E5E7EB !important;
+  -webkit-text-fill-color: #E5E7EB;
   transition: background-color 5000s ease-in-out 0s;
+} 
+
+input::spelling-error,
+textarea::spelling-error {
+  text-decoration: underline red wavy;
+  -webkit-text-fill-color: #E5E7EB; 
 }
 
 .input:focus,

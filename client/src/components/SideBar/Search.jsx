@@ -69,8 +69,8 @@ const Search = () => {
                 className="w-full flex items-center  justify-between py-2 px-4 cursor-default hover:bg-transparent"
               >
                 <div className="flex gap-3 items-center">
-                  <div className={`avatar`}>
-                    <div className="w-10 rounded-full">
+                  <div className={`avatar `}>
+                    <div className="w-10 bg-quaternary  rounded-full">
                       <img src={user.profilePic} />
                     </div>
                   </div>

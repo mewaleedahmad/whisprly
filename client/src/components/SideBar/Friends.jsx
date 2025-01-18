@@ -56,7 +56,7 @@ const Friends = () => {
                 const isActive = onlineUsers.includes(user._id); 
                 return (
                   <div onClick={() => {setSelectedConversation(user);handleGetMessages(user._id);}} key={user._id}  className="Friend cursor-pointer">
-                    <div className={`avatar ${isActive ? "online" : "offline"}`}>
+                    <div className={`avatar  ${isActive ? "online" : "offline"}`}>
                       <div className="w-14 rounded-full">
                         <img src={user.profilePic} alt={`${user.fullName}'s avatar`} />
                       </div>
