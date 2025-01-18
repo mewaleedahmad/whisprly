@@ -41,7 +41,7 @@ const User = () => {
       <dialog id="removeFriend" className="modal ">
         <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
           <form method="dialog">
-            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+            <button className="btn btn-sm text-xl   btn-circle text-gray-400 btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
@@ -61,9 +61,9 @@ const User = () => {
         </div>
      </dialog>
      <div className="dropdown dropdown-bottom  dropdown-end">
-       <div tabIndex={0} role="button" className="btn text-xl bg-transparent border-none "><BsThreeDotsVertical/></div>
-        <ul tabIndex={0} className="dropdown-content menu bg-secondary rounded-box z-[1] w-52 p-2 shadow">
-         <li><button  onClick={() => document.getElementById("removeFriend").showModal()} className="text-red-500 text-sm"><p>Remove Friend</p><LuUserMinus2/></button></li>
+       <div tabIndex={0} role="button" className="btn text-xl bg-transparent hover:bg-quaternary border-none text-gray-200 "><BsThreeDotsVertical/></div>
+        <ul tabIndex={0} className="dropdown-content menu bg-quaternary rounded-box z-[1] w p-2 shadow">
+         <li><button  onClick={() => document.getElementById("removeFriend").showModal()} className="text-red-500 flex text-nowrap items-center text-sm hover:bg-primary"><p>Remove Friend</p><LuUserMinus2/></button></li>
         </ul>
      </div>
     </div>

@@ -11,6 +11,7 @@ export default {
         primary: '#171b1d',
         secondary: '#2b2d42',
         tertiary: '#00ffff',
+        quaternary: '#1d232a',
        
       },
     
@@ -20,6 +21,7 @@ export default {
     daisyui,
   ],
   daisyui:{
+    themes: false,
     logs: false
   }
 }

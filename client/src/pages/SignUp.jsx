@@ -46,51 +46,51 @@ const SignUp = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-72 flex flex-col gap-3 mt-10">
 
-            <label className="input input-bordered  flex items-center gap-2">
+            <label className="input input-bordered input-field-styles  flex items-center gap-2">
               <MdEmail />
               <input {...register("email")} type="email" className="auth-btn" name="email"  placeholder="Email" />
             </label>
             {errors.email && (
               <p className="error-msg">{errors.email.message}</p>
             )}
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered flex input-field-styles items-center gap-2">
               <FaUserCircle />
               <input {...register("userName")} onChange={handleUsernameChange} type="text" className="auth-btn" name="userName"  placeholder="Username" />
             </label>
             {errors.userName && (
               <p className="error-msg">{errors.userName.message}</p>
             )}
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered flex input-field-styles items-center gap-2">
               <BiSolidUser  />
               <input {...register("fullName")} type="text" className="auth-btn" name="fullName"  placeholder="Full Name" />
             </label>
             {errors.fullName && (
               <p className="error-msg">{errors.fullName.message}</p>
             )}
-            <label className="input input-bordered overflow-hidden flex items-center ">
+            <label className="input input-bordered overflow-hidden input-field-styles flex items-center ">
               <BiMaleFemale />
               <select
                {...register("gender")}
                value={selectedGender}
                onChange={handleSelectGender}
-               className={`select px-2 capitalize text-base focus:outline-none focus:ring-0 focus:border-0 w-full max-w-xs ${selectedGender === "male" || selectedGender === "female" ? 'auth-btn' : ''}`}
+               className={`select px-2 bg-quaternary  capitalize text-base focus:outline-none focus:ring-0 focus:border-0 w-full max-w-xs ${selectedGender === "male" || selectedGender === "female" ? 'auth-btn' : ''}`}
               >
-             <option value="" disabled>Gender</option>
-             <option value="male">male</option>
-             <option value="female">female</option>
+             <option className="input-field-styles" value="" disabled>Gender</option>
+             <option className="input-field-styles" value="male">male</option>
+             <option className="input-field-styles" value="female">female</option>
            </select>
             </label>
             {errors.gender && (
               <p className="error-msg">{errors.gender.message}</p>
             )}
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input {...register("password")} type="password" className="auth-btn" name="password"  placeholder="Password" />
             </label>
             {errors.password && (
               <p className="error-msg">{errors.password.message}</p>
             )}
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input {...register("confirmPassword")} type="password" className="auth-btn " name="confirmPassword"  placeholder="Confirm Password" />
             </label>
@@ -105,7 +105,7 @@ const SignUp = () => {
             </button>
           </form>
         <div className="flex items-center mt-1 gap-2 text-sm">
-          <p className="capitalize">account already exists ?</p>
+          <p className="capitalize text-gray-500">account already exists ?</p>
           <Link to="/login" className="text-[#3e88cc] hover:underline">Login</Link>
         </div>
         </div>

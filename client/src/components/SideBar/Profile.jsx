@@ -1,6 +1,9 @@
 import { GrLogout } from "react-icons/gr";
 import { TbMenuDeep } from "react-icons/tb";
-import { FaUserFriends } from "react-icons/fa";
+// import { FaUserFriends } from "react-icons/fa";
+import { FaUserCog } from "react-icons/fa";
+import { ImUsers } from "react-icons/im";
+import { ImExit } from "react-icons/im";
 
 import { useAuthContext } from "../../context/AuthContext";
 import useGetFriendRequests from "../../hooks/useGetFriendRequests";
@@ -61,20 +64,26 @@ const Profile = () => {
       )}
 
       <div className="dropdown dropdown-bottom dropdown-end">
-        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-secondary ">
+        <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-primary ">
           <TbMenuDeep />
         </div>
-        <ul tabIndex={0} className="dropdown-content bg-secondary menu text-gray-300  rounded-box z-[1] w- shadow">
+        <ul tabIndex={0} className="dropdown-content bg-quaternary  menu text-gray-300  rounded-box z-[1] shadow-2xl">
           <li >
-            <button  onClick={() => {document.getElementById("friendRequests").showModal(),handleFriendRequests();}}  className="text-md">
-              <span className="text-nowrap">Friend Requests</span>
-              <FaUserFriends />
+            <Link to="/profile"  className="text-md hover:bg-primary">
+              <span className="text-nowrap">Profile</span>
+              <FaUserCog />
+            </Link>
+          </li>
+          <li >
+            <button  onClick={() => {document.getElementById("friendRequests").showModal(),handleFriendRequests();}}  className="text-md hover:bg-primary">
+              <span className="text-nowrap">Requests</span>
+              <ImUsers />
             </button>
           </li>
           <li>
-            <button onClick={logout} className="bg-transparent border-none text-md">
+            <button onClick={logout} className="bg-transparent border-none text-md hover:bg-primary">
               <span>Logout</span>
-              <GrLogout />
+              <ImExit  />
             </button>
           </li>
         </ul>
@@ -83,11 +92,11 @@ const Profile = () => {
       <dialog id="friendRequests" className="modal ">
         <div className="modal-box absolute py-6 px-4 top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[400px] lg:max-w-[500px]  rounded-xl shadow-lg p-3">
           <form method="dialog">
-            <button className="btn btn-md text-xl btn-circle btn-ghost absolute right-2 top-2">
+            <button className="btn btn-md text-xl btn-circle hover:bg-quaternary text-gray-400 btn-ghost absolute right-2 top-2">
               ✕
             </button>
           </form>
-          <h3 className="font-semibold text-2xl mb-5  ">Friend Requests</h3>
+          <h3 className="font-semibold text-2xl mb-5 ">Friend Requests</h3>
          {!loading ? 
           <div >
             <div className="flex items-center gap-2">

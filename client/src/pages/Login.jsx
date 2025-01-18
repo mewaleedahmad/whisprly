@@ -34,19 +34,20 @@ const Login = () => {
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-72 flex flex-col gap-3 mt-6" >
 
-            <label className="input input-bordered  flex items-center gap-2">
+            <label htmlFor="email" className="input input-bordered input-field-styles  flex items-center gap-2">
               <MdEmail />
               <input
                 {...register("email")}
                 type="text"
-                className="auth-btn  "
+                id="email"
+                className="auth-btn "
                 placeholder="Email"
               />
             </label>
             {errors.email && (
               <p className="error-msg">{errors.email.message}</p>
             )}
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input
                 {...register("password")}
@@ -69,7 +70,7 @@ const Login = () => {
             </form>
 
           <div className="flex items-center mt-1 gap-2 text-sm">
-            <p className="capitalize">{"Don't"} have account ?</p>
+            <p className="capitalize text-gray-500">{"Don't"} have account ?</p>
             <Link to="/signup" className="text-[#3e88cc] hover:underline">
               Register
             </Link>

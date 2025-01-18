@@ -20,6 +20,7 @@ const Search = () => {
 
   const alreadyFriend = false;
 
+
   const handleInputChange = (e) => {
     const sanitizedInput = e.target.value.toLowerCase().replace(/\s+/g, "");
     setSearchText(sanitizedInput);
@@ -45,7 +46,7 @@ const Search = () => {
   
   return (
     <div className="relative w-full p-4 mt-1">
-      <label className="input input-bordered flex items-center bg-transparent border borderColor">
+      <label className="input input-bordered  flex items-center bg-transparent border borderColor">
         <input
           type="search"
           className="grow text-gray-300 bg-transparent focus:outline-none"
@@ -80,9 +81,9 @@ const Search = () => {
                 </div>
 
                 <dialog id="removeFriend" className="modal ">
-                  <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-secondary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+                  <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
                     <form method="dialog">
-                      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                      <button className="btn btn-sm btn-circle text-gray-400 text-lg btn-ghost absolute right-2 top-2">
                         ✕
                       </button>
                     </form>
@@ -114,7 +115,7 @@ const Search = () => {
                 ) : (
                   <button
                     onClick={() => handleSendReq(user._id)}
-                    className="text-2xl btn btn-ghost hover:bg-secondary text-blue-400"
+                    className="text-2xl btn btn-ghost hover:bg-quaternary text-blue-400"
                   >
                     <MdPersonAddAlt />
                   </button>

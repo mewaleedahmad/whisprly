@@ -105,18 +105,18 @@ const handleAccountInfo =async (data) => {
          </div>
 
          <form onSubmit={submitAccountInfo(handleAccountInfo)} className={`${selectedTab === "Account" ? "flex" : "hidden"} flex-col gap-3`}>
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <MdEmail />
               <input
                 type="text"
                 {...accountInfo("newEmail")}
-                className="auth-btn"
+                className="auth-btn bg-primary"
                 placeholder={authUser.email}
               />
             </label>
             {accountInfoErrors.newEmail && <p className="error-msg">{accountInfoErrors.newEmail.message}</p>}
 
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <FaUserCircle />
               <input
                 type="text"
@@ -127,7 +127,7 @@ const handleAccountInfo =async (data) => {
             </label>
             {accountInfoErrors.newUserName && <p className="error-msg">{accountInfoErrors.newUserName.message}</p>}
 
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <BiSolidUser />
               <input
                 type="text"
@@ -151,7 +151,7 @@ const handleAccountInfo =async (data) => {
             onSubmit={submitAccountPassword(handleAccountPassword)}
             className={`${selectedTab === "Password" ? "flex" : "hidden"} flex-col gap-3`}
           >
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input
                 type="password"
@@ -162,7 +162,7 @@ const handleAccountInfo =async (data) => {
             </label>
             {accountPasswordErrors.oldPassword && <p className="error-msg">{accountPasswordErrors.oldPassword.message}</p>}
 
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input
                 type="password"
@@ -173,7 +173,7 @@ const handleAccountInfo =async (data) => {
             </label>
             {accountPasswordErrors.newPassword && <p className="error-msg">{accountPasswordErrors.newPassword.message}</p>}
 
-            <label className="input input-bordered flex items-center gap-2">
+            <label className="input input-bordered input-field-styles flex items-center gap-2">
               <IoKey />
               <input
                 type="password"
@@ -196,7 +196,7 @@ const handleAccountInfo =async (data) => {
       </div>
       
         
-       <Link to={"/"} className="text-xs w-72 btn btn-ghost hover:bg-primary ">Go Back</Link>
+       <Link to={"/"} className="text-xs w-72 btn mt-1 btn-ghost hover:bg-quaternary text-gray-500 ">Go Back</Link>
 
       </div>
     </div>

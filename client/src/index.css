@@ -42,6 +42,7 @@ body {
   }
   .avatar.offline:before{
     background-color : #5a5a5a;
+    border-color : blue;
     width: 16%;
     height: 16%;
     top: 8%;
@@ -68,6 +69,10 @@ body {
     scrollbar-color: transparent transparent;;
     scrollbar-width: thin;
   }
+
+  .input-field-styles{
+    @apply bg-quaternary text-gray-400 border border-gray-700
+  }
   
   .auth-btn{
     @apply  w-full text-gray-200
@@ -79,9 +84,18 @@ body {
 
 input:-webkit-autofill {
   background-color: transparent !important;
-  color: inherit !important;
+  color: white !important;
   box-shadow: 0 0 0px 1000px transparent inset !important; 
   transition: background-color 5000s ease-in-out 0s;
 }
 
+.input:focus,
+.input:focus-within {
+  box-shadow: none;
+  border-color: #374151;
+  outline-style: solid;
+  outline-width: 1.2px;
+  outline-offset: 2px;
+  outline-color: #495057;
+}
 
