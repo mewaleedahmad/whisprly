@@ -62,8 +62,8 @@ const User = () => {
      </dialog>
      <div className="dropdown dropdown-bottom  dropdown-end">
        <div tabIndex={0} role="button" className="btn text-xl bg-transparent hover:bg-quaternary border-none text-gray-200 "><BsThreeDotsVertical/></div>
-        <ul tabIndex={0} className="dropdown-content menu bg-quaternary rounded-box z-[1] w p-2 shadow">
-         <li><button  onClick={() => document.getElementById("removeFriend").showModal()} className="text-red-500 flex text-nowrap items-center text-sm hover:bg-primary"><p>Remove Friend</p><LuUserMinus2/></button></li>
+        <ul tabIndex={0} className="dropdown-content menu bg-quaternary rounded-box z-[1] w-auto  p-2 shadow">
+         <li><button  onClick={() => document.getElementById("removeFriend").showModal()} className="text-red-500 flex w-auto flex-nowrap items-center text-sm hover:bg-primary"><p className="text-nowrap">Remove Friend</p><LuUserMinus2/></button></li>
         </ul>
      </div>
     </div>

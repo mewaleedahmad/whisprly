@@ -1,9 +1,11 @@
 import express from 'express';
-import { updateProfile } from '../controllers/profile.controller.js';
+import { updateProfilePic,updatePassword,updateAccountInfo } from '../controllers/profile.controller.js';
 import protectRoute from '../middlewares/protectRoute.js';
 
 const router = express.Router();
 
-router.post("/",protectRoute,updateProfile)
+router.post("/",protectRoute,updateProfilePic )
+router.post("/update-password",protectRoute,updatePassword )
+router.post("/update-account-info",protectRoute,updateAccountInfo )
 
 export default router

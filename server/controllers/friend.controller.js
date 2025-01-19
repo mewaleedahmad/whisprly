@@ -58,20 +58,20 @@ export const addFriend = async (req, res) => {
       userModel.findByIdAndUpdate(
         receiverId,
         { $addToSet: { friends: senderId } },
-        { $new: true }
+        { new: true }
       ),
       userModel.findByIdAndUpdate(
         senderId,
         { $addToSet: { friends: receiverId } },
-        { $new: true }
+        { new: true }
       ),
       userModel.findByIdAndUpdate(receiverId, {
         $pull: { friendRequests: senderId },
-        $new: true,
+        new: true,
       }),
       userModel.findByIdAndUpdate(senderId, { 
         $pull: { friendRequests: receiverId },
-        $new: true,
+        new: true,
       }),
     ]);
     res.status(200).json(newFriend);
@@ -104,12 +104,12 @@ export const removeFriend = async (req, res) => {
       userModel.findByIdAndUpdate(
         receiverId,
         { $pull: { friends: senderId } },
-        { $new: true }
+        { new: true }
       ),
       userModel.findByIdAndUpdate(
         senderId,
         { $pull: { friends: receiverId } },
-        { $new: true }
+        { new: true }
       ),
       conversationModel.deleteOne({
         participants: { $all: [senderId, receiverId] },

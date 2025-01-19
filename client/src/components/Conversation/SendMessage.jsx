@@ -31,7 +31,7 @@ const SendMessage = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}  className="w-full ps-4 flex gap-2 items-center justify-between px-3 py-4 bg-transparent  border-t borderColor">
        <div className="input-file">
-    <label htmlFor="file-input" className="size-11 flex items-center hover:text-gray-200 text-2xl cursor-pointer justify-center ">
+    <label htmlFor="file-input" className="size-11 flex items-center text-gray-400 hover:text-gray-200 text-2xl cursor-pointer justify-center ">
        <FaPaperclip/>
      </label>
      <input type="file" id="file-input" className="hidden"
@@ -42,7 +42,7 @@ const SendMessage = () => {
         <input {...register("message")} autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
-    <button disabled={isSubmitting}  type="submit"  className="bg-transparent rounded-badge hover:text-gray-200   text-3xl">
+    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-400 rounded-badge hover:text-gray-200   text-3xl">
         <IoMdSend/>
     </button>
     </form>
