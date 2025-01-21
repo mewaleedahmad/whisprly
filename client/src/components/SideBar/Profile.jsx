@@ -1,6 +1,4 @@
-import { GrLogout } from "react-icons/gr";
 import { TbMenuDeep } from "react-icons/tb";
-// import { FaUserFriends } from "react-icons/fa";
 import { FaUserCog } from "react-icons/fa";
 import { ImUsers } from "react-icons/im";
 import { ImExit } from "react-icons/im";

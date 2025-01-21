@@ -16,6 +16,7 @@ const useUpdateAccountInfo  = ()=>{
              })
              const data = await response.json();
              if(!response.ok){
+                 toast.error(data.message)
                  throw new Error(data.message)
              }
              localStorage.setItem('authUser',JSON.stringify(data))

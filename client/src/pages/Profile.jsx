@@ -1,10 +1,9 @@
-import {MdEmail, MdOutlineAttachEmail } from "react-icons/md";
+import {MdEmail} from "react-icons/md";
 import { FaCamera } from "react-icons/fa";
 import {Link} from "react-router-dom"
 import { IoKey } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
-
 
 import toast from "react-hot-toast";
 import 'react-image-crop/dist/ReactCrop.css';
@@ -21,15 +20,15 @@ import useUpdateAccountInfo from "../hooks/useUpdateAccountInfo.js";
 
 
 const Profile = () => {
+
   const {authUser} = useAuthContext()
   const [file,setFile] = useState(null)
   const [error,setError] = useState("")
   const [imagePreview,setImagePreview] = useState(null)
-  const [crop,setCrop] = useState()
   const [selectedTab,setSelectedTab] = useState("Account")
   const{updatePassword} = useUpdatePassword()
   const {updateAccountInfo} = useUpdateAccountInfo()
-  const [changes,setChanges] = useState({})
+  const [crop,setCrop] = useState()
   const [userDets,setUserDets] = useState({
     email: authUser.email,
     userName: authUser.userName,
@@ -82,6 +81,8 @@ const handleAccountInfo =async (data) => {
   const {newEmail,newUserName,newFullName} = data
   const {email,userName,fullName} = authUser
 
+  const changes = {}
+
  if(newEmail !== email){
   changes.newEmail = newEmail
  }
@@ -96,9 +97,11 @@ const handleAccountInfo =async (data) => {
   return
  }
  if (Object.keys(changes).length > 0) {
-   await updateAccountInfo(changes)
-   setChanges({})
-  }
+   const accRes = await updateAccountInfo(changes)
+   if(accRes){
+    toast.error(accRes)
+   }
+}
 }
   const handleAccountPassword = async(passwordInfo) => {
    const passResponse = await updatePassword(passwordInfo)
@@ -174,7 +177,7 @@ const handleAccountInfo =async (data) => {
               />
             </label>
             {accountInfoErrors.newFullName && <p className="error-msg">{accountInfoErrors.newFullName.message}</p>}
-            <button  type="submit"  disabled={isSubmittingAccountInfo}
+            <button type="submit" disabled={isSubmittingAccountInfo}
               className="text-white w-72 mt-1 disabled:cursor-not-allowed bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5" >
               {isSubmittingAccountInfo ? <span className="loading loading-spinner"></span> : "Update"}
             </button>
