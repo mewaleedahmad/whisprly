@@ -21,7 +21,6 @@ const useUpdateAccountInfo  = ()=>{
              }
              localStorage.setItem('authUser',JSON.stringify(data))
              setAuthUser(data)
-             toast.success(data.message)
              return data
         } catch (error) {
              throw new Error(error.message || "An error occurred")

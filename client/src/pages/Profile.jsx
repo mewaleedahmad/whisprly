@@ -141,10 +141,14 @@ if(error){
     return
    }
    if (Object.keys(changes).length > 0) {
-     const accRes = await updateAccountInfo(changes)
-     if(accRes){
-      toast.error(accRes)
-     }
+    try {
+      const accRes = await updateAccountInfo(changes);
+      if (accRes.message) {
+        toast.success(accRes.message);
+      }
+    } catch (error) {
+      toast.error(error.message || "An error occurred while updating");
+    }
   }
   }
     const handleAccountPassword = async(passwordInfo) => {
