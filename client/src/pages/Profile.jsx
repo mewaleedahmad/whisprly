@@ -6,8 +6,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 
 import toast from "react-hot-toast";
-import 'react-image-crop/dist/ReactCrop.css';
-import ReactCrop from 'react-image-crop';
+import Cropper from 'react-easy-crop'
 
 import Logo from "../components/Logo";
 import { useAuthContext } from "../context/AuthContext.jsx";
@@ -22,39 +21,44 @@ import useUpdateAccountInfo from "../hooks/useUpdateAccountInfo.js";
 const Profile = () => {
 
   const {authUser} = useAuthContext()
-  const [file,setFile] = useState(null)
   const [error,setError] = useState("")
-  const [imagePreview,setImagePreview] = useState(null)
   const [selectedTab,setSelectedTab] = useState("Account")
   const{updatePassword} = useUpdatePassword()
   const {updateAccountInfo} = useUpdateAccountInfo()
-  const [crop,setCrop] = useState()
-  const [userDets,setUserDets] = useState({
-    email: authUser.email,
-    userName: authUser.userName,
-    fullName: authUser.fullName
+  const [userDets, setUserDets] = useState({
+    email: authUser?.email || '',
+    userName: authUser?.userName || '',
+    fullName: authUser?.fullName || ''
   })
 
+  const [file,setFile] = useState(null)
+  const [imagePreview,setImagePreview] = useState(null)
+  const [crop,setCrop] = useState({x:0,y:0})
+  const [zoom,setZoom] = useState(1)
+  const [croppedImage,setCroppedImage] = useState(null)
+
+ 
   const handleFileUpload = (e)=>{
     const selectedFile = e.target.files[0]
     const validateFileType = ["image/png", "image/jpeg"]
 
+    if(!selectedFile) return
+
     if(!validateFileType.includes(selectedFile.type)){
-      setError("Please select an image file")
+      setError("Please select an image jpeg/png")
       setFile(null)
       return
     }
-    if(selectedFile.size > 5 * 1024 * 1024){
-      setError("Please select a file less than 5MB.")
-      setFile(null)
-      return 
-  }
+  //   if(selectedFile.size > 4 * 1024 * 1024){
+  //     setError("Please select a file less than 5MB.")
+  //     setFile(null)
+  //     return 
+  // }
   if(selectedFile){
     const reader = new FileReader()
     reader.onloadend = () => {
       setImagePreview(reader.result)
-      setFile(selectedFile)
-      setError("")
+      document.getElementById("image-crop").showModal()
     }
     reader.readAsDataURL(selectedFile)
   }
@@ -63,179 +67,271 @@ if(error){
   toast.error(error)
 }
 
-const {
-  register: accountInfo,
-  handleSubmit: submitAccountInfo,
-  reset : accountInfoReset,
-  formState: { errors: accountInfoErrors, isSubmitting: isSubmittingAccountInfo },
-} = useForm({ resolver: zodResolver(profileAccountSchema) });
+  const onCropComplete = (croppedArea, croppedAreaPixels) => {
+    const canvas = document.createElement('canvas');
+    const image = new Image()
+    image.src = imagePreview
+    
+    image.onload = () => {
+      const scaleX = image.naturalWidth / image.width
+      const scaleY = image.naturalHeight / image.height
+      canvas.width = croppedAreaPixels.width
+      canvas.height = croppedAreaPixels.height
+      const ctx = canvas.getContext('2d')
+      
+      ctx.drawImage(
+        image,
+        croppedAreaPixels.x * scaleX,
+        croppedAreaPixels.y * scaleY,
+        croppedAreaPixels.width * scaleX,
+        croppedAreaPixels.height * scaleY,
+        0,
+        0,
+        croppedAreaPixels.width,
+        croppedAreaPixels.height
+      )
 
-const {
-  register: accountPassword,
-  handleSubmit: submitAccountPassword,
-  reset : passwordReset,
-  formState: { errors: accountPasswordErrors, isSubmitting: isSubmittingAccountPassword },
-} = useForm({ resolver: zodResolver(profilePasswordSchema) });
-
-const handleAccountInfo =async (data) => {
-  const {newEmail,newUserName,newFullName} = data
-  const {email,userName,fullName} = authUser
-
-  const changes = {}
-
- if(newEmail !== email){
-  changes.newEmail = newEmail
- }
- if(newUserName !== userName){
-  changes.newUserName = newUserName 
- }
- if(newFullName !== fullName){
-  changes.newFullName = newFullName
- }
- if (Object.keys(changes).length === 0) {
-  toast.error("No Input Provided")
-  return
- }
- if (Object.keys(changes).length > 0) {
-   const accRes = await updateAccountInfo(changes)
-   if(accRes){
-    toast.error(accRes)
-   }
-}
-}
-  const handleAccountPassword = async(passwordInfo) => {
-   const passResponse = await updatePassword(passwordInfo)
-   if(passResponse === "Password Updated"){
-     passwordReset()
-   }
+      const isPNG = imagePreview.includes('image/png')
+      const compressionQuality = image.size > 4 * 1024 * 1024 ? 0.6 : 0.9
+      const croppedImageUrl = canvas.toDataURL(
+        isPNG ? 'image/png' : 'image/jpeg', 
+        compressionQuality
+      )
+      setCroppedImage(croppedImageUrl)
+    }
   }
 
-  return (
-    <div className="w-full h-screen flex  justify-center overflow-hidden  ">
-      <div className=" w-full  flex flex-col justify-center items-center py-5 pb-12 background-blur">
-        <Logo/>
-        <form  >
-          <div className="avatar relative  flex justify-center ">
-            <div className="w-44 bg-primary skeleton  rounded-full">
-              <img  src={imagePreview ? imagePreview : authUser.profilePic}  />
-              <div className="absolute -bottom-1 right-4">
-             <label
-               htmlFor="file-input" className="size-11 flex items-center justify-center bg-gradient text-white rounded-full cursor-pointer hover:bg-blue-700">
-               <FaCamera /> 
-             </label>
-             <input
-               type="file" id="file-input" accept="image/png, image/jpeg" className="hidden"
-               onChange={(e) => handleFileUpload(e)} />
-           </div>
+  const handleUploadProfilePic = async ()=>{
+    if (croppedImage) {
+      console.log("Cropped Image")
+      setFile(croppedImage);
+      setError("")
+      document.getElementById("image-crop").close();
+    }
+  }
+
+  const {
+    register: accountInfo,
+    handleSubmit: submitAccountInfo,
+    reset : accountInfoReset,
+    formState: { errors: accountInfoErrors, isSubmitting: isSubmittingAccountInfo },
+  } = useForm({ resolver: zodResolver(profileAccountSchema) });
+
+  const {
+    register: accountPassword,
+    handleSubmit: submitAccountPassword,
+    reset : passwordReset,
+    formState: { errors: accountPasswordErrors, isSubmitting: isSubmittingAccountPassword },
+  } = useForm({ resolver: zodResolver(profilePasswordSchema) });
+
+  const handleAccountInfo =async (data) => {
+    const changes = {}
+
+   if(data.newEmail !== authUser.email){
+    changes.newEmail = data.newEmail
+   }
+   if(data.newUserName !== authUser.userName){
+    changes.newUserName = data.newUserName 
+   }
+   if(data.newFullName !== authUser.fullName){
+    changes.newFullName = data.newFullName
+   }
+   if (Object.keys(changes).length === 0) {
+    toast.error("No Input Provided")
+    return
+   }
+   if (Object.keys(changes).length > 0) {
+     const accRes = await updateAccountInfo(changes)
+     if(accRes){
+      toast.error(accRes)
+     }
+  }
+  }
+    const handleAccountPassword = async(passwordInfo) => {
+     const passResponse = await updatePassword(passwordInfo)
+     if(passResponse === "Password Updated"){
+       passwordReset()
+     }
+    }
+
+    const resetImageStates = ()=>{
+      setImagePreview(null)
+      setCroppedImage(null)
+      setFile(null)
+      setZoom(1)
+      setCrop({x:0,y:0})
+    }
+
+    return (
+      <div className="w-full h-screen flex  justify-center overflow-hidden  ">
+        <div className=" w-full  flex flex-col justify-center items-center py-5 pb-12 background-blur">
+          <Logo/>
+          <form  >
+            <div className="avatar relative  flex justify-center ">
+              <div className="w-44 bg-primary skeleton  rounded-full">
+                <img src={file || authUser?.profilePic}  className="w-full h-full object-cover" />
+                <div className="absolute -bottom-1 right-4">
+               <label
+                 htmlFor="file-input" className="size-11 flex items-center justify-center bg-gradient text-white rounded-full cursor-pointer hover:bg-blue-700">
+                 <FaCamera /> 
+               </label>
+               <input
+                 type="file" id="file-input" accept="image/png, image/jpeg" className="hidden"
+                 onChange={(e) => handleFileUpload(e)} />
+             </div>
+              </div>
             </div>
-          </div>
-        </form>
-
-
-       <div className="w-72 flex justify-center flex-col gap-3 mt-10">
-
-         <div className="flex justify-between items-center text-sm mb-5 bg-[#1d232a] font-semibold text-gray-200 rounded-lg ">
-          <button type="button" onClick={()=>setSelectedTab("Account")} className={`${selectedTab === "Account" ? "bg-primary" : ""} px-8 py-[5px] m-1 rounded-md`}>Account</button>
-          <span className="text-gray-700"> | </span>
-          <button type="button" onClick={()=>setSelectedTab("Password")} className={`${selectedTab === "Password" ? "bg-primary" : ""} px-8 py-[5px] m-1 rounded-md`}>Password</button>
-         </div>
-
-         <form onSubmit={submitAccountInfo(handleAccountInfo)} className={`${selectedTab === "Account" ? "flex" : "hidden"} flex-col gap-3`}>
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <MdEmail />
-              <input
-                type="text"
-                {...accountInfo("newEmail")}
-                className="auth-btn bg-primary"
-                value={userDets.email}
-                onChange={(e)=>setUserDets({...userDets, email: e.target.value})}
-                placeholder="Email"
-              />
-            </label>
-            {accountInfoErrors.newEmail && <p className="error-msg">{accountInfoErrors.newEmail.message}</p>}
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <FaUserCircle />
-              <input
-                type="text"
-                {...accountInfo("newUserName")}
-                className="auth-btn"
-                value={userDets.userName}
-                onChange={(e)=>setUserDets({...userDets, userName: e.target.value})}
-                placeholder="Username"
-              />
-            </label>
-            {accountInfoErrors.newUserName && <p className="error-msg">{accountInfoErrors.newUserName.message}</p>}
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <BiSolidUser />
-              <input
-                type="text"
-                {...accountInfo("newFullName")}
-                className="auth-btn"
-                value={userDets.fullName}
-                onChange={(e)=>setUserDets({...userDets, fullName: e.target.value})}
-                placeholder='Full Name'
-              />
-            </label>
-            {accountInfoErrors.newFullName && <p className="error-msg">{accountInfoErrors.newFullName.message}</p>}
-            <button type="submit" disabled={isSubmittingAccountInfo}
-              className="text-white w-72 mt-1 disabled:cursor-not-allowed bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5" >
-              {isSubmittingAccountInfo ? <span className="loading loading-spinner"></span> : "Update"}
-            </button>
           </form>
 
 
-          <form  onSubmit={submitAccountPassword(handleAccountPassword)} 
-           className={`${selectedTab === "Password" ? "flex" : "hidden"} flex-col gap-3`}>
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <IoKey />
-              <input
-                type="password"
-                {...accountPassword("oldPassword")}
-                className="auth-btn"
-                placeholder="Old Password"
-              />
-            </label>
-            {accountPasswordErrors.oldPassword && <p className="error-msg">{accountPasswordErrors.oldPassword.message}</p>}
+         <div className="w-72 flex justify-center flex-col gap-3 mt-10">
 
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <IoKey />
-              <input
-                type="password"
-                {...accountPassword("newPassword")}
-                className="auth-btn"
-                placeholder="New Password"
-              />
-            </label>
-            {accountPasswordErrors.newPassword && <p className="error-msg">{accountPasswordErrors.newPassword.message}</p>}
+           <div className="flex justify-between items-center text-sm mb-5 bg-[#1d232a] font-semibold text-gray-200 rounded-lg ">
+            <button type="button" onClick={()=>setSelectedTab("Account")} className={`${selectedTab === "Account" ? "bg-primary" : ""} px-8 py-[5px] m-1 rounded-md`}>Account</button>
+            <span className="text-gray-700"> | </span>
+            <button type="button" onClick={()=>setSelectedTab("Password")} className={`${selectedTab === "Password" ? "bg-primary" : ""} px-8 py-[5px] m-1 rounded-md`}>Password</button>
+           </div>
 
-            <label className="input input-bordered input-field-styles flex items-center gap-2">
-              <IoKey />
-              <input
-                type="password"
-                {...accountPassword("confirmNewPassword")}
-                className="auth-btn"
-                placeholder="Confirm New Password"
-              />
-            </label>
-            {accountPasswordErrors.confirmNewPassword && <p className="error-msg">{accountPasswordErrors.confirmNewPassword.message}</p>}
+           <form onSubmit={submitAccountInfo(handleAccountInfo)} className={`${selectedTab === "Account" ? "flex" : "hidden"} flex-col gap-3`}>
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <MdEmail />
+                <input
+                  type="text"
+                  {...accountInfo("newEmail")}
+                  className="auth-btn bg-primary"
+                  value={userDets.email}
+                  onChange={(e)=>setUserDets({...userDets, email: e.target.value})}
+                  placeholder="Email"
+                />
+              </label>
+              {accountInfoErrors.newEmail && <p className="error-msg">{accountInfoErrors.newEmail.message}</p>}
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <FaUserCircle />
+                <input
+                  type="text"
+                  {...accountInfo("newUserName")}
+                  className="auth-btn"
+                  value={userDets.userName}
+                  onChange={(e)=>setUserDets({...userDets, userName: e.target.value})}
+                  placeholder="Username"
+                />
+              </label>
+              {accountInfoErrors.newUserName && <p className="error-msg">{accountInfoErrors.newUserName.message}</p>}
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <BiSolidUser />
+                <input
+                  type="text"
+                  {...accountInfo("newFullName")}
+                  className="auth-btn"
+                  value={userDets.fullName}
+                  onChange={(e)=>setUserDets({...userDets, fullName: e.target.value})}
+                  placeholder='Full Name'
+                />
+              </label>
+              {accountInfoErrors.newFullName && <p className="error-msg">{accountInfoErrors.newFullName.message}</p>}
+              <button type="submit" disabled={isSubmittingAccountInfo}
+                className="text-white w-72 mt-1 disabled:cursor-not-allowed bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5" >
+                {isSubmittingAccountInfo ? <span className="loading loading-spinner"></span> : "Update"}
+              </button>
+            </form>
 
-            <button
-              type="submit"
-              disabled={isSubmittingAccountPassword}
-              className="text-white w-72 mt-1 bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5"
-            >
-              {isSubmittingAccountPassword ? <span className="loading loading-spinner"></span> : "Update Password"}
-            </button>
-          </form>
 
-      </div>
+            <form  onSubmit={submitAccountPassword(handleAccountPassword)} 
+             className={`${selectedTab === "Password" ? "flex" : "hidden"} flex-col gap-3`}>
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <IoKey />
+                <input
+                  type="password"
+                  {...accountPassword("oldPassword")}
+                  className="auth-btn"
+                  placeholder="Old Password"
+                />
+              </label>
+              {accountPasswordErrors.oldPassword && <p className="error-msg">{accountPasswordErrors.oldPassword.message}</p>}
+
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <IoKey />
+                <input
+                  type="password"
+                  {...accountPassword("newPassword")}
+                  className="auth-btn"
+                  placeholder="New Password"
+                />
+              </label>
+              {accountPasswordErrors.newPassword && <p className="error-msg">{accountPasswordErrors.newPassword.message}</p>}
+
+              <label className="input input-bordered input-field-styles flex items-center gap-2">
+                <IoKey />
+                <input
+                  type="password"
+                  {...accountPassword("confirmNewPassword")}
+                  className="auth-btn"
+                  placeholder="Confirm New Password"
+                />
+              </label>
+              {accountPasswordErrors.confirmNewPassword && <p className="error-msg">{accountPasswordErrors.confirmNewPassword.message}</p>}
+
+              <button
+                type="submit"
+                disabled={isSubmittingAccountPassword}
+                className="text-white w-72 mt-1 bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                {isSubmittingAccountPassword ? <span className="loading loading-spinner"></span> : "Update Password"}
+              </button>
+            </form>
+
+        </div>
       
+         <Link to={"/"} className="text-xs w-72 btn mt-1 btn-ghost hover:bg-quaternary text-gray-400 ">Go Back</Link>
+
+        </div>
+
+        <dialog id="image-crop" className="modal ">
+          <div className="modal-box absolute pt-5 pb-4 px-4 top-24 lg:relative lg:top-0  bg-primary w-full    rounded-xl shadow-lg p-3">
+              <button onClick={()=>{resetImageStates(); document.getElementById("image-crop").close();}} className="btn btn-md text-xl btn-circle border-none  outline-none hover:bg-quaternary text-gray-400 btn-ghost absolute right-2 top-2">
+                ✕
+              </button>
+            <h3 className="font-semibold text-2xl mb-5 ps-4 ">Crop Image</h3>
+            <div className="w-full h-[50vh] overflow-hidden bg-quaternary rounded-lg">
+            <Cropper
+             image={imagePreview}
+             crop={crop}
+             zoom={zoom}
+             aspect={1/1}
+             cropShape="round"
+             onCropChange={setCrop}
+             zoomWithScroll={true}
+             objectFit="contain"
+             onCropComplete={onCropComplete}
+             onZoomChange={setZoom}
+             restrictPosition={false}
+             style={{
+              containerStyle:{
+                position: "relative",width: "100%",height: "100%"
+              },
+            
+              mediaStyle:{
+                width: "auto",height: "auto"
+              }
+             }}
+      />
+            </div>
         
-       <Link to={"/"} className="text-xs w-72 btn mt-1 btn-ghost hover:bg-quaternary text-gray-400 ">Go Back</Link>
-
+          <div className="flex gap-2 justify-end mt-6">
+               <button onClick={()=>{ resetImageStates(); document.getElementById("image-crop").close();}}  className={`text-base disabled:cursor-wait  bg-gray-700 hover:bg-quaternary text-gray-200 rounded-md px-3 py-1`}>
+                 Cancel
+               </button>
+               <button onClick={()=>handleUploadProfilePic()} type="submit" className={`text-base disabled:cursor-wait bg-gradient text-gray-200 rounded-md px-3 py-1`}>
+                 Save
+               </button>
+             </div>
+          </div>
+        </dialog>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
-export default Profile;
+  export default Profile;
+
+
+
