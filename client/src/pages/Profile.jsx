@@ -273,7 +273,7 @@ const Profile = () => {
         </div>
 
         <dialog id="image-crop" className="modal ">
-          <div className="modal-box absolute pt-5 pb-4 px-4 top-20 lg:relative lg:top-0  bg-primary backdrop-filter backdrop-blur-3xl bg-opacity-20 max-w-[500px]  rounded-xl shadow-lg p-3">
+          <div className="modal-box   bg-primary backdrop-filter backdrop-blur-3xl bg-opacity-20 max-w-[500px]  rounded-xl shadow-lg p-3">
             <div className={`max-w-[500px] h-[500px] overflow-hidden rounded-lg flex justify-center items-center  bg-primary backdrop-filter backdrop-blur-3xl bg-opacity-30  ${!imagePreview ? 'skeleton' : ''}`}>
               {imagePreview && (
                   <img src={imagePreview} alt="profile-pic" className="max-w-[500px] h-[500px] object-cover" />

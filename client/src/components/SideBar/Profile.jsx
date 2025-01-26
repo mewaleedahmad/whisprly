@@ -50,7 +50,7 @@ const Profile = () => {
       {authUser && (
         <Link to="/profile" key={authUser._id} className="flex gap-2">
           <div className="avatar">
-            <div className="w-12 bg-quaternary rounded-full">
+            <div className="w-12 bg-secondary skeleton rounded-full">
               <img src={authUser.profilePic} alt="Profile Pic" />
             </div>
           </div>
