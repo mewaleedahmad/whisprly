@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv  from 'dotenv';
 import cookieParser from 'cookie-parser';
 import dbConnect from './config/dbConnect.js';
+import { v2 as cloudinary } from 'cloudinary';
 
 import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
@@ -12,6 +13,12 @@ import {app,server} from './socket/socket.js';
 
 const PORT = process.env.PORT || 8000 
 dotenv.config();
+
+cloudinary.config({ 
+    cloud_name:process.env.CLOUDINARY_NAME , 
+    api_key:process.env.CLOUDINARY_API_KEY , 
+    api_secret:process.env.CLOUDINARY_API_SECRET 
+  });
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

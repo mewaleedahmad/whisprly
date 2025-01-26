@@ -1,27 +1,59 @@
 import userModel from "../models/user.model.js";
 import bcrypt from "bcryptjs"
-
+import { v2 as cloudinary } from 'cloudinary';
+import fs from 'fs';
 
 export const updateProfilePic = async (req, res) => {
-
-  const authUser = req.user._id;
-  const { email, userName, fullName, profilePic, password, confirmPassword } = req.body;
-
   try {
+    const authUser = req.user._id;
 
-    if (password === confirmPassword) {
-      const user = await userModel.find(authUser) ;
-
-      console.log(await bcrypt.compare(password, user?.password || ""))
-    //  const isPasswordCorrect = await bcrypt.compare(password, user?.password || "")
-    
-      
-    } else {
-      res.status(200).json("Password don't match");
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
+
+    try {
+      await cloudinary.api.resource(`Whisprly/avatars/${req.user._id}`);
+      // If image exists, delete it
+      await cloudinary.uploader.destroy(`Whisprly/avatars/${req.user._id}`);
+    } catch (error) {
+      // If error.http_code is 404, image doesn't exist, which is fine
+      if (error.http_code !== 404) {
+        console.log("Error checking/deleting existing profile picture:", error.message);
+      }
+    }
+
+    // Upload new image
+    const cloudinaryResponse = await cloudinary.uploader.upload(req.file.path, {
+      folder: "Whisprly/avatars",
+      public_id: req.user._id,
+      transformation: {
+        width: 500,
+        height: 500,
+        crop: "fill",
+        gravity: "auto"
+      }
+    });
+
+    await userModel.findByIdAndUpdate(authUser, {
+      profilePic: cloudinaryResponse.secure_url
+    }, { new: true });
+    
+    if (req.file) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) {
+          console.log("Error deleting temporary file:", err);
+        }
+      });
+    }
+
+    res.status(200).json({ 
+      message: "Profile picture updated successfully",
+      profilePic: cloudinaryResponse.secure_url
+    });
+   
   } catch (error) {
-    res.status(404).json("Internal server error");
-    console.log("Error in updateProfile in profileController", error.message);
+    console.log("Error in updateProfilePic in profileController:", error.message);
+    res.status(500).json({ message: "Failed to update profile picture" });
   }
 };
 

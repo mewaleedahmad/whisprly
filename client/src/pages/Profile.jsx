@@ -6,23 +6,27 @@ import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 
 import toast from "react-hot-toast";
-import Cropper from 'react-easy-crop'
 
 import Logo from "../components/Logo";
 import { useAuthContext } from "../context/AuthContext.jsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {profileAccountSchema, profilePasswordSchema} from "../lib/profileSchema.js"
 import useUpdatePassword from "../hooks/useUpdatePassword.js";
 import useUpdateAccountInfo from "../hooks/useUpdateAccountInfo.js";
+import useUpdataProfilePic from "../hooks/useUpdataProfilePic.js";
 
 
 const Profile = () => {
 
   const {authUser} = useAuthContext()
+  const {updateProfilePic} = useUpdataProfilePic()
   const [error,setError] = useState("")
+  const [file,setFile] = useState(null)
+  const [loading,setLoading] = useState(false)
   const [selectedTab,setSelectedTab] = useState("Account")
+  const [imagePreview,setImagePreview] = useState(null)
   const{updatePassword} = useUpdatePassword()
   const {updateAccountInfo} = useUpdateAccountInfo()
   const [userDets, setUserDets] = useState({
@@ -31,89 +35,9 @@ const Profile = () => {
     fullName: authUser?.fullName || ''
   })
 
-  const [file,setFile] = useState(null)
-  const [imagePreview,setImagePreview] = useState(null)
-  const [crop,setCrop] = useState({x:0,y:0})
-  const [zoom,setZoom] = useState(1)
-  const [croppedImage,setCroppedImage] = useState(null)
-
- 
-  const handleFileUpload = (e)=>{
-    const selectedFile = e.target.files[0]
-    const validateFileType = ["image/png", "image/jpeg"]
-
-    if(!selectedFile) return
-
-    if(!validateFileType.includes(selectedFile.type)){
-      setError("Please select an image jpeg/png")
-      setFile(null)
-      return
-    }
-  //   if(selectedFile.size > 4 * 1024 * 1024){
-  //     setError("Please select a file less than 5MB.")
-  //     setFile(null)
-  //     return 
-  // }
-  if(selectedFile){
-    const reader = new FileReader()
-    reader.onloadend = () => {
-      setImagePreview(reader.result)
-      document.getElementById("image-crop").showModal()
-    }
-    reader.readAsDataURL(selectedFile)
-  }
-}
-if(error){
-  toast.error(error)
-}
-
-  const onCropComplete = (croppedArea, croppedAreaPixels) => {
-    const canvas = document.createElement('canvas');
-    const image = new Image()
-    image.src = imagePreview
-    
-    image.onload = () => {
-      const scaleX = image.naturalWidth / image.width
-      const scaleY = image.naturalHeight / image.height
-      canvas.width = croppedAreaPixels.width
-      canvas.height = croppedAreaPixels.height
-      const ctx = canvas.getContext('2d')
-      
-      ctx.drawImage(
-        image,
-        croppedAreaPixels.x * scaleX,
-        croppedAreaPixels.y * scaleY,
-        croppedAreaPixels.width * scaleX,
-        croppedAreaPixels.height * scaleY,
-        0,
-        0,
-        croppedAreaPixels.width,
-        croppedAreaPixels.height
-      )
-
-      const isPNG = imagePreview.includes('image/png')
-      const compressionQuality = image.size > 4 * 1024 * 1024 ? 0.6 : 0.9
-      const croppedImageUrl = canvas.toDataURL(
-        isPNG ? 'image/png' : 'image/jpeg', 
-        compressionQuality
-      )
-      setCroppedImage(croppedImageUrl)
-    }
-  }
-
-  const handleUploadProfilePic = async ()=>{
-    if (croppedImage) {
-      console.log("Cropped Image")
-      setFile(croppedImage);
-      setError("")
-      document.getElementById("image-crop").close();
-    }
-  }
-
   const {
     register: accountInfo,
     handleSubmit: submitAccountInfo,
-    reset : accountInfoReset,
     formState: { errors: accountInfoErrors, isSubmitting: isSubmittingAccountInfo },
   } = useForm({ resolver: zodResolver(profileAccountSchema) });
 
@@ -123,6 +47,7 @@ if(error){
     reset : passwordReset,
     formState: { errors: accountPasswordErrors, isSubmitting: isSubmittingAccountPassword },
   } = useForm({ resolver: zodResolver(profilePasswordSchema) });
+
 
   const handleAccountInfo =async (data) => {
     const changes = {}
@@ -137,7 +62,7 @@ if(error){
     changes.newFullName = data.newFullName
    }
    if (Object.keys(changes).length === 0) {
-    toast.error("No Input Provided")
+    toast.error("Request denied: No updated fields.")
     return
    }
    if (Object.keys(changes).length > 0) {
@@ -151,36 +76,93 @@ if(error){
     }
   }
   }
-    const handleAccountPassword = async(passwordInfo) => {
+  
+  const handleAccountPassword = async(passwordInfo) => {
      const passResponse = await updatePassword(passwordInfo)
      if(passResponse === "Password Updated"){
        passwordReset()
      }
     }
 
-    const resetImageStates = ()=>{
-      setImagePreview(null)
-      setCroppedImage(null)
-      setFile(null)
-      setZoom(1)
-      setCrop({x:0,y:0})
+  const handleFileUpload = (e)=>{
+      setError("")
+      const selectedFile = e.target.files[0]
+      const validateFileType = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/webp"
+      ];
+  
+      if(!selectedFile) return
+  
+      if(!validateFileType.includes(selectedFile.type)){
+        setError("Please select an image file")
+        setFile(null)
+        resetImageStates()
+        return
+      }
+      if(selectedFile.size > 8 * 1024 * 1024){
+        setError("Please select a file less than 8 MB.")
+        setFile(null)
+        resetImageStates()
+        return 
     }
+    if(selectedFile){
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result)
+        document.getElementById("image-crop").showModal()
+      }
+      reader.readAsDataURL(selectedFile)
+      setFile(selectedFile)
+    }
+  }
+
+  const handleUploadProfilePic = async() => {
+    setLoading(true);
+    try {
+        const res = await updateProfilePic(file);
+        if(res.message){
+            toast.success(res.message);
+            document.getElementById("image-crop").close();
+            resetImageStates();
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
+        setLoading(false);
+    }
+  }
+
+  const resetImageStates = () => {
+    setImagePreview(null)
+    setFile(null)
+    document.getElementById("file-input").value = ""
+   }
+
+   useEffect(() => {
+    if(error) {
+        toast.error(error)
+        setError("")    
+    }
+}, [error])
 
     return (
       <div className="w-full h-screen flex  justify-center overflow-hidden  ">
         <div className=" w-full  flex flex-col justify-center items-center py-5 pb-12 background-blur">
           <Logo/>
-          <form  >
+          <form  encType="multipart/form-data" >
             <div className="avatar relative  flex justify-center ">
               <div className="w-44 bg-primary skeleton  rounded-full">
-                <img src={file || authUser?.profilePic}  className="w-full h-full object-cover" />
+                <img src={authUser?.profilePic}  className="w-full h-full object-cover" />
                 <div className="absolute -bottom-1 right-4">
                <label
                  htmlFor="file-input" className="size-11 flex items-center justify-center bg-gradient text-white rounded-full cursor-pointer hover:bg-blue-700">
                  <FaCamera /> 
                </label>
                <input
-                 type="file" id="file-input" accept="image/png, image/jpeg" className="hidden"
+                 type="file" id="file-input" name="profilePic" accept="image/png, image/jpeg, image/jpg, image/webp"  className="hidden"
                  onChange={(e) => handleFileUpload(e)} />
              </div>
               </div>
@@ -291,42 +273,18 @@ if(error){
         </div>
 
         <dialog id="image-crop" className="modal ">
-          <div className="modal-box absolute pt-5 pb-4 px-4 top-24 lg:relative lg:top-0  bg-primary w-full    rounded-xl shadow-lg p-3">
-              <button onClick={()=>{resetImageStates(); document.getElementById("image-crop").close();}} className="btn btn-md text-xl btn-circle border-none  outline-none hover:bg-quaternary text-gray-400 btn-ghost absolute right-2 top-2">
-                ✕
-              </button>
-            <h3 className="font-semibold text-2xl mb-5 ps-4 ">Crop Image</h3>
-            <div className="w-full h-[50vh] overflow-hidden bg-quaternary rounded-lg">
-            <Cropper
-             image={imagePreview}
-             crop={crop}
-             zoom={zoom}
-             aspect={1/1}
-             cropShape="round"
-             onCropChange={setCrop}
-             zoomWithScroll={true}
-             objectFit="contain"
-             onCropComplete={onCropComplete}
-             onZoomChange={setZoom}
-             restrictPosition={false}
-             style={{
-              containerStyle:{
-                position: "relative",width: "100%",height: "100%"
-              },
-            
-              mediaStyle:{
-                width: "auto",height: "auto"
-              }
-             }}
-      />
-            </div>
-        
-          <div className="flex gap-2 justify-end mt-6">
-               <button onClick={()=>{ resetImageStates(); document.getElementById("image-crop").close();}}  className={`text-base disabled:cursor-wait  bg-gray-700 hover:bg-quaternary text-gray-200 rounded-md px-3 py-1`}>
+          <div className="modal-box absolute pt-5 pb-4 px-4 top-20 lg:relative lg:top-0  bg-primary backdrop-filter backdrop-blur-3xl bg-opacity-20 max-w-[500px]  rounded-xl shadow-lg p-3">
+            <div className={`max-w-[500px] h-[500px] overflow-hidden rounded-lg flex justify-center items-center  bg-primary backdrop-filter backdrop-blur-3xl bg-opacity-30  ${!imagePreview ? 'skeleton' : ''}`}>
+              {imagePreview && (
+                  <img src={imagePreview} alt="profile-pic" className="max-w-[500px] h-[500px] object-cover" />
+              )}
+          </div>
+          <div className="flex gap-3 justify-end max-w-[500px] mt-6">
+               <button onClick={()=>{ resetImageStates(); document.getElementById("image-crop").close();}}  className={`text-base disabled:cursor-wait  border-none outline-none w-full bg-secondary hover:bg-quaternary text-gray-200 rounded-md  py-1`}>
                  Cancel
                </button>
-               <button onClick={()=>handleUploadProfilePic()} type="submit" className={`text-base disabled:cursor-wait bg-gradient text-gray-200 rounded-md px-3 py-1`}>
-                 Save
+               <button onClick={()=>handleUploadProfilePic()} type="submit" className={`text-base w-full  disabled:cursor-wait bg-gradient text-gray-200 rounded-md  py-1`}>
+                 {loading ? <span className="loading loading-spinner loading-xs"></span> : "Update"}
                </button>
              </div>
           </div>
