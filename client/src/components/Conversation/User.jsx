@@ -26,7 +26,7 @@ const User = () => {
   
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
-      <div onClick={()=>setSelectedConversation(null)} className="absolute left-4 font-bold lg:hidden "><MdOutlineKeyboardBackspace className="text-3xl text-white"/></div>
+      <div onClick={()=>setSelectedConversation(null)} className="absolute left-4 font-bold lg:hidden cursor-pointer"><MdOutlineKeyboardBackspace className="text-3xl text-white"/></div>
      <div  className="flex ps-10 lg:ps-0 gap-3">
       <div className={`avatar ${isActive ? "online": "offline"}`}>
         <div className="w-12 rounded-full">

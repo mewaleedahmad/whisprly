@@ -10,7 +10,7 @@ const SendMessage = () => {
   // const [message,setMessage] = useState()
   const {sendMessage} = useSendMessage()
   const {selectedConversation,conversations,setAddConversation} = useGlobalState()
-  const convoAlreadyExits = conversations.includes(selectedConversation)
+  const convoAlreadyExists = Array.isArray(conversations) && conversations?.includes(selectedConversation)
   const {
     register,
     handleSubmit,
@@ -21,8 +21,8 @@ const SendMessage = () => {
 
 
   const onSubmit = async(message)=>{
-    await sendMessage(selectedConversation._id,message)
-    if(!convoAlreadyExits){
+    await sendMessage(selectedConversation?._id,message)
+    if(!convoAlreadyExists){
       setAddConversation(selectedConversation)
     }
     reset()

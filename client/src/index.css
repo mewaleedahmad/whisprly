@@ -34,7 +34,8 @@ body {
     @apply overflow-hidden backdrop-filter backdrop-blur-2xl  bg-opacity-50 bg-primary shadow-2xl rounded-xl
   }
   .avatar.online:before{
-    background-color : var(--color-tertiary);
+    /* background-color : var(--color-tertiary); */
+    background-color : #32cd32;
     outline-style: solid;
     outline-width: 1px;
     outline-color: black;

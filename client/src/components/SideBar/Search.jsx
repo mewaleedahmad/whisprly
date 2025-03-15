@@ -61,7 +61,7 @@ const Search = () => {
       </label>
 
       {searchText && (
-        <div className="absolute overflow-auto max-h-[50vh] scrollable-div left-0 right-0 mt-2 py-1 mx-3 bg-primary border border-gray-600 rounded-md shadow-lg z-50">
+        <div className="absolute overflow-auto max-h-[50vh] scrollable-div left-0 right-0 mt-2 py-1 mx-3 bg-primary border border-gray-600 rounded-md shadow-lg z-40">
           {filteredUsers.length > 0 ? (
             filteredUsers.map((user) => (
               <div

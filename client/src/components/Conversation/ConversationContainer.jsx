@@ -1,11 +1,21 @@
 import { useAuthContext } from "../../context/AuthContext";
 import useGlobalState from "../../zustand/useGlobalState";
+import { useEffect, useRef } from "react";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
   const {authUser} = useAuthContext()
   const myMessage = authUser._id
   const myPic = authUser.profilePic
+  const messagesEndRef = useRef(null)
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
 
   return (
     <div className="w-full py-2 h-full">
@@ -66,6 +76,7 @@ const ConversationContainer = () => {
             </div>
           </div>
           ))}
+          <div ref={messagesEndRef} />
         </>
         }
       </section>

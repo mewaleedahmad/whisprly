@@ -65,7 +65,7 @@ const Profile = () => {
         <div tabIndex={0} role="button" className="btn text-2xl btn-ghost text-gray-300 hover:bg-primary ">
           <TbMenuDeep />
         </div>
-        <ul tabIndex={0} className="dropdown-content bg-quaternary  menu text-gray-300  rounded-box z-[1] shadow-2xl">
+        <ul tabIndex={0} className="dropdown-content bg-quaternary  menu text-gray-300  rounded-box z-50 shadow-2xl">
           <li >
             <Link to="/profile"  className="text-md hover:bg-primary">
               <span className="text-nowrap">Profile</span>
