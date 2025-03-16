@@ -1,11 +1,12 @@
 import conversationModel from "../models/conversation.model.js";
 import messageModel from "../models/message.model.js";
 import userModel from "../models/user.model.js";
-import {io} from "../socket/socket.js"
+import { io, userSocketMap } from "../socket/socket.js"
 
 export const getFriends = async (req, res) => {
   try {
     const authUser = req.user._id;
+
 
     if (!authUser) {
       return res.status(400).json({ error: "User is required" });
@@ -20,12 +21,18 @@ export const getFriends = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (user.friends.length === 0) {
-      return res
-        .status(200)
-        .json({ message: "Currently you don't have any friends" });
-    }
+    // if (user.friends.length === 0) {
+    //   return res
+    //     .status(200)
+    //     .json({ message: "Currently you don't have any friends" });
+    // }
 
+    // io.emit("getFriends",user.friends)
+    const socketId = userSocketMap[authUser.toString()];
+    if (socketId) {
+      io.to(socketId).emit("getFriends", user.friends);
+    }
+    console.log(user.friends)
     res.status(200).json(user.friends);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -74,6 +81,7 @@ export const addFriend = async (req, res) => {
         new: true,
       }),
     ]);
+    // io.emit("getFriends",newFriend)
     res.status(200).json(newFriend);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

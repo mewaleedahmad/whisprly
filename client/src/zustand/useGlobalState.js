@@ -19,16 +19,16 @@ const useGlobalState = create((set) => ({
 
   friends: [],
   setFriends: (friends) => set({ friends }),
-  setAddFriend: (user) =>
-    set((state) => ({
-      friends: Array.isArray(state.friends) ? [...state.friends, user] : [user], // Check if friends is an array before adding
-    })),
-  setRemoveFriend: (id) =>
-    set((state) => ({
-      friends: Array.isArray(state.friends)
-        ? state.friends.filter((friend) => friend._id !== id)
-        : [], // If not an array, reset to empty array
-    })),
+  // setAddFriend: (user) =>
+  //   set((state) => ({
+  //     friends: Array.isArray(state.friends) ? [...state.friends, user] : [user], // Check if friends is an array before adding
+  //   })),
+  // setRemoveFriend: (id) =>
+  //   set((state) => ({
+  //     friends: Array.isArray(state.friends)
+  //       ? state.friends.filter((friend) => friend._id !== id)
+  //       : [], // If not an array, reset to empty array
+  //   })),
 
   friendRequests: [],
   setFriendRequests: (friendRequests) => set({ friendRequests }),

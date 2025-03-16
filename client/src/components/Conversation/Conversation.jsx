@@ -6,7 +6,7 @@ import User from "./User";
 
 const Conversation = () => {
   const {selectedConversation} = useGlobalState();
- 
+
   return (
     <section className={`w-full h-full ${selectedConversation === null ? "hidden" : ""} lg:flex lg:flex-col lg:w-[50vw]`}>
       {selectedConversation === null ? (

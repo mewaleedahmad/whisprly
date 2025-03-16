@@ -48,8 +48,7 @@ const Message = () => {
 
 useEffect(()=>{
   const handleGetLastMessage = async()=>{
-   const data = await getLastMessage()
-   setLastMessage(data)
+    await getLastMessage()
   }
   handleGetLastMessage()
 },[])

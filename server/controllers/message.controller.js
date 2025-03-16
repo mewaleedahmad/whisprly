@@ -1,5 +1,7 @@
 import messageModel from "../models/message.model.js";
 import conversationModel from "../models/conversation.model.js";
+import { io, userSocketMap } from "../socket/socket.js"
+
 
 export const sendMessage = async (req, res) =>  {
   try {
@@ -96,6 +98,11 @@ export const getLastMessage = async (req,res) =>{
      })
 
      const lastMessage = findMessage.flatMap((lastMsg)=>lastMsg.messages)
+
+     const socket = userSocketMap[authUser.toString()]
+     if(socket){
+      io.to(socket).emit("getLastMessage",lastMessage)
+     }
      res.status(200).json(lastMessage)
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });

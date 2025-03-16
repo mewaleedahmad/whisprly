@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
 import { io } from "socket.io-client";
+import useGlobalState from "../zustand/useGlobalState";
 
 const SocketContext = createContext();
 
@@ -11,6 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { authUser } = useAuthContext();
+  const {setFriends,setLastMessage} = useGlobalState()
 
   useEffect(() => {
     if (authUser) {
@@ -24,7 +26,21 @@ export const SocketContextProvider = ({ children }) => {
       socket.on("getOnlineUsers", (users) => {
         setOnlineUsers(users);
       });
-      return () => socket.close();
+      
+      socket.on("getFriends",(friends)=>{
+        setFriends(friends)
+      })
+
+      socket.on("getLastMessage",(message)=>{
+        setLastMessage(message)
+      })
+      
+      return () => {
+        socket.off("getOnlineUsers")
+        socket.off("getFriends")
+        socket.off("getLastMessage")
+        socket.close()
+      }
     } else {
       if (socket) {
         socket.close();

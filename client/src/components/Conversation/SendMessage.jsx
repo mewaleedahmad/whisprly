@@ -5,11 +5,14 @@ import { IoMdSend } from "react-icons/io";
 import useSendMessage from "../../hooks/useSendMessage";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useForm } from "react-hook-form";
+import useGetLastMessage from "../../hooks/useGetLastMessage";
+
 
 const SendMessage = () => {
   // const [message,setMessage] = useState()
   const {sendMessage} = useSendMessage()
   const {selectedConversation,conversations,setAddConversation} = useGlobalState()
+  const {getLastMessage} = useGetLastMessage()
   const convoAlreadyExists = Array.isArray(conversations) && conversations?.includes(selectedConversation)
   const {
     register,
@@ -25,6 +28,7 @@ const SendMessage = () => {
     if(!convoAlreadyExists){
       setAddConversation(selectedConversation)
     }
+    getLastMessage()
     reset()
   }
 

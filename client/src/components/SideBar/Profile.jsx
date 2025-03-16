@@ -7,6 +7,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import useGetFriendRequests from "../../hooks/useGetFriendRequests";
 import useLogout from "../../hooks/useLogout";
 import useAddFriend from "../../hooks/useAddFriend";
+import useGetFriends from "../../hooks/useGetFriends";
 import useRejectFriendRequest from "../../hooks/useRejectFriendRequest";
 
 import { Link } from "react-router-dom";
@@ -18,8 +19,9 @@ const Profile = () => {
   const { logout } = useLogout();
   const {addFriend} = useAddFriend()
   const { getFriendRequests } = useGetFriendRequests()
+  const { getFriends } = useGetFriends();
   const {rejectFriendRequest} = useRejectFriendRequest();
-  const {friendRequests,setFriendRequests,setHandleFriendRequest,setAddFriend} =  useGlobalState();
+  const {friendRequests,setFriendRequests,setHandleFriendRequest} =  useGlobalState();
 
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState({});
@@ -32,8 +34,8 @@ const Profile = () => {
 
   const handleAddFriend = async (id) => {
     setButtonLoading((prev=>({...prev,[id]:true})))
-    const data = await addFriend(id);
-    await setAddFriend(data)
+    await addFriend(id);
+    await getFriends()
     setHandleFriendRequest(id)
     setButtonLoading((prev=>({...prev,[id]:false})))
   }
@@ -106,7 +108,7 @@ const Profile = () => {
             </div>
           </div>   
           : <>
-           {(!friendRequests.message) || !friendRequests.length === 0  ? (
+           {friendRequests && friendRequests.length > 0 ? (
             friendRequests.map((user,index)=>(
               <div key={user._id} className={`w-full ${index < friendRequests.length - 1  ? "border-1 border-b border-secondary" : ""} flex items-center justify-between py-2  cursor-default`}>
            <div className="flex gap-2 items-center  flex-grow">

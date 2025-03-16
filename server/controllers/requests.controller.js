@@ -1,4 +1,6 @@
 import userModel from "../models/user.model.js";
+import {io,userSocketMap} from "../socket/socket.js"
+
 
 export const getReq = async (req, res) => {
     try {
@@ -18,7 +20,7 @@ export const getReq = async (req, res) => {
           message: "Your friend request list is empty. Check back later!",
         });
       }
-  
+
       res.status(200).json(user.friendRequests);
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });

@@ -6,7 +6,7 @@ import { useSocketContext } from "../../context/SocketContext";
 
 const Friends = () => {
   const [loading, setLoading] = useState(false);
-  const { setSelectedConversation,selectedConversation, setMessages, setLoadingState, setFriends, friends } = useGlobalState();
+  const { setSelectedConversation,selectedConversation, setMessages, setLoadingState, friends } = useGlobalState();
   const { getFriends } = useGetFriends();
   const { getMessages } = useGetMessages();
   const { onlineUsers } = useSocketContext();
@@ -17,8 +17,7 @@ const Friends = () => {
 
   useEffect(() => {
     const handleFriends = async () => {
-      const data = await getFriends();
-      setFriends(data);
+      await getFriends();
       setLoading(true);
     };
     handleFriends();
@@ -51,7 +50,7 @@ const Friends = () => {
           </div>
         ) : (
           <>
-            {((!friends.message) || (!friends.length === 0)) ? (
+            { friends && friends.length > 0 ? (
               friends.map((user) => {
                 const isActive = onlineUsers.includes(user._id); 
                 return (
