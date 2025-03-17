@@ -1,6 +1,7 @@
 import { useAuthContext } from "../../context/AuthContext";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useEffect, useRef } from "react";
+import { TiTick, TiTickOutline } from "react-icons/ti";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
@@ -71,18 +72,24 @@ const ConversationContainer = () => {
         <>
           {messages?.map((msg)=>(
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"}`}>
+              <div className="chat-header text-xs mx-1 mb-1 opacity-80">
+                  {getLocalTime(msg?.createdAt)}
+              </div>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS chat bubble component"
                   src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
-                />
+                  />
               </div>
             </div>
             <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
               {msg?.message}
             </div>
-            <div className="chat-footer  text-xs pt-1 opacity-70">{getLocalTime(msg?.createdAt)}</div>
+            {msg.senderId == myMessage && <div className="chat-footer  text-xs mx-1 opacity-80">
+              <p>seen</p>
+              </div>}
+            
           </div>
           
           ))}
