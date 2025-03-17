@@ -7,7 +7,7 @@ import { useSocketContext } from "../../context/SocketContext";
 
 const Message = () => {
   const [loading,setLoading] = useState(false)
-  const {conversations,setConversations,selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage,setLastMessage} = useGlobalState();
+  const {conversations,setConversations,selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage} = useGlobalState();
   const {getConversations} = useGetConversations()
   const {getMessages} = useGetMessages()
   const {getLastMessage} = useGetLastMessage()
@@ -51,7 +51,7 @@ useEffect(()=>{
     await getLastMessage()
   }
   handleGetLastMessage()
-},[])
+},[lastMessage,getLastMessage])
 
 useEffect(()=>{
 

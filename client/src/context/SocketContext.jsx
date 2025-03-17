@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { authUser } = useAuthContext();
-  const {setFriends,setLastMessage,setMessages,selectedConversation} = useGlobalState()
+  const {setFriends,setLastMessage,setMessages} = useGlobalState()
 
   useEffect(() => {
     if (authUser) {

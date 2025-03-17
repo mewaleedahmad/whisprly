@@ -69,6 +69,7 @@ const Login = () => {
 
             </form>
 
+            <Link to="#" className="capitalize hover:text-gray-400  text-gray-500 text-[13px] py-1 underline">Reset Password</Link>
           <div className="flex items-center mt-1 gap-2 text-sm">
             <p className="capitalize text-gray-500">{"Don't"} have account ?</p>
             <Link to="/signup" className="text-[#3e88cc] hover:underline">
