@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { authUser } = useAuthContext();
-  const {setFriends,setLastMessage} = useGlobalState()
+  const {setFriends,setLastMessage,setMessages,selectedConversation} = useGlobalState()
 
   useEffect(() => {
     if (authUser) {
@@ -30,6 +30,14 @@ export const SocketContextProvider = ({ children }) => {
       socket.on("getFriends",(friends)=>{
         setFriends(friends)
       })
+
+      socket.on("newMessage", ({newMessage}) => {
+        if (newMessage) {
+          setMessages(prevMessages => 
+            Array.isArray(prevMessages) ? [...prevMessages, newMessage] : [newMessage]
+          );
+        }
+      });
 
       socket.on("getLastMessage",(message)=>{
         setLastMessage(message)

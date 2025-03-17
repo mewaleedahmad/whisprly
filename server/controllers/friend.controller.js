@@ -32,7 +32,6 @@ export const getFriends = async (req, res) => {
     if (socketId) {
       io.to(socketId).emit("getFriends", user.friends);
     }
-    console.log(user.friends)
     res.status(200).json(user.friends);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });

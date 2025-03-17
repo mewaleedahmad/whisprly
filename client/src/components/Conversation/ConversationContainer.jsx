@@ -13,6 +13,14 @@ const ConversationContainer = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  function getLocalTime(isoString) {
+    try {
+      const date = new Date(isoString); // Parse the ISO string
+      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+    } catch (error) {
+      console.error("Invalid ISO string provided:", error);
+    }
+  }
   useEffect(() => {
     scrollToBottom()
   }, [messages])
@@ -61,20 +69,22 @@ const ConversationContainer = () => {
           </>
          : 
         <>
-          {messages.map((msg)=>(
-            <div key={msg._id} className={`chat ${msg.senderId === myMessage ? "chat-end" : "chat-start"}`}>
+          {messages?.map((msg)=>(
+            <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"}`}>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS chat bubble component"
-                  src={msg.senderId === myMessage ? myPic : selectedConversation.profilePic}
+                  src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
                 />
               </div>
             </div>
-            <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
-              {msg.message}
+            <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
+              {msg?.message}
             </div>
+            <div className="chat-footer  text-xs pt-1 opacity-70">{getLocalTime(msg?.createdAt)}</div>
           </div>
+          
           ))}
           <div ref={messagesEndRef} />
         </>

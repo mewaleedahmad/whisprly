@@ -30,6 +30,15 @@ export const sendMessage = async (req, res) =>  {
       await conversation.save();
     }
 
+    const receiverSocketId = userSocketMap[receiverId.toString()]
+    const senderSocketId = userSocketMap[senderId.toString()]
+
+    if(receiverSocketId){
+      io.to(receiverSocketId).emit("newMessage",{newMessage})
+    }
+    if(senderSocketId){
+      io.to(senderSocketId).emit("newMessage",{newMessage})
+    }
     res.status(200).json({ newMessage });
     
   } catch (error) {

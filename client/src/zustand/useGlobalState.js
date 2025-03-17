@@ -41,7 +41,15 @@ const useGlobalState = create((set) => ({
     set({ selectedConversation }),
 
   messages: [],
-  setMessages: (messages) => set({ messages }),
+  setMessages: (messagesOrFn) => set((state) => {
+    if (typeof messagesOrFn === 'function') {
+      const newMessages = messagesOrFn(state.messages);
+      return { messages: Array.isArray(newMessages) ? newMessages : [] };
+    }
+    return { 
+      messages: messagesOrFn == null ? [] : (Array.isArray(messagesOrFn) ? messagesOrFn : [messagesOrFn])
+    };
+  }),
 
   lastMessage: [],
   setLastMessage: (lastMessage) => set({ lastMessage }),
