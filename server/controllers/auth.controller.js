@@ -145,7 +145,9 @@ export const sendEmail = async (req,res)=>{
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
                     <title>Password Reset Request</title>
                     <style>
-                        body {
+                        html,body {
+                            width:100%;
+                            height:100%;
                             font-family: Arial, sans-serif;
                             color: rgb(241, 241, 241);
                             margin: 0;
@@ -183,10 +185,10 @@ export const sendEmail = async (req,res)=>{
                             margin-top: 20px;
                             padding: 10px 20px;
                             background-color: #863ffa;
-                            color: #ffffff;
-                            text-decoration: none;
                             border-radius: 5px;
                             transition: background-color 0.3s ease;
+                            color: #ffffff !important;
+                            text-decoration: none !important;
                         }
                         .button:hover {
                             background-color: #5e26b7;
@@ -202,7 +204,7 @@ export const sendEmail = async (req,res)=>{
                         <div class="content">
                             <h1>Password Reset Request</h1>
                             <p>We received a request to reset your password. Click the button below to reset it. This link will expire in 1 hour.</p>
-                            <a href="${resetUrl}" class="button">Reset Password</a>
+                            <a href="${resetUrl}" class="button" style="color: #ffffff !important; text-decoration: none !important;">Reset Password</a>
                             <p>If you didn't request a password reset, please ignore this email.</p>
                         </div>
                     </div>
