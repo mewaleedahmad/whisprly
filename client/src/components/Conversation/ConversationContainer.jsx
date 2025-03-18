@@ -1,7 +1,6 @@
 import { useAuthContext } from "../../context/AuthContext";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useEffect, useRef } from "react";
-import { TiTick, TiTickOutline } from "react-icons/ti";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
@@ -26,54 +25,53 @@ const ConversationContainer = () => {
     scrollToBottom()
   }, [messages])
 
+  useEffect(() => {
+    if (selectedConversation?._id) {
+      const markSeen = async () => {
+        try {
+          await fetch(`/api/messages/mark-message-seen/${selectedConversation._id}`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+        } catch (error) {
+          console.error('Error marking messages as seen:', error);
+        }
+      };
+
+      markSeen();
+    }
+  }, [selectedConversation?._id]);
+
   return (
     <div className="w-full py-2 h-full">
-      <section className="lg:px-5 px-3 py-6 flex hidden-scrollable-div flex-col gap-1">
+      <section className="lg:px-4 px-2 py-4 flex hidden-scrollable-div flex-col gap-2">
         {loadingState ? 
           <>
-          <div className="chat chat-end">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+          {[1,2,3,4,5].map((i)=>(
+            <div key={i}>
+              <div className="chat chat-end">
+            <div className="chat-image   avatar">
+              <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+            </div>
+            <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
           </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
-        </div>
-          <div className="chat chat-start">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+            <div className="chat chat-start">
+            <div className="chat-image   avatar">
+              <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
+            </div>
+            <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
           </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
-        </div>
-          <div className="chat chat-end">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
-          </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
-        </div>
-          <div className="chat chat-start">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
-          </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
-        </div>
-          <div className="chat chat-end">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
-          </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
-        </div>
-          <div className="chat chat-start">
-          <div className="chat-image   avatar">
-            <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
-          </div>
-          <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
-        </div>
+            </div>
+          ))}
           </>
          : 
         <>
           {messages?.map((msg)=>(
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"}`}>
               <div className="chat-header text-xs mx-1 mb-1 opacity-80">
-                  {getLocalTime(msg?.createdAt)}
+                  {getLocalTime(msg?.createdAt)}                  
               </div>
             <div className="chat-image avatar">
               <div className="w-10 rounded-full">
@@ -86,9 +84,12 @@ const ConversationContainer = () => {
             <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
               {msg?.message}
             </div>
-            {msg.senderId == myMessage && <div className="chat-footer  text-xs mx-1 opacity-80">
-              <p>seen</p>
-              </div>}
+            {
+              msg.senderId == myMessage && 
+               <div className="chat-footer text-xs mx-1 opacity-80">
+                 {msg?.seen && <p>seen</p>}
+              </div>
+            }
             
           </div>
           

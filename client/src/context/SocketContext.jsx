@@ -33,15 +33,25 @@ export const SocketContextProvider = ({ children }) => {
 
       socket.on("newMessage", ({newMessage}) => {
         if (newMessage) {
-          setMessages(prevMessages => 
-            Array.isArray(prevMessages) ? [...prevMessages, newMessage] : [newMessage]
-          );
+            setMessages(prevMessages => 
+              Array.isArray(prevMessages) ? [...prevMessages, newMessage] : [newMessage]
+            );
         }
       });
-
+      
       socket.on("getLastMessage",(message)=>{
         setLastMessage(message)
       })
+
+      socket.on("messagesSeen", (receiverId) => {
+        setMessages(prevMessages => 
+          prevMessages.map(msg => 
+            msg.senderId === authUser._id && msg.receiverId === receiverId 
+              ? { ...msg, seen: true } 
+              : msg
+          )
+        );
+      });
       
       return () => {
         socket.off("getOnlineUsers")

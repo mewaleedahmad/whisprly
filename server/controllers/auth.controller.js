@@ -88,3 +88,34 @@ export const logout =(req,res)=>{
         console.log("Error occurred while logout",error.message)
     }
  }
+
+export const resetPassword = async(req,res)=>{
+    try {
+        const {password,confirmPassword} = req.body
+
+    const tokenEmail = "johndoe@gmail.com"
+
+    const user = await userModel.findOne({email:tokenEmail})
+
+    if(!user){
+        return res.status(400).json({error:"Account Not Found"})
+    }
+
+    if(password !== confirmPassword){
+        return res.status(400).json({error :"Password & Confirm Password don't match"})
+    }
+
+    const salt = await bcrypt.genSalt(10)
+    const hashedPassword = await bcrypt.hash(password,salt)
+
+     await userModel.findOneAndUpdate(user ,{
+        password : hashedPassword
+    })
+
+    res.status(200).json({message:"Password Updated Successfully"})
+    
+    } catch (error) {
+        res.status(500).json({error: "Internal server error"})
+        console.log("Error occurred while resetting Password",error.message)
+    }
+}

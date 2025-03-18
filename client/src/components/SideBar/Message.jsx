@@ -51,7 +51,7 @@ useEffect(()=>{
     await getLastMessage()
   }
   handleGetLastMessage()
-},[lastMessage,getLastMessage])
+},[])
 
 useEffect(()=>{
 

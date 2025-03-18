@@ -4,6 +4,7 @@ import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import Profile from "./pages/Profile.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/AuthContext.jsx";
 
@@ -25,6 +26,7 @@ const App = () => {
         <Route path="/login" element={authUser ? <Navigate to="/" /> : <Login />} />
         <Route path="/signup" element={authUser ? <Navigate to="/" /> : <SignUp />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/reset-password/:token" element={<ResetPassword/>} />
       </Routes>
     </div>
   );

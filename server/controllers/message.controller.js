@@ -118,3 +118,32 @@ export const getLastMessage = async (req,res) =>{
     console.error('Error in getLastMessage in messageController:', error.message);
   }
 }
+
+export const markMessageSeen = async(req,res)=>{
+  try {
+    const senderId = req.user._id;   
+    const receiverId = req.params.id
+
+    const updatedMessages = await messageModel.updateMany(
+      {
+      senderId : senderId,
+      receiverId: receiverId,
+      seen:false
+    },
+    {
+      $set : {
+        seen: true
+      }
+    }
+  )
+
+  const senderSocketId = userSocketMap[senderId.toString()]
+  if(senderSocketId){
+    io.to(senderSocketId).emit("messagesSeen",receiverId);
+  }
+  res.status(200).json({success:true})
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error' });
+    console.error('Error in markMessageSeen in messageController:', error.message);
+  }
+}
