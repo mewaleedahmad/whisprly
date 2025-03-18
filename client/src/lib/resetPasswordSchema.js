@@ -13,4 +13,11 @@ const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+  export const verificationEmailSchema = z.object({
+    email: z
+      .string()
+      .nonempty("Email is required")
+      .email("Invalid email address"),
+  })
+  
 export default resetPasswordSchema;

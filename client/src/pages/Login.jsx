@@ -9,10 +9,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Logo from "../components/Logo";
 import useLogin from "../hooks/useLogin";
 import loginSchema from "../lib/loginSchema";
+import useSendEmail from "../hooks/useSendEmail";
+import {verificationEmailSchema} from "../lib/resetPasswordSchema"
 
 const Login = () => {
 
   const {login} = useLogin()
+  const {sendEmail} = useSendEmail()
   const [showResetDialog, setShowResetDialog] = useState(false);
   const dialogRef = useRef(null);
 
@@ -21,6 +24,13 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(loginSchema) });
+
+  const {
+    register : registerEmail,
+    handleSubmit : handleEmailSubmit,
+    reset,
+    formState : {errors:emailErrors,isSubmitting:isEmailSubmitting}
+  }  = useForm({resolver:zodResolver(verificationEmailSchema)})
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -35,6 +45,12 @@ const Login = () => {
 
   const onSubmit = async(data) => {
    await login(data)
+  }
+
+  const onEmailSubmit = async(data)=>{
+    await sendEmail(data)
+    reset()
+    setShowResetDialog(false)
   }
 
   return (
@@ -106,27 +122,33 @@ const Login = () => {
               <p className="text-gray-400 text-sm mb-4">
                 Enter your email to receive reset instructions
               </p>
-              <label htmlFor="email" className="input input-bordered  text-gray-400 border border-gray-700 bg-primary mb-4  flex items-center gap-2">
+              <form onSubmit={handleEmailSubmit(onEmailSubmit)}>
+              <label htmlFor="email" className="input input-bordered  text-gray-400 border border-gray-700 bg-primary mb-2  flex items-center gap-2">
                 <MdEmail />
                 <input
+                {...registerEmail("email")}
                   type="text"
                   className="auth-btn "
                   placeholder="Email"
                 />
               </label>
-              <div className="flex justify-end gap-2">
+              {emailErrors.email && 
+              <p className="error-msg">{emailErrors.email.message}</p>}
+              <div className="flex justify-end mt-3 gap-2">
                 <button
                   onClick={() => setShowResetDialog(false)}
                   className="px-4 py-2 w-full text-sm bg-quaternary rounded-lg text-gray-400 hover:text-gray-200"
                 >
                   Cancel
                 </button>
-                <button 
+                <button  type="submit"
+                disabled={isEmailSubmitting}
                   className="px-4 py-2 w-full text-sm text-white rounded-lg bg-gradient-to-r from-[#863ffa] to-[#3ec0fc]  hover:opacity-80"
                 >
-                  Send
+                   {isEmailSubmitting ? <span className="loading loading-xs loading-spinner"></span> : "Send"}
                 </button>
               </div>
+              </form>
             </div>
           )}
           <button

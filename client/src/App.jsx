@@ -17,7 +17,7 @@ const App = () => {
           style: {
             background: '#171b1d', 
             color: 'white', 
-            duration : 2000,
+            duration : 3000,
           },
         }}/>
       </div>
