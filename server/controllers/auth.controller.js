@@ -127,15 +127,16 @@ export const resetPassword = async(req,res)=>{
 export const sendEmail = async (req,res)=>{
     try {
         const {email} = req.body
-        const checkUserExists = userModel.findOne({email})
+        const checkUserExists = await userModel.findOne({email})
     
         if(!checkUserExists){
             return res.status(400).json({error:"Email not associated with any account"})
         }
 
-        const token = jwt.sign({email},process.env.TOKEN_SECRET)
+        const token = jwt.sign({email},process.env.TOKEN_SECRET,{
+            expiresIn : "60m"
+        })
 
-        const currentYear = new Date().getFullYear();
         const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
         const emailTemplate = `<!DOCTYPE html>
@@ -213,19 +214,19 @@ export const sendEmail = async (req,res)=>{
 
         const transporter = nodemailer.createTransport({
             host: process.env.EMAIL_HOST,
-            port: 587,
+            port:465,
+            secure: true,
             auth: {
               user: process.env.EMAIL_USER,
               pass: process.env.EMAIL_PASSWORD
-            },
-            secure: false, // Use `false` for STARTTLS
-            tls: {
-              rejectUnauthorized: false
-           }
+            }
           });
 
         const mailOptions = {
-            from: process.env.EMAIL_SENDER,
+            from:{
+                name:"Whisprly",
+                address : process.env.EMAIL_USER
+            } ,
             to: email,
             subject: "Reset Password Request",
             html: emailTemplate
