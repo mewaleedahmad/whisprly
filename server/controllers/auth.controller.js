@@ -96,27 +96,34 @@ export const resetPassword = async(req,res)=>{
         const {password,confirmPassword} = req.body
         const {token} = req.params
 
-        const decoded = jwt.verify(token,process.env.TOKEN_SECRET)
-    // const tokenEmail = "johndoe@gmail.com"
+        let decoded;
+        try {
+            decoded = jwt.verify(token,process.env.TOKEN_SECRET)
+        } catch (jwtError) {
+            if (jwtError.name === 'TokenExpiredError') {
+                return res.status(401).json({ error: "Password reset link has expired, Request a new one" });
+            }
+            return res.status(401).json({ error: "Invalid or expired token" });
+        }
 
-    const user = await userModel.findOne({email:decoded.email})
+        const user = await userModel.findOne({email:decoded?.email})
 
-    if(!user){
-        return res.status(400).json({error:"Account Not Found"})
-    }
+        if(!user){
+            return res.status(400).json({error:"Account Not Found"})
+        }
 
-    if(password !== confirmPassword){
-        return res.status(400).json({error :"Password & Confirm Password don't match"})
-    }
+        if(password !== confirmPassword){
+            return res.status(400).json({error :"Password & Confirm Password don't match"})
+        }
 
-    const salt = await bcrypt.genSalt(10)
-    const hashedPassword = await bcrypt.hash(password,salt)
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(password,salt)
 
-     await userModel.findOneAndUpdate(user ,{
-        password : hashedPassword
-    })
+         await userModel.findOneAndUpdate(user ,{
+            password : hashedPassword
+        })
 
-    res.status(200).json({message:"Password Updated Successfully"})
+        res.status(200).json({message:"Password Updated Successfully"})
     
     } catch (error) {
         res.status(500).json({error: "Internal server error"})

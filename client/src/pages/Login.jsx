@@ -110,8 +110,8 @@ const Login = () => {
         </div>
       </div>
 
-      {/* Customer Support Button & Reset Dialog */}
-      <div className="fixed bottom-4 right-4">
+      {/* Password Reset Dialog */}
+      <div className="fixed bottom-5 right-4">
         <div className="relative">
           {showResetDialog && (
             <div 
@@ -153,7 +153,7 @@ const Login = () => {
           )}
           <button
             onClick={() => setShowResetDialog(!showResetDialog)}
-            className="bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] p-3 rounded-full shadow-lg hover:shadow-xl transition-all"
+            className="bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] p-3 rounded-full  shadow-lg hover:shadow-xl transition-all"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
