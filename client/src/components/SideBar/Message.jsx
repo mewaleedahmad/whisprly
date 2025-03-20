@@ -4,6 +4,7 @@ import useGlobalState from "../../zustand/useGlobalState";
 import useGetMessages from "../../hooks/useGetMessages";
 import useGetLastMessage from "../../hooks/useGetLastMessage";
 import { useSocketContext } from "../../context/SocketContext";
+import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
 
 const Message = () => {
   const [loading,setLoading] = useState(false)
@@ -11,6 +12,7 @@ const Message = () => {
   const {getConversations} = useGetConversations()
   const {getMessages} = useGetMessages()
   const {getLastMessage} = useGetLastMessage()
+  const {markMessageSeen} = useMarkMessageSeen()
   const {onlineUsers} = useSocketContext()
 
 
@@ -32,6 +34,7 @@ const Message = () => {
   const handleGetMessages = async (id) => {
     setLoadingState(true)
     const data = await getMessages(id)
+    await markMessageSeen(id)
     setMessages(data)
     setLoadingState(false)
   }

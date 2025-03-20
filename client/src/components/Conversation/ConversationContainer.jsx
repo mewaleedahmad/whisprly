@@ -1,10 +1,12 @@
 import { useAuthContext } from "../../context/AuthContext";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useEffect, useRef } from "react";
+import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
   const {authUser} = useAuthContext()
+  const {markMessageSeen} = useMarkMessageSeen()
   const myMessage = authUser._id
   const myPic = authUser.profilePic
   const messagesEndRef = useRef(null)
@@ -26,23 +28,17 @@ const ConversationContainer = () => {
   }, [messages])
 
   useEffect(() => {
-    if (selectedConversation?._id) {
-      const markSeen = async () => {
-        try {
-          await fetch(`/api/messages/mark-message-seen/${selectedConversation._id}`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-        } catch (error) {
-          console.error('Error marking messages as seen:', error);
-        }
-      };
-
-      markSeen();
+    const lastMessage = messages?.[messages.length - 1];
+    
+    if (lastMessage && 
+        selectedConversation?._id && 
+        lastMessage.receiverId === authUser._id && 
+        lastMessage.senderId === selectedConversation._id && 
+        !lastMessage.seen) {
+      markMessageSeen(selectedConversation._id);
     }
-  }, [selectedConversation?._id]);
+  }, [messages, selectedConversation?._id, authUser._id]);
+
 
   return (
     <div className="w-full py-2 h-full">

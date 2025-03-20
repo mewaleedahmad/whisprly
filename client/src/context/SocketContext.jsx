@@ -43,13 +43,17 @@ export const SocketContextProvider = ({ children }) => {
         setLastMessage(message)
       })
 
-      socket.on("messagesSeen", (receiverId) => {
+      socket.on("messagesSeen", (userId) => {
         setMessages(prevMessages => 
-          prevMessages.map(msg => 
-            msg.senderId === authUser._id && msg.receiverId === receiverId 
-              ? { ...msg, seen: true } 
-              : msg
-          )
+          prevMessages.map(msg => {
+            if (msg?.senderId === authUser._id && msg?.receiverId === userId) {
+              return { ...msg, seen: true };
+            }
+            else if (msg?.receiverId === authUser._id && msg?.senderId === userId) {
+              return { ...msg, seen: true };
+            }
+            return msg;
+          })
         );
       });
       
@@ -57,6 +61,7 @@ export const SocketContextProvider = ({ children }) => {
         socket.off("getOnlineUsers")
         socket.off("getFriends")
         socket.off("getLastMessage")
+        socket.off("messagesSeen")
         socket.close()
       }
     } else {

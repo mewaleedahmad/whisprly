@@ -138,9 +138,15 @@ export const markMessageSeen = async(req,res)=>{
   )
 
   const senderSocketId = userSocketMap[senderId.toString()]
+  const receiverSocketId = userSocketMap[receiverId.toString()]
+
   if(senderSocketId){
     io.to(senderSocketId).emit("messagesSeen",receiverId);
   }
+  if(receiverSocketId){
+    io.to(receiverSocketId).emit("messagesSeen",senderId);
+  }
+  
   res.status(200).json({success:true})
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error' });
