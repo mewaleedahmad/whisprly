@@ -32,5 +32,5 @@ app.use("/api/profile",profileRoutes)
 
 server.listen(PORT,()=>{
     dbConnect()
-    console.log(`Server is running on ${PORT}`)
+    console.log(`Server is running`)
 })

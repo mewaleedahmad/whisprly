@@ -8,7 +8,7 @@ import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
 
 const Message = () => {
   const [loading,setLoading] = useState(false)
-  const {conversations,setConversations,selectedConversation,setSelectedConversation,setMessages,setLoadingState,lastMessage} = useGlobalState();
+  const {conversations,setConversations,selectedConversation,setSelectedConversation,messages,setMessages,setLoadingState,lastMessage} = useGlobalState();
   const {getConversations} = useGetConversations()
   const {getMessages} = useGetMessages()
   const {getLastMessage} = useGetLastMessage()
@@ -54,7 +54,7 @@ useEffect(()=>{
     await getLastMessage()
   }
   handleGetLastMessage()
-},[])
+},[messages])
 
 useEffect(()=>{
 

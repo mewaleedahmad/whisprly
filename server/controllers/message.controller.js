@@ -108,9 +108,10 @@ export const getLastMessage = async (req,res) =>{
 
      const lastMessage = findMessage.flatMap((lastMsg)=>lastMsg.messages)
 
-     const socket = userSocketMap[authUser.toString()]
-     if(socket){
-      io.to(socket).emit("getLastMessage",lastMessage)
+     const senderSocketId = userSocketMap[authUser.toString()]
+     
+     if(senderSocketId){
+      io.to(senderSocketId).emit("getLastMessage",lastMessage)
      }
      res.status(200).json(lastMessage)
   } catch (error) {

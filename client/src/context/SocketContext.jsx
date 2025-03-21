@@ -13,6 +13,7 @@ export const SocketContextProvider = ({ children }) => {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { authUser } = useAuthContext();
   const {setFriends,setLastMessage,setMessages} = useGlobalState()
+  
 
   useEffect(() => {
     if (authUser) {
@@ -20,6 +21,7 @@ export const SocketContextProvider = ({ children }) => {
         query: {
           userId: authUser._id,
         },
+        withCredentials:true
       });
       setSocket(socket);
 
