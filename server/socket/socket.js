@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: process.env.CLIENT_URL,
     methods: ["GET", "POST","DELETE"],
   },
 });
@@ -19,7 +19,6 @@ io.on("connection", (socket) => {
   if(userId != "undefined"){
     userSocketMap[userId] = socket.id}
     io.emit("getOnlineUsers", Object.keys(userSocketMap))
-    console.log("user connected", userId);
 
   socket.on("disconnect", (socket) => {
     console.log("user disconnected", socket.id);
