@@ -43,6 +43,7 @@ export const SocketContextProvider = ({ children }) => {
       
       socket.on("getLastMessage",(message)=>{
         setLastMessage(message)
+      
       })
 
       socket.on("messagesSeen", (userId) => {

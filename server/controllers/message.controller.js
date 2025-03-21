@@ -109,7 +109,7 @@ export const getLastMessage = async (req,res) =>{
      const lastMessage = findMessage.flatMap((lastMsg)=>lastMsg.messages)
 
      const senderSocketId = userSocketMap[authUser.toString()]
-     
+
      if(senderSocketId){
       io.to(senderSocketId).emit("getLastMessage",lastMessage)
      }

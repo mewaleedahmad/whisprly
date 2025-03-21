@@ -49,6 +49,8 @@ const Message = () => {
     fetchConversations()
   },[])
 
+
+
 useEffect(()=>{
   const handleGetLastMessage = async()=>{
     await getLastMessage()
@@ -64,7 +66,6 @@ useEffect(()=>{
     setLoadingState(false)
   }
 },[setLoadingState, setMessages, setSelectedConversation])
-
 
   return (
     <>
@@ -87,6 +88,7 @@ useEffect(()=>{
         (msg) => convo._id === msg.senderId || convo._id === msg.receiverId
       );
       const isActive = onlineUsers.includes(convo._id);
+        
       return (
         <div onClick={() => {setSelectedConversation(convo);handleGetMessages(convo._id);}} key={convo._id} 
          className={`w-full flex items-center justify-between  py-2 px-6 cursor-pointer ${selectedConversation?._id === convo?._id ? "bg-secondary" : ""  } hover:bg-secondary`}>
@@ -99,23 +101,17 @@ useEffect(()=>{
             <div className="name">
               <div className="flex gap-2 items-center">
               <h3>{convo.fullName}</h3>
-              
-              {convo.userName === "waleed_gondal" ? 
-               <div className="text-[10px]  bg-[#646ee4] text-white rounded-xl px-1">Creater</div> 
-              : ""}
+              {convo.userName === "waleed_gondal" &&
+               <div className="text-[10px]  bg-[#646ee4] text-white rounded-xl px-1">Creater</div> }
               </div>
-              {matchingMessage ? (
-                <h5>{handleSliceMessage(matchingMessage.message, 28)}</h5>
-              ) : (
-                <h5></h5>
-              )}
+            {matchingMessage &&
+              <p className={`text-xs  ${( matchingMessage?.senderId === convo?._id && !matchingMessage?.seen) ? "text-white font-semibold" : "text-gray-400 "}`} >{handleSliceMessage(matchingMessage.message, 28)}</p>
+            }
             </div>
           </div>
-          {matchingMessage ? (
+          {matchingMessage && 
           <h5 className="text-xs">{getLocalTime(matchingMessage.createdAt)}</h5>
-              ) : (
-                <h5></h5>
-              )}
+              }
         </div>
       );
     })
