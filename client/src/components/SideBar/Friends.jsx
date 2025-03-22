@@ -6,7 +6,7 @@ import { useSocketContext } from "../../context/SocketContext";
 
 const Friends = () => {
   const [loading, setLoading] = useState(false);
-  const { setSelectedConversation,selectedConversation, setMessages, setLoadingState, friends } = useGlobalState();
+  const { setSelectedConversation, setMessages, setLoadingState, friends,setFriends } = useGlobalState();
   const { getFriends } = useGetFriends();
   const { getMessages } = useGetMessages();
   const { onlineUsers } = useSocketContext();
@@ -17,11 +17,13 @@ const Friends = () => {
 
   useEffect(() => {
     const handleFriends = async () => {
-      await getFriends();
+      const res = await getFriends();
+      setFriends(res)
       setLoading(true);
     };
     handleFriends();
   }, []);
+
   const handleGetMessages = async (id) => {
     setLoadingState(true);
     const data = await getMessages(id);
@@ -57,7 +59,7 @@ const Friends = () => {
                   <div onClick={() => {setSelectedConversation(user);handleGetMessages(user._id);}} key={user._id}  className="Friend cursor-pointer">
                     <div className={`avatar  ${isActive ? "online" : "offline"}`}>
                       <div className="w-14 bg-quaternary rounded-full">
-                        <img src={user.profilePic} alt={`${user.fullName}'s avatar`} />
+                        <img src={user.profilePic} />
                       </div>
                     </div>
                     <h5 className="text-center text-nowrap max-w-14">{truncateName(user.fullName, 9)}</h5>

@@ -73,9 +73,8 @@ const ConversationContainer = () => {
                 {getLocalTime(msg?.createdAt)}                  
             </div>
           <div className="chat-image avatar">
-            <div className="w-10 rounded-full">
+            <div className="w-10 bg-quaternary rounded-full">
               <img
-                alt="Tailwind CSS chat bubble component"
                 src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
                 />
             </div>

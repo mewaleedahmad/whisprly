@@ -17,9 +17,9 @@ const SendMessage = () => {
     handleSubmit,
     reset,
     formState: {isSubmitting}
+
 } = useForm()
-
-
+ 
 
   const onSubmit = async(message)=>{
     await sendMessage(selectedConversation?._id,message)
@@ -51,26 +51,3 @@ const SendMessage = () => {
 };
 
 export default SendMessage;
-
-
- {/* <div className="input-file">
-    <label htmlFor="file-input" className="size-11 flex items-center hover:text-gray-200 text-2xl cursor-pointer justify-center ">
-       <FaPaperclip/>
-     </label>
-     <input type="file" id="file-input" className="hidden"
-       onChange={(e) => console.log(e.target.files[0])} />
-    </div> */}
-
-
-     // const handleSendMessage = async(e)=>{
-  //   e.preventDefault()
-  //   if (!message.trim()) {
-  //     return;
-  //   }
-  //   try {
-  //     await sendMessage(selectedConversation._id, message); 
-  //     setMessage(""); 
-  //   } catch (error) {
-  //     console.error("Error sending message:", error);
-  //   }
-  // }

@@ -7,7 +7,6 @@ import { useAuthContext } from "../../context/AuthContext";
 import useGetFriendRequests from "../../hooks/useGetFriendRequests";
 import useLogout from "../../hooks/useLogout";
 import useAddFriend from "../../hooks/useAddFriend";
-import useGetFriends from "../../hooks/useGetFriends";
 import useRejectFriendRequest from "../../hooks/useRejectFriendRequest";
 
 import { Link } from "react-router-dom";
@@ -19,9 +18,8 @@ const Profile = () => {
   const { logout } = useLogout();
   const {addFriend} = useAddFriend()
   const { getFriendRequests } = useGetFriendRequests()
-  const { getFriends } = useGetFriends();
   const {rejectFriendRequest} = useRejectFriendRequest();
-  const {friendRequests,setFriendRequests,setHandleFriendRequest} =  useGlobalState();
+  const {friendRequests,setFriendRequests,setHandleFriendRequest,setAddFriend} =  useGlobalState();
 
   const [loading, setLoading] = useState(false);
   const [buttonLoading, setButtonLoading] = useState({});
@@ -34,8 +32,8 @@ const Profile = () => {
 
   const handleAddFriend = async (id) => {
     setButtonLoading((prev=>({...prev,[id]:true})))
-    await addFriend(id);
-    await getFriends()
+    const res = await addFriend(id);
+    setAddFriend(res)
     setHandleFriendRequest(id)
     setButtonLoading((prev=>({...prev,[id]:false})))
   }
@@ -133,7 +131,7 @@ const Profile = () => {
          </div>
             ))
           ) : (
-            <p className=" text-base pt-3 text-gray-300 ">Your friend request list is empty. Check back later!</p>
+            <p className=" text-base pt-3 ps-2 text-gray-300 ">No Requests. Check back later!</p>
           )}
          </>
          }

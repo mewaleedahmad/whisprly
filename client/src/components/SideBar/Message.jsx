@@ -95,7 +95,7 @@ useEffect(()=>{
           <div className="flex gap-3 items-center ">
             <div className={`avatar ${isActive ? "online" : "offline"}`}>
               <div className="w-12 bg-quaternary rounded-full">
-                <img src={convo.profilePic} alt="Profile" />
+                <img src={convo.profilePic} />
               </div>
             </div>
             <div className="name">

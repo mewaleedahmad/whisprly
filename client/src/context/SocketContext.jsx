@@ -12,7 +12,7 @@ export const SocketContextProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const { authUser } = useAuthContext();
-  const {setFriends,setLastMessage,setMessages} = useGlobalState()
+  const {setLastMessage,setMessages} = useGlobalState()
   
 
   useEffect(() => {
@@ -29,10 +29,6 @@ export const SocketContextProvider = ({ children }) => {
         setOnlineUsers(users);
       });
       
-      socket.on("getFriends",(friends)=>{
-        setFriends(friends)
-      })
-
       socket.on("newMessage", ({newMessage}) => {
         if (newMessage) {
             setMessages(prevMessages => 
@@ -62,7 +58,7 @@ export const SocketContextProvider = ({ children }) => {
       
       return () => {
         socket.off("getOnlineUsers")
-        socket.off("getFriends")
+        socket.off("newMessage")
         socket.off("getLastMessage")
         socket.off("messagesSeen")
         socket.close()

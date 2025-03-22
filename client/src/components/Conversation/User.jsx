@@ -4,13 +4,11 @@ import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import useGlobalState from "../../zustand/useGlobalState";
 import useRemoveFriend from "../../hooks/useRemoveFriend";
 import { useSocketContext } from "../../context/SocketContext";
-import useGetFriends from "../../hooks/useGetFriends";
 
 
 const User = () => {
-  const {setSelectedConversation,selectedConversation,setRemoveConversation} = useGlobalState();
+  const {setSelectedConversation,selectedConversation,setRemoveConversation,setRemoveFriend} = useGlobalState();
   const {removeFriend} = useRemoveFriend()
-  const { getFriends } = useGetFriends();
   const {onlineUsers} = useSocketContext()
   const isActive = onlineUsers.includes(selectedConversation._id)
 
@@ -18,23 +16,13 @@ const User = () => {
   const handleRemoveFriend = async (id) => {
    try{
     await removeFriend(id)
-    await getFriends()
+    setRemoveFriend(id)
     setRemoveConversation(id)
     setSelectedConversation(null)
    }catch(error){
     console.log("Error Removing friend",error)
    }
   }
-  // const handleRemoveFriend = async (id) => {
-  //  try{
-  //   await removeFriend(id)
-  //   setRemoveFriend(id)
-  //   setRemoveConversation(id)
-  //   setSelectedConversation(null)
-  //  }catch(error){
-  //   console.log("Error Removing friend",error)
-  //  }
-  // }
   
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
