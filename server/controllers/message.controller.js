@@ -127,8 +127,8 @@ export const markMessageSeen = async(req,res)=>{
 
     const updatedMessages = await messageModel.updateMany(
       {
-      senderId : senderId,
-      receiverId: receiverId,
+      senderId : receiverId,
+      receiverId: senderId,
       seen:false
     },
     {
@@ -154,3 +154,4 @@ export const markMessageSeen = async(req,res)=>{
     console.error('Error in markMessageSeen in messageController:', error.message);
   }
 }
+

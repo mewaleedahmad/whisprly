@@ -65,30 +65,33 @@ const ConversationContainer = () => {
          : 
         <>
           {messages?.map((msg)=>(
+            <>
+            {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
+            &&
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"}`}>
-              <div className="chat-header text-xs mx-1 mb-1 opacity-80">
-                  {getLocalTime(msg?.createdAt)}                  
-              </div>
-            <div className="chat-image avatar">
-              <div className="w-10 rounded-full">
-                <img
-                  alt="Tailwind CSS chat bubble component"
-                  src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
-                  />
-              </div>
+            <div className="chat-header text-xs mx-1 mb-1 opacity-80">
+                {getLocalTime(msg?.createdAt)}                  
             </div>
-            <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
-              {msg?.message}
+          <div className="chat-image avatar">
+            <div className="w-10 rounded-full">
+              <img
+                alt="Tailwind CSS chat bubble component"
+                src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
+                />
             </div>
-            {
-              msg.senderId == myMessage && 
-               <div className="chat-footer text-xs mx-1 opacity-80">
-                 {msg?.seen && <p>seen</p>}
-              </div>
-            }
-            
           </div>
-          
+          <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
+            {msg?.message}
+          </div>
+          {
+            msg.senderId == myMessage && 
+             <div className="chat-footer text-xs mx-1 opacity-80">
+               {msg?.seen && <p>seen</p>}
+            </div>
+          }
+        </div>
+            }
+            </>
           ))}
           <div ref={messagesEndRef} />
         </>
