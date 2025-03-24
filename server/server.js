@@ -1,5 +1,6 @@
 import express from 'express';
 import dotenv  from 'dotenv';
+import cors from "cors"
 import cookieParser from 'cookie-parser';
 import dbConnect from './config/dbConnect.js';
 import { v2 as cloudinary } from 'cloudinary';
@@ -10,6 +11,7 @@ import getUsersRoutes from "./routes/getUsers.routes.js"
 import friendRoutes from "./routes/friend.routes.js"
 import profileRoutes from "./routes/profile.routes.js"
 import {app,server} from './socket/socket.js';
+import { CLIENT_URL } from './config/config.js';
 
 const PORT = process.env.PORT || 8000 
 dotenv.config();
@@ -19,6 +21,11 @@ cloudinary.config({
     api_key:process.env.CLOUDINARY_API_KEY , 
     api_secret:process.env.CLOUDINARY_API_SECRET 
   });
+
+app.use(cors({
+  origin : CLIENT_URL,
+  credentials : true
+}))
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));

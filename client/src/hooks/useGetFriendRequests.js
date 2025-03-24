@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 const useGetFriendRequests = () => {
   const getFriendRequests = async () => {
     try {
-      const response = await fetch("/api/friends/request",{
+      const response = await fetch(`/api/friends/request`,{
         credentials: 'include',
       });
       const data = await response.json();

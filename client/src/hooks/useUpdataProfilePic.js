@@ -8,7 +8,7 @@ const useUpdataProfilePic = () => {
             const formData = new FormData();
             formData.append('profilePic', file);
 
-            const res = await fetch("/api/profile/update-profile-pic", {
+            const res = await fetch(`/api/profile/update-profile-pic`, {
                 method: "POST",
                 body: formData,  // Send the FormData object
                 credentials: "include"

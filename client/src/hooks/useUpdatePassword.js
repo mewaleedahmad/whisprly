@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 const useUpdatePassword = ()=>{
     const updatePassword = async({ oldPassword, newPassword, confirmNewPassword }) => {
        try {
-            const response = await fetch('/api/profile/update-password', {
+            const response = await fetch(`/api/profile/update-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

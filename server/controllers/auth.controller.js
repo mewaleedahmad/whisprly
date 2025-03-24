@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs"
 import generateTokenAndSetCookie from '../utils/generateTokenAndSetCookie.js';
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer"
+import {CLIENT_URL} from "../config/config.js"
 
 export const signup = async(req,res)=>{
     try {
@@ -144,7 +145,7 @@ export const sendEmail = async (req,res)=>{
             expiresIn : "60m"
         })
 
-        const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
+        const resetUrl = `${CLIENT_URL}/reset-password/${token}`;
 
         const emailTemplate = `<!DOCTYPE html>
                 <html lang="en">
