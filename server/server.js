@@ -10,8 +10,8 @@ import messageRoutes from "./routes/message.routes.js"
 import getUsersRoutes from "./routes/getUsers.routes.js"
 import friendRoutes from "./routes/friend.routes.js"
 import profileRoutes from "./routes/profile.routes.js"
-import {app,server} from './socket/socket.js';
 import { CLIENT_URL } from './config/config.js';
+import {app,server} from './socket/socket.js';
 
 const PORT = process.env.PORT || 8000 
 dotenv.config();
