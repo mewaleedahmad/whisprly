@@ -8,6 +8,8 @@ import Logo from "../components/Logo";
 import resetPasswordSchema from "../lib/resetPasswordSchema";
 import { useState } from "react";
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 const ResetPassword =()=>{
  
@@ -24,7 +26,7 @@ const ResetPassword =()=>{
   const handleResetPassword = async({password,confirmPassword})=>{
       setLoading(true)
       try {
-        const response = await fetch(`/api/auth/reset-password/${token}`,{
+        const response = await fetch(`${API_URL}/api/auth/reset-password/${token}`,{
           method: "POST",
           headers: {
             'Content-Type': 'application/json',

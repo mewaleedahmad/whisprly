@@ -10,12 +10,13 @@ const useGetLastMessage = ()=> {
             const data = await response.json();
       
             if (!response.ok) {
-              throw new Error(data.error);
+              const error = data.message
+              return error
             }
       
             return data
         } catch (error) {
-            console.log(error.getMessages, "Error in useGetLastMessage");
+          throw new Error(error.message);
           }
 
     }
