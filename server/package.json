@@ -1,10 +1,11 @@
 {
-  "name": "Whisprly",
+  "name": "server",
   "version": "1.0.0",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "server": "nodemon server/server.js"
+    "dev": "nodemon server/server.js",
+    "start" : "node server/server.js" 
   },
   "author": "Waleed Ahmad",
   "license": "ISC",
