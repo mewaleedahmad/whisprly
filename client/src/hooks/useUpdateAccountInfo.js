@@ -1,12 +1,13 @@
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
+import {API_URL} from "../config"
 
 const useUpdateAccountInfo  = ()=>{
     const {setAuthUser} = useAuthContext()
 
     const updateAccountInfo = async({newEmail,newUserName,newFullName})=>{
         try {
-             const response = await fetch(`/api/profile//update-account-info`,{
+             const response = await fetch(`${API_URL}/api/profile//update-account-info`,{
                  method: "POST",
                  credentials: 'include',
                  headers: {

@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 const useSendFriendReq = () => {
 
     const sendFriendReq = async(id)=>{
         try {
-            const response = await fetch(`/api/friends/request/send/${id}`,{
+            const response = await fetch(`${API_URL}/api/friends/request/send/${id}`,{
                 method: "POST",
                 credentials: 'include',
             })

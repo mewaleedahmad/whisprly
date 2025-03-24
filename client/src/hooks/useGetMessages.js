@@ -1,11 +1,12 @@
 import { useState } from "react";
+import {API_URL} from "../config"
 
 const useGetMessages = () => {
 const [isLoading,setIsLoading] = useState(false)
   const getMessages = async (id) => {
     setIsLoading(true)
     try {
-      const response = await fetch(`/api/messages/${id}`, {
+      const response = await fetch(`${API_URL}/api/messages/${id}`, {
         method: "POST",
         credentials: 'include',
       });

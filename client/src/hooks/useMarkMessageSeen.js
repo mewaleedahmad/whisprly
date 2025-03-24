@@ -1,7 +1,9 @@
+import {API_URL} from "../config"
+
 const useMarkMessageSeen = ()=> {
     const markMessageSeen = async(id)=>{
       try {
-        await fetch(`/api/messages/mark-message-seen/${id}`, {
+        await fetch(`${API_URL}/api/messages/mark-message-seen/${id}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

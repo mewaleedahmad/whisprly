@@ -1,10 +1,11 @@
 import { toast } from "react-hot-toast";
+import { API_URL } from "../config";
 
 const useRejectFriendRequest = () => {
 
   const rejectFriendRequest = async (id) => {
     try {
-      const response = await fetch(`/api/friends/request/reject/${id}`, {
+      const response = await fetch(`${API_URL}/api/friends/request/reject/${id}`, {
         method: "DELETE",
         credentials: 'include',
       });

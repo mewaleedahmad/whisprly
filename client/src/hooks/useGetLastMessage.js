@@ -1,8 +1,10 @@
+import {API_URL} from "../config"
+
 const useGetLastMessage = ()=> {
     const getLastMessage = async()=>{
         try {
             
-            const response = await fetch(`/api/messages/get-last-message`,{
+            const response = await fetch(`${API_URL}/api/messages/get-last-message`,{
               credentials: 'include',
             });
             const data = await response.json();

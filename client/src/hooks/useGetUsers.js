@@ -1,9 +1,10 @@
+import {API_URL} from "../config"
 
 const useGetUsers = () => {
     
     const getUsers = async () => {
         try {
-            const response = await fetch(`/api/getusers`,{
+            const response = await fetch(`${API_URL}/api/getusers`,{
                 credentials: 'include',
             })
             const data = await response.json()

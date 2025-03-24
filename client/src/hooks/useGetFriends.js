@@ -1,7 +1,9 @@
+import {API_URL} from "../config"
+
 const useGetFriends = () => {
   const getFriends = async () => {
     try {
-      const response = await fetch(`/api/friends`,{
+      const response = await fetch(`${API_URL}/api/friends`,{
         credentials: 'include',
       });
 

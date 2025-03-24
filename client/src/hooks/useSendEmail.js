@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 const useSendEmail = () => {
 
     const sendEmail = async ({email}) => {
       try {
-        const response = await fetch(`/api/auth/send-email`, {
+        const response = await fetch(`${API_URL}/api/auth/send-email`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',

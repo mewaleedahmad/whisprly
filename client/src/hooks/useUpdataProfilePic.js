@@ -1,4 +1,6 @@
 import { useAuthContext } from "../context/AuthContext";
+import {API_URL} from "../config"
+
 
 const useUpdataProfilePic = () => {
     const {setAuthUser} = useAuthContext()
@@ -8,7 +10,7 @@ const useUpdataProfilePic = () => {
             const formData = new FormData();
             formData.append('profilePic', file);
 
-            const res = await fetch(`/api/profile/update-profile-pic`, {
+            const res = await fetch(`${API_URL}/api/profile/update-profile-pic`, {
                 method: "POST",
                 body: formData,  // Send the FormData object
                 credentials: "include"

@@ -1,9 +1,11 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 const useGetConversations = () => {
   const getConversations = async () => {
     try {
-      const response = await fetch(`/api/messages/conversations`,{
+      const response = await fetch(`${API_URL}/api/messages/conversations`,{
         credentials: 'include',
       });
       const data = await response.json();

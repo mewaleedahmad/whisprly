@@ -1,9 +1,10 @@
+import {API_URL} from "../config"
 
 const useSendMessage = () => {
 
     const sendMessage = async (id,message) => {
       try {
-        const response = await fetch(`/api/messages/send/${id}`, {
+        const response = await fetch(`${API_URL}/api/messages/send/${id}`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',

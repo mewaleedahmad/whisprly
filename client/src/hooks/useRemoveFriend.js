@@ -1,10 +1,12 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 const useRemoveFriend = () => {
 
     const removeFriend = async (id) => {
         try {
-            const response = await fetch(`/api/friends/remove/${id}`,{
+            const response = await fetch(`${API_URL}/api/friends/remove/${id}`,{
                 method : "DELETE",
                 credentials: 'include',
             })

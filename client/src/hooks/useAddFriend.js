@@ -1,10 +1,11 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
 
 const useAddFriend = () => {
 
     const addFriend = async (id) => {
         try {
-            const response = await fetch(`/api/friends/add/${id}`,{
+            const response = await fetch(`${API_URL}/api/friends/add/${id}`,{
                 method : "POST",
                 credentials: 'include',
             })

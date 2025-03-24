@@ -1,4 +1,6 @@
 import toast from "react-hot-toast";
+import {API_URL} from "../config"
+
 
 import { useAuthContext } from "../context/AuthContext";
 
@@ -7,7 +9,7 @@ const useLogin = () => {
 
     const login = async ({ email,password }) => {
         try {
-            const response = await fetch(`/api/auth/login`, {
+            const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
