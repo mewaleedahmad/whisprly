@@ -1,14 +1,17 @@
 import toast from "react-hot-toast";
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 
 const useSendFriendReq = () => {
-
+    const {token} = useGlobalState()
     const sendFriendReq = async(id)=>{
         try {
             const response = await fetch(`${API_URL}/api/friends/request/send/${id}`,{
                 method: "POST",
-                credentials: 'include',
+                headers:{
+                    'Authorization': `Bearer ${token}`
+                }
             })
             const data = await response.json();
 

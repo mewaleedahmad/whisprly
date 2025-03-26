@@ -1,14 +1,18 @@
 import { useState } from "react";
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useGetMessages = () => {
 const [isLoading,setIsLoading] = useState(false)
+const {token} = useGlobalState()
   const getMessages = async (id) => {
     setIsLoading(true)
     try {
       const response = await fetch(`${API_URL}/api/messages/${id}`, {
         method: "POST",
-        credentials: 'include',
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
       });
       const data = await response.json();
 

@@ -1,10 +1,14 @@
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useGetFriends = () => {
+const {token} = useGlobalState()
   const getFriends = async () => {
     try {
       const response = await fetch(`${API_URL}/api/friends`,{
-        credentials: 'include',
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
       });
 
       const data = await response.json();

@@ -1,11 +1,11 @@
 import toast from "react-hot-toast";
 import {API_URL} from "../config"
-
-
 import { useAuthContext } from "../context/AuthContext";
+import useGlobalState from "../zustand/useGlobalState";
 
 const useLogout = () => {
   const { setAuthUser } = useAuthContext();
+  const {setToken} = useGlobalState()
   const logout = async () => {
     try {
       const response = await fetch(`${API_URL}/api/auth/logout`, {
@@ -19,6 +19,7 @@ const useLogout = () => {
 
       localStorage.removeItem("authUser");
       setAuthUser(null);
+      setToken("")
       toast.success(data.message);
     } catch (error) {
       toast.error(error.message || "Something went wrong");

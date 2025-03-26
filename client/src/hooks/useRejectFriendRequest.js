@@ -1,13 +1,16 @@
 import { toast } from "react-hot-toast";
 import { API_URL } from "../config";
+import useGlobalState from "../zustand/useGlobalState";
 
 const useRejectFriendRequest = () => {
-
+const {token} = useGlobalState()
   const rejectFriendRequest = async (id) => {
     try {
       const response = await fetch(`${API_URL}/api/friends/request/reject/${id}`, {
         method: "DELETE",
-        credentials: 'include',
+        headers:{
+          'Authorization': `Bearer ${token}`
+        }
       });
       const data = await response.json();
 

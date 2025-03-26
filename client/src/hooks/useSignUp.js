@@ -1,11 +1,12 @@
 import toast from "react-hot-toast";
 import { useAuthContext } from "../context/AuthContext";
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 
 const useSignUp = () => {
     const {setAuthUser} = useAuthContext()
-
+    const {setToken} = useGlobalState()
     const signUp = async ({ email, userName, fullName, gender, password, confirmPassword }) => {
         try {
             const response = await fetch(`${API_URL}/api/auth/signup`, {
@@ -22,6 +23,7 @@ const useSignUp = () => {
             }
            localStorage.setItem("authUser",JSON.stringify(data))
            setAuthUser(data)
+           setToken(data.token)
            toast.success(data.message);
            
         } catch(error) {

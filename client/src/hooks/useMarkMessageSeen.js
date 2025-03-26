@@ -1,12 +1,14 @@
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useMarkMessageSeen = ()=> {
+const {token} = useGlobalState()
     const markMessageSeen = async(id)=>{
       try {
         await fetch(`${API_URL}/api/messages/mark-message-seen/${id}`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
+          headers:{
+            'Authorization': `Bearer ${token}`
           }
         });
       } catch (error) {

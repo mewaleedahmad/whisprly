@@ -1,15 +1,17 @@
 import toast from "react-hot-toast";
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 
 const useSendEmail = () => {
-
+  const {token} = useGlobalState()
     const sendEmail = async ({email}) => {
       try {
         const response = await fetch(`${API_URL}/api/auth/send-email`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({email}),
 

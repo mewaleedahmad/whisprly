@@ -5,13 +5,14 @@ const generateTokenAndSetCookie = (userId, res) => {
     expiresIn: "100y", 
   });
 
-  // Set a cookie with a 100-year expiry
-  res.cookie("token", token, {
-    maxAge: 100 * 365 * 24 * 60 * 60 * 1000, 
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    sameSite: "strict",
-  });
+  // res.cookie("token", token, {
+  //   maxAge: 1 * 60 * 1000, 
+  //   httpOnly: true,
+  //   secure: process.env.NODE_ENV !== "development",
+  //   sameSite: "Strict",
+  // });
+
+  return {token}
 };
 
 export default generateTokenAndSetCookie;

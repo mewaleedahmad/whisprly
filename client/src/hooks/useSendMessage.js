@@ -1,15 +1,16 @@
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useSendMessage = () => {
-
+  const {token} = useGlobalState()
     const sendMessage = async (id,message) => {
       try {
         const response = await fetch(`${API_URL}/api/messages/send/${id}`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
         },
-        credentials: 'include',
         body: JSON.stringify(message),
 
         });

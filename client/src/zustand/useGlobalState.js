@@ -56,6 +56,9 @@ const useGlobalState = create((set) => ({
 
   loadingState: false,
   setLoadingState: (loadingState) => set({ loadingState }),
+
+  token : "",
+  setToken : (token)=> set({token})
 }));
 
 export default useGlobalState;

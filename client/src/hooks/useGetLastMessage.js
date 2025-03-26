@@ -1,11 +1,15 @@
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useGetLastMessage = ()=> {
+const {token} = useGlobalState()
     const getLastMessage = async()=>{
         try {
             
             const response = await fetch(`${API_URL}/api/messages/get-last-message`,{
-              credentials: 'include',
+              headers:{
+                'Authorization': `Bearer ${token}`
+              }
             });
             const data = await response.json();
       

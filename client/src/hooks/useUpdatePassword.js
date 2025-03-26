@@ -1,15 +1,17 @@
 import toast from "react-hot-toast";
 import {API_URL} from "../config"
+import useGlobalState from "../zustand/useGlobalState";
 
 const useUpdatePassword = ()=>{
+const {token} = useGlobalState()
     const updatePassword = async({ oldPassword, newPassword, confirmNewPassword }) => {
        try {
             const response = await fetch(`${API_URL}/api/profile/update-password`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
-                credentials: "include",
                 body: JSON.stringify({ oldPassword, newPassword, confirmNewPassword }),
             });
             const data = await response.json();

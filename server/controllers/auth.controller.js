@@ -36,7 +36,7 @@ export const signup = async(req,res)=>{
         })
 
         if(newUser){
-            generateTokenAndSetCookie(newUser._id,res)
+           const {token} = generateTokenAndSetCookie(newUser._id,res)
             await newUser.save()
             res.status(200).json({
                 _id: newUser._id,
@@ -44,7 +44,8 @@ export const signup = async(req,res)=>{
                 userName : newUser.userName,
                 profilePic: newUser.profilePic,
                 email : newUser.email,
-                message: "Account Created Successfully"
+                message: "Account Created Successfully",
+                token
             })
         }
 
@@ -65,7 +66,7 @@ export const login =async (req,res)=>{
         }
 
         if(isPasswordCorrect ){
-            generateTokenAndSetCookie(user._id,res)
+           const {token} =  generateTokenAndSetCookie(user._id,res)
             res.status(200).json({
                 _id: user._id,
                 fullName: user.fullName,
@@ -73,6 +74,7 @@ export const login =async (req,res)=>{
                 profilePic: user.profilePic,
                 email : user.email,
                 message: "Login successful",
+                token
             })
         }
 
