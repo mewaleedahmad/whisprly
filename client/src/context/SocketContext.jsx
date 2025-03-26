@@ -2,7 +2,7 @@ import { createContext, useEffect, useState, useContext } from "react";
 import { useAuthContext } from "./AuthContext";
 import { io } from "socket.io-client";
 import useGlobalState from "../zustand/useGlobalState";
-import {API_URL} from "../config"
+import {API_URL} from "../constants"
 
 
 const SocketContext = createContext();

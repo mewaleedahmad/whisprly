@@ -1,11 +1,9 @@
 import { useAuthContext } from "../context/AuthContext";
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 
 const useUpdataProfilePic = () => {
     const {setAuthUser} = useAuthContext()
-    const {token} = useGlobalState()
     const updateProfilePic = async (file) => {
         try {
             const formData = new FormData();

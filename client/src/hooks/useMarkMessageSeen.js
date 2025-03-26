@@ -1,8 +1,6 @@
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 const useMarkMessageSeen = ()=> {
-const {token} = useGlobalState()
     const markMessageSeen = async(id)=>{
       try {
         await fetch(`${API_URL}/api/messages/mark-message-seen/${id}`, {

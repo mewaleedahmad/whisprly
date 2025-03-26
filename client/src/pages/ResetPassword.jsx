@@ -8,7 +8,7 @@ import Logo from "../components/Logo";
 import resetPasswordSchema from "../lib/resetPasswordSchema";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import {API_URL} from "../config"
+import {API_URL} from "../constants"
 
 
 const ResetPassword =()=>{

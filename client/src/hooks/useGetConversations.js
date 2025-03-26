@@ -1,10 +1,8 @@
 import toast from "react-hot-toast";
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 
 const useGetConversations = () => {
-  const {token} = useGlobalState()
   const getConversations = async () => {
     try {
       const response = await fetch(`${API_URL}/api/messages/conversations`,{

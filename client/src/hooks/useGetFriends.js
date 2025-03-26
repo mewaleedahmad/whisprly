@@ -1,8 +1,6 @@
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 const useGetFriends = () => {
-const {token} = useGlobalState()
   const getFriends = async () => {
     try {
       const response = await fetch(`${API_URL}/api/friends`,{

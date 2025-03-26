@@ -1,8 +1,6 @@
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 const useGetLastMessage = ()=> {
-const {token} = useGlobalState()
     const getLastMessage = async()=>{
         try {
             

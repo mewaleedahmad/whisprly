@@ -1,9 +1,7 @@
 import toast from "react-hot-toast";
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState";
+import {API_URL, token} from "../constants"
 
 const useAddFriend = () => {
-const {token} = useGlobalState()
     const addFriend = async (id) => {
         try {
             const response = await fetch(`${API_URL}/api/friends/add/${id}`,{

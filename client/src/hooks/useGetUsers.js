@@ -1,8 +1,6 @@
-import {API_URL} from "../config"
-import useGlobalState from "../zustand/useGlobalState"
+import {API_URL, token} from "../constants"
 
 const useGetUsers = () => {
-const {token} = useGlobalState()
     const getUsers = async () => {
         try {
             const response = await fetch(`${API_URL}/api/getusers`,{
