@@ -24,7 +24,6 @@ cloudinary.config({
 
 app.use(cors({
   origin : CLIENT_URL,
-  credentials : true
 }))
 
 app.use(express.json());

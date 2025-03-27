@@ -15,13 +15,12 @@ const useSendEmail = () => {
         });
         const data = await response.json();
   
-        if (!response.ok) {
-          toast.error(data.error || "Email not associated with any account")
-          return
+        if (response.status === 400) {
+          throw new Error(data.error)
         }
         toast.success("Password reset link sent to your email")
       } catch (error) {
-        console.log(error.message, "Error in useSendEmail")
+        toast.error(error.message || "Something went wrong")
       }
     };
     return { sendEmail };

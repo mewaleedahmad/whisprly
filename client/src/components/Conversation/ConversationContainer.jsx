@@ -69,9 +69,9 @@ const ConversationContainer = () => {
             {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
             &&
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
-            <div className="chat-header text-xs mx-1 mb-1 opacity-80">
+            <h5 className="chat-header text-xs mx-1 mb-1 opacity-80">
                 {getLocalTime(msg?.createdAt)}                  
-            </div>
+            </h5>
           <div className="chat-image avatar">
             <div className="w-10 bg-quaternary rounded-full">
               <img
@@ -84,9 +84,9 @@ const ConversationContainer = () => {
           </div>
           {
             msg.senderId == myMessage && 
-             <div className="chat-footer text-xs mx-1 opacity-80">
+             <h5 className="chat-footer text-xs mx-1 opacity-80">
                {msg?.seen && <p>seen</p>}
-            </div>
+            </h5>
           }
         </div>
             }
