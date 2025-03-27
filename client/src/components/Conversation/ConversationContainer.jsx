@@ -65,10 +65,10 @@ const ConversationContainer = () => {
          : 
         <>
           {messages?.map((msg)=>(
-            <>
+            <div key={msg?._id}>
             {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
             &&
-            <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"}`}>
+            <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
             <div className="chat-header text-xs mx-1 mb-1 opacity-80">
                 {getLocalTime(msg?.createdAt)}                  
             </div>
@@ -90,7 +90,7 @@ const ConversationContainer = () => {
           }
         </div>
             }
-            </>
+            </div>
           ))}
           <div ref={messagesEndRef} />
         </>

@@ -52,8 +52,8 @@ export const updateProfilePic = async (req, res) => {
     });
    
   } catch (error) {
-    console.log("Error in updateProfilePic in profileController:", error.message);
     res.status(500).json({ message: "Failed to update profile picture" });
+    console.log("Error in updateProfilePic in profileController:", error.message);
   }
 };
 
@@ -65,13 +65,13 @@ export const updatePassword = async (req,res)=>{
   const user = await userModel.findById(authUser);
   
   if(newPassword != confirmNewPassword){
-    res.status(401).json("Passwords don't match");
+    res.status(400).json({message:"Passwords don't match"});
     return;
   }
 
   const isPasswordCorrect = await bcrypt.compare(oldPassword, user?.password || "")
   if(!isPasswordCorrect){
-    res.status(401).json("Incorrect Password");
+    res.status(400).json({message:"Incorrect Password"});
     return;
   }
   if(isPasswordCorrect){
@@ -79,7 +79,7 @@ export const updatePassword = async (req,res)=>{
     const hashedPassword = await bcrypt.hash(newPassword, salt);
 
     await userModel.findByIdAndUpdate(authUser, { password: hashedPassword });
-    res.status(200).json("Password Updated");
+    res.status(200).json({message:"Password Updated"});
   }
  } catch (error) {
    res.status(500).json("Internal Server Error");

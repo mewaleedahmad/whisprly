@@ -1,14 +1,12 @@
 // import { FaPaperclip } from "react-icons/fa6";
 import { IoMdSend } from "react-icons/io";
 
-// import {  useState } from "react";
 import useSendMessage from "../../hooks/useSendMessage";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useForm } from "react-hook-form";
 
 
 const SendMessage = () => {
-  // const [message,setMessage] = useState()
   const {sendMessage} = useSendMessage()
   const {selectedConversation,conversations,setAddConversation} = useGlobalState()
   const convoAlreadyExists = Array.isArray(conversations) && conversations?.includes(selectedConversation)
@@ -30,12 +28,12 @@ const SendMessage = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}  className="w-full ps-4 flex gap-2 items-center justify-between px-3 py-4 bg-transparent  border-t borderColor">
+    <form onSubmit={handleSubmit(onSubmit)}  className="w-full  flex gap-2 items-center justify-between px-3 py-3 bg-transparent  border-t borderColor">
        {/* <div className="input-file">
     <label htmlFor="file-input" className="size-11 flex items-center text-gray-400 hover:text-gray-200 text-2xl cursor-pointer justify-center ">
        <FaPaperclip/>
      </label>
-     <input type="file" id="file-input" className="hidden"
+     <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp" className="hidden"
        onChange={(e) => console.log(e.target.files[0])} />
     </div> */}
     <div className="input-text grow">

@@ -16,12 +16,14 @@ const useSignUp = () => {
             });
             const data = await response.json();
 
-            if (!response.ok) {
-                throw new Error(data.error || "An error occurred");
+             if (response.status === 400) {
+                throw new Error(data.message)
+              }
+             if (response.status === 200) {
+                toast.success(data.message)
             }
            localStorage.setItem("authUser",JSON.stringify(data))
            setAuthUser(data)
-           toast.success(data.message);
            
         } catch(error) {
             toast.error(error.message || "Something went wrong");

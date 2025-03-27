@@ -1,25 +1,34 @@
 import toast from "react-hot-toast";
-import {API_URL, token} from "../constants"
+import {API_URL} from "../constants"
+import { useAuthContext } from "../context/AuthContext";
 
 
 const useRemoveFriend = () => {
+  const {authUser,setAuthUser} = useAuthContext()
+
     const removeFriend = async (id) => {
         try {
             const response = await fetch(`${API_URL}/api/friends/remove/${id}`,{
                 method : "DELETE",
                 headers:{
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${authUser.token}`
                 }
             })
             const data = await response.json();
 
-            if(!response.ok){
-                throw new Error(data.error || "Something went wrong")
+            if (response.status === 401) {
+                localStorage.removeItem("authUser");
+                setAuthUser(null);
+                return null;
+              }
+             if (response.status === 400) {
+                throw new Error(data.error)
+              }
+             if (response.status === 200) {
+                toast.success(data.message)
             }
-            
-            toast.success(data.message);
         } catch (error) {
-            throw new Error(error.message || "Something went wrong");
+            toast.error(error.message || "Something went wrong");
         }
     }
     return {removeFriend}

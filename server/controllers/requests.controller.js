@@ -34,7 +34,7 @@ export const getReq = async (req, res) => {
       const receiverId = req.params.id;
   
       if (!senderId || !receiverId) {
-        return res.status(400).json({ error: "Sender or Receiver not found" });
+        return res.status(404).json({ error: "Sender or Receiver not found" });
       }
   
       const sender = await userModel.findById(senderId);
@@ -79,10 +79,7 @@ export const getReq = async (req, res) => {
       if (!authUser || !rejectUser) {
         return res.status(400).json({ error: "Sender or Receiver not found" });
       }
-      // const user = await userModel.findById(authUser);
-      // if (!user.friendRequests.includes(rejectReq)) {
-      //   return res.status(400).json({ error: "Request not found" });
-      // }
+    
       await userModel.findByIdAndUpdate(
         authUser,
         { $pull: { friendRequests: rejectUser } },

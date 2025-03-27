@@ -1,21 +1,26 @@
-import {API_URL, token} from "../constants"
+import {API_URL} from "../constants"
+import { useAuthContext } from "../context/AuthContext";
 
 const useSendMessage = () => {
+  const {authUser,setAuthUser} = useAuthContext()
+
     const sendMessage = async (id,message) => {
       try {
         const response = await fetch(`${API_URL}/api/messages/send/${id}`, {
           method: "POST",
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${authUser.token}`
         },
         body: JSON.stringify(message),
 
         });
-        const data = await response.json();
+        await response.json();
   
-        if (!response.ok) {
-          throw new Error(data.error);
+        if (response.status === 401) {
+          localStorage.removeItem("authUser");
+          setAuthUser(null);
+          return null
         }
   
       } catch (error) {

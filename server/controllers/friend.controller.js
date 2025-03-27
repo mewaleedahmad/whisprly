@@ -9,7 +9,7 @@ export const getFriends = async (req, res) => {
 
 
     if (!authUser) {
-      return res.status(400).json({ error: "User is required" });
+      return res.status(404).json({ error: "User is required" });
     }
 
     const user = await userModel.findById(authUser).populate({
@@ -21,13 +21,6 @@ export const getFriends = async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    // if (user.friends.length === 0) {
-    //   return res
-    //     .status(200)
-    //     .json({ message: "Currently you don't have any friends" });
-    // }
-
-    // io.emit("getFriends",user.friends)
     const socketId = userSocketMap[authUser.toString()];
     if (socketId) {
       io.to(socketId).emit("getFriends", user.friends);
@@ -45,7 +38,7 @@ export const addFriend = async (req, res) => {
     const receiverId = req.params.id;
 
     if (!senderId || !receiverId) {
-      return res.status(400).json({ error: "Sender or Receiver not found" });
+      return res.status(404).json({ error: "Sender or Receiver not found" });
     }
 
     const sender = await userModel.findById(senderId);
@@ -94,7 +87,7 @@ export const removeFriend = async (req, res) => {
     const receiverId = req.params.id;
 
     if (!senderId || !receiverId) {
-      return res.status(400).json({ error: "Sender or Receiver not found" });
+      return res.status(404).json({ error: "Sender or Receiver not found" });
     }
 
     const sender = await userModel.findById(senderId);

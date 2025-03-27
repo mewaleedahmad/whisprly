@@ -11,13 +11,14 @@ const useLogout = () => {
       });
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || "An error occurred");
+     if (response.status === 400) {
+        throw new Error(data.message)
       }
-
+     if (response.status === 200) {
+        toast.success(data.message)
+    }
       localStorage.removeItem("authUser");
       setAuthUser(null);
-      toast.success(data.message);
     } catch (error) {
       toast.error(error.message || "Something went wrong");
     }

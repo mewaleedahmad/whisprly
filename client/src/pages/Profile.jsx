@@ -5,7 +5,7 @@ import { IoKey } from "react-icons/io5";
 import { FaUserCircle } from "react-icons/fa";
 import { BiSolidUser } from "react-icons/bi";
 
-import toast from "react-hot-toast";
+import toast, { Toaster } from "react-hot-toast";
 
 import Logo from "../components/Logo";
 import { useAuthContext } from "../context/AuthContext.jsx";
@@ -62,24 +62,17 @@ const Profile = () => {
     changes.newFullName = data.newFullName
    }
    if (Object.keys(changes).length === 0) {
-    toast.error("Request denied: No updated fields.")
+    toast.error("No changes detected")
     return
    }
    if (Object.keys(changes).length > 0) {
-    try {
-      const accRes = await updateAccountInfo(changes);
-      if (accRes.message) {
-        toast.success(accRes.message);
-      }
-    } catch (error) {
-      toast.error(error.message || "An error occurred while updating");
-    }
+     await updateAccountInfo(changes);
   }
   }
   
   const handleAccountPassword = async(passwordInfo) => {
      const passResponse = await updatePassword(passwordInfo)
-     if(passResponse === "Password Updated"){
+     if(passResponse.message === "Password Updated"){
        passwordReset()
      }
     }
@@ -150,6 +143,13 @@ const Profile = () => {
 
     return (
       <div className="w-full h-screen flex  justify-center overflow-hidden  ">
+         <Toaster position="top-center" reverseOrder={false}  toastOptions={{
+          style: {
+            background: '#171b1d', 
+            color: 'white', 
+            duration : 3000,
+          },
+        }}/>
         <div className=" w-full  flex flex-col justify-center items-center py-5 pb-12 background-blur">
           <Logo/>
           <form  encType="multipart/form-data" >

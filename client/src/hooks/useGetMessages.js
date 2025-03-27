@@ -1,7 +1,10 @@
 import { useState } from "react";
-import {API_URL, token} from "../constants"
+import {API_URL} from "../constants"
+import { useAuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
 
 const useGetMessages = () => {
+  const {authUser,setAuthUser} = useAuthContext()
 const [isLoading,setIsLoading] = useState(false)
   const getMessages = async (id) => {
     setIsLoading(true)
@@ -9,18 +12,20 @@ const [isLoading,setIsLoading] = useState(false)
       const response = await fetch(`${API_URL}/api/messages/${id}`, {
         method: "POST",
         headers:{
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${authUser.token}`
         }
       });
       const data = await response.json();
 
-      if (!response.ok) {
-        throw new Error(data.error);
+      if (response.status === 401) {
+        localStorage.removeItem("authUser");
+        setAuthUser(null);
+        return null;
       }
 
       return data
     }catch (error) {
-      console.log(error.getMessages, "Error in useGetMessages");
+      toast.error(error.message || "Something went wrong");
     } finally{
       setIsLoading(false)
     }
