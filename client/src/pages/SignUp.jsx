@@ -105,7 +105,7 @@ const SignUp = () => {
             </button>
           </form>
         <div className="flex items-center mt-1 gap-2 text-sm">
-          <p className="capitalize text-gray-500">account already exists ?</p>
+          <p className="capitalize text-gray-400">account already exists ?</p>
           <Link to="/login" className="text-[#3e88cc] hover:underline">Login</Link>
         </div>
         </div>

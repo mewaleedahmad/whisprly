@@ -101,7 +101,7 @@ const Login = () => {
               </form>
 
             <div className="flex items-center mt-2 gap-2 text-sm">
-              <p className="capitalize text-gray-500">{"Don't"} have account ?</p>
+              <p className="capitalize text-gray-400">{"Don't"} have account ?</p>
               <Link to="/signup" className="text-[#3e88cc] hover:underline">
                 Register
               </Link>

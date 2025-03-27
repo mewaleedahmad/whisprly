@@ -102,7 +102,7 @@ useEffect(()=>{
               <div className="flex gap-2 items-center">
               <h3>{convo.fullName}</h3>
               {convo.userName === "waleed_gondal" &&
-               <div className="text-[10px]  bg-[#646ee4] text-white rounded-xl px-1">Creater</div> }
+               <div className="text-[10px]  bg-[#6473e4] text-white rounded-xl px-1">Creater</div> }
               </div>
             {matchingMessage &&
               <p className={`text-xs  ${( matchingMessage?.senderId === convo?._id && !matchingMessage?.seen) ? "text-white font-semibold" : "text-gray-400 "}`} >{handleSliceMessage(matchingMessage.message, 28)}</p>

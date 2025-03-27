@@ -9,6 +9,7 @@ body {
   background : url("/background-swirl.jpg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-opacity : 50%
    
 }
 :root {
@@ -31,7 +32,7 @@ body {
 
 @layer components{
   .background-blur{
-    @apply overflow-hidden backdrop-filter backdrop-blur-2xl  bg-opacity-50 bg-primary shadow-2xl rounded-xl
+    @apply overflow-hidden backdrop-filter backdrop-blur-2xl  bg-opacity-30 bg-primary shadow-2xl rounded-xl
   }
   .avatar.online:before{
     /* background-color : var(--color-tertiary); */
@@ -112,6 +113,18 @@ body {
   100% {
     background-position: 200% center;
   }
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.5s;
 }
 
  input:-webkit-autofill,
