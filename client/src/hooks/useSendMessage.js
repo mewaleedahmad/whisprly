@@ -1,10 +1,12 @@
 import {API_URL} from "../constants"
 import { useAuthContext } from "../context/AuthContext";
+import toast from "react-hot-toast";
+
 
 const useSendMessage = () => {
   const {authUser,setAuthUser} = useAuthContext()
 
-    const sendMessage = async (id,message) => {
+    const sendMessage = async (id,msgData) => {
       try {
         const response = await fetch(`${API_URL}/api/messages/send/${id}`, {
           method: "POST",
@@ -12,7 +14,7 @@ const useSendMessage = () => {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${authUser.token}`
         },
-        body: JSON.stringify(message),
+        body: JSON.stringify(msgData),
 
         });
         await response.json();
@@ -22,9 +24,13 @@ const useSendMessage = () => {
           setAuthUser(null);
           return null
         }
+
+        if(!response.ok){
+          throw new Error("Something went wrong")
+        }
   
       } catch (error) {
-        console.log(error.sendMessage, "Error in useSendMessage");
+        toast.error(error.message || "Something went wrong")
       }
     };
     return { sendMessage };

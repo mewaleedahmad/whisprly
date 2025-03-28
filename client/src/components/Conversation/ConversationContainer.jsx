@@ -1,11 +1,14 @@
 import { useAuthContext } from "../../context/AuthContext";
 import useGlobalState from "../../zustand/useGlobalState";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef,useState } from "react";
 import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
+import { RxCross2 } from "react-icons/rx";
+import { LiaDownloadSolid } from "react-icons/lia";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
   const {authUser} = useAuthContext()
+  const [previewImage,setPreviewImage] = useState(null)
   const {markMessageSeen} = useMarkMessageSeen()
   const myMessage = authUser._id
   const myPic = authUser.profilePic
@@ -15,6 +18,32 @@ const ConversationContainer = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
   }
 
+  const handlePreview = (url)=>{
+    setPreviewImage(url)
+    document.getElementById("fullScreenPreview").showModal()
+  }
+
+const handleDownload = async () => {
+  if (previewImage) {
+    try {
+      const response = await fetch(previewImage);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute('download', `image-${Date.now()}.${previewImage.split(".").pop()}`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Failed to download image:", error);
+    }
+  }
+};
+
   function getLocalTime(isoString) {
     try {
       const date = new Date(isoString); // Parse the ISO string
@@ -23,6 +52,7 @@ const ConversationContainer = () => {
       console.error("Invalid ISO string provided:", error);
     }
   }
+
   useEffect(() => {
     scrollToBottom()
   }, [messages])
@@ -42,10 +72,10 @@ const ConversationContainer = () => {
 
   return (
     <div className="w-full py-2 h-full">
-      <section className="lg:px-4 px-2 py-4 flex hidden-scrollable-div flex-col gap-2">
+      <section className="lg:px-4 px-2 py-4  flex hidden-scrollable-div flex-col gap-4">
         {loadingState ? 
           <>
-          {[1,2,3,4,5].map((i)=>(
+          {[1,2,3,4].map((i)=>(
             <div key={i}>
               <div className="chat chat-end">
             <div className="chat-image   avatar">
@@ -79,8 +109,11 @@ const ConversationContainer = () => {
                 />
             </div>
           </div>
-          <div  className={`chat-bubble text-[14px] flex items-center justify-center lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
-            {msg?.message}
+          <div className={`chat-bubble text-[14px] ${msg.image ? "p-1  " : ""}  max-w-[270px] flex flex-col gap-[5px] items-start justify-center  lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
+            <>
+            {msg.image && <img src={msg.image} className="rounded-xl cursor-pointer" onClick={()=>handlePreview(msg.image)} />}
+            {msg.message && <p className={`${msg?.image ? "ps-3" : ""}`}>{msg.message}</p>}
+            </>
           </div>
           {
             msg.senderId == myMessage && 
@@ -88,6 +121,23 @@ const ConversationContainer = () => {
                {msg?.seen && <p>seen</p>}
             </h5>
           }
+            <dialog id="fullScreenPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+              <div className="modal-box scrollable-div max-w-3xl relative bg-transparent p-0">
+                <div className="header  flex items-end justify-end gap-3 py-3 px-1  text-gray-300 text-3xl">
+                    <button onClick={() => handleDownload()} className="hover:text-gray-100">
+                      <LiaDownloadSolid />
+                    </button>
+                  <button onClick={() => document.getElementById("fullScreenPreview").close() } className="hover:text-gray-100">
+                    <RxCross2 />
+                  </button>
+                </div>
+                <div className={` flex justify-center items-center `}>
+                  {previewImage && (
+                    <img src={previewImage}  className="w-full object-contain  max-h-max" />
+                  )}
+                </div>
+              </div>
+           </dialog>
         </div>
             }
             </div>
