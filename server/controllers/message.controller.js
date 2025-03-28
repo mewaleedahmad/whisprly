@@ -1,11 +1,12 @@
 import messageModel from "../models/message.model.js";
 import conversationModel from "../models/conversation.model.js";
 import { io, userSocketMap } from "../socket/socket.js"
-
+import {v2 as cloudinary} from "cloudinary"
+import { v4 as uuidv4 } from 'uuid';
 
 export const sendMessage = async (req, res) =>  {
   try {
-    const { message } = req.body;
+    const { message,image } = req.body;
     const receiverId = req.params.id;
     const senderId = req.user._id;
 
@@ -18,11 +19,23 @@ export const sendMessage = async (req, res) =>  {
         participants: [senderId, receiverId],
       });
     }
+    
+    let cloudinaryResponse = " ";
 
+   if(image){
+      cloudinaryResponse = await cloudinary.uploader.upload(image, {
+       folder: `Whisprly/chat-images/${receiverId}`,
+       transformation:{
+        quality : "auto"
+       }
+      });
+    }
+      
     const newMessage = await messageModel.create({
       senderId,
       receiverId,
-      message,
+      message : message.message,
+      image : cloudinaryResponse?.secure_url
     });
 
     if (newMessage) {
