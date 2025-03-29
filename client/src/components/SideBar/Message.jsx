@@ -105,7 +105,7 @@ useEffect(()=>{
                <div className="text-[10px]  bg-[#6473e4] text-white rounded-xl px-1">Creater</div> }
               </div>
             {matchingMessage &&
-              <p className={`text-xs  ${( matchingMessage?.senderId === convo?._id && !matchingMessage?.seen) ? "text-white font-semibold" : "text-gray-400 "}`} >{handleSliceMessage(matchingMessage.message, 28)}</p>
+              <p className={`text-xs  ${( matchingMessage?.senderId === convo?._id && !matchingMessage?.seen) ? "text-white font-semibold" : "text-gray-400 "}`} >{matchingMessage?.message ? handleSliceMessage(matchingMessage.message, 28) : (matchingMessage.image ? "Image" : matchingMessage.message)}</p>
             }
             </div>
           </div>
@@ -115,9 +115,7 @@ useEffect(()=>{
         </div>
       );
     })
-  
-)}
-
+  )}
       </>
     )}
     

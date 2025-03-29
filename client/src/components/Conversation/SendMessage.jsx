@@ -1,13 +1,13 @@
-import { CiImageOn } from "react-icons/ci";
-import { IoMdSend } from "react-icons/io";
 import { MdCancel} from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
+import { VscSend } from "react-icons/vsc";
+import { PiImagesSquare } from "react-icons/pi";
 
 import useSendMessage from "../../hooks/useSendMessage";
 import useGlobalState from "../../zustand/useGlobalState";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { RxCross2 } from "react-icons/rx";
 
 
 const SendMessage = () => {
@@ -60,8 +60,8 @@ const SendMessage = () => {
   }
 
   const onSubmit = async(message)=>{
-    if(!message && !image){
-      return null
+    if((message.message === "") && !image){
+      return
     }
     const msgData = {}
     if(message){
@@ -89,36 +89,37 @@ const SendMessage = () => {
       </div>
       }
        <div className="input-file">
-    <label htmlFor="file-input" className=" flex items-center text-gray-500 hover:text-gray-200  cursor-pointer justify-center ">
-       <CiImageOn className="size-8"/>
+    <label htmlFor="file-input" className=" flex items-center text-gray-500 hover:text-gray-400  cursor-pointer justify-center ">
+       <PiImagesSquare className="size-8"/>
      </label>
      <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic ,image/heif" className="hidden"
        onChange={(e) => handleImageUpload(e.target.files[0])} />
     </div>
     <div className="input-text grow">
     <label className="input input-bordered flex items-center  bg-transparent border borderColor">
-        <input {...register("message")} autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
+        <input {...register("message")}  autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
-    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-200   text-3xl">
-        <IoMdSend/>
+    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-400   text-3xl">
+        <VscSend/>
     </button>
     </form>
 
- <dialog id="imgSelectionPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
-      <div className="modal-box relative bg-transparent p-0">
-        <div className="header flex items-end justify-end gap-4 p-3  text-gray-300 text-3xl">
-          <button onClick={() => document.getElementById("imgSelectionPreview").close()} className="hover:text-gray-100">
-            <RxCross2 />
-          </button>
-        </div>
-        <div className={`overflow-hidden flex justify-center items-center ${!image ? 'skeleton' : ''}`}>
-          {image && (
-            <img src={image} alt="profile-pic" className="max-w-full max-h-full object-contain" />
-          )}
-        </div>
-      </div>
-    </dialog>
+    <dialog id="imgSelectionPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+              <div className="modal-box scrollable-div max-w-3xl relative bg-transparent p-0">
+                <div className="header  flex items-end justify-end gap-3 py-2 px-1  text-gray-300 text-3xl">
+                  <button onClick={() => document.getElementById("imgSelectionPreview").close() } className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
+                    <RxCross2 />
+                  </button>
+                </div>
+                <div className={` flex justify-center items-center `}>
+                  {image && (
+                    <img src={image}  className="w-full object-contain  max-h-max" />
+                  )}
+                </div>
+              </div>
+       </dialog>
+       
    </>
     
   );

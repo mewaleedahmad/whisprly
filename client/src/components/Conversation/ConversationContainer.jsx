@@ -4,6 +4,7 @@ import { useEffect, useRef,useState } from "react";
 import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
 import { RxCross2 } from "react-icons/rx";
 import { LiaDownloadSolid } from "react-icons/lia";
+import toast, { Toaster } from "react-hot-toast";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
@@ -14,8 +15,11 @@ const ConversationContainer = () => {
   const myPic = authUser.profilePic
   const messagesEndRef = useRef(null)
 
-  const scrollToBottom = () => {
+  const scroll = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+  const scrollToBottom = ()=>{
+    scroll()
   }
 
   const handlePreview = (url)=>{
@@ -35,6 +39,7 @@ const handleDownload = async () => {
       link.setAttribute('download', `image-${Date.now()}.${previewImage.split(".").pop()}`);
       document.body.appendChild(link);
       link.click();
+      toast.success("Image Saved")
       document.body.removeChild(link);
 
       URL.revokeObjectURL(url);
@@ -111,7 +116,7 @@ const handleDownload = async () => {
           </div>
           <div className={`chat-bubble text-[14px] ${msg.image ? "p-1  " : ""}  max-w-[270px] flex flex-col gap-[5px] items-start justify-center  lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
             <>
-            {msg.image && <img src={msg.image} className="rounded-xl cursor-pointer" onClick={()=>handlePreview(msg.image)} />}
+            {msg.image && <img onLoad={()=>scrollToBottom()} src={msg.image} className="rounded-xl cursor-pointer" onClick={()=>handlePreview(msg.image)} />}
             {msg.message && <p className={`${msg?.image ? "ps-3" : ""}`}>{msg.message}</p>}
             </>
           </div>
@@ -121,13 +126,25 @@ const handleDownload = async () => {
                {msg?.seen && <p>seen</p>}
             </h5>
           }
-            <dialog id="fullScreenPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+
+          <dialog id="fullScreenPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+            <Toaster
+                 position="top-center"
+                 reverseOrder={false}
+                 toastOptions={{
+                  style: {
+                    background: '#171b1d', 
+                    color: 'white', 
+                    duration : 3000,
+                  },
+                }}
+               />
               <div className="modal-box scrollable-div max-w-3xl relative bg-transparent p-0">
-                <div className="header  flex items-end justify-end gap-3 py-3 px-1  text-gray-300 text-3xl">
-                    <button onClick={() => handleDownload()} className="hover:text-gray-100">
+                <div className="header  flex items-end justify-end gap-3 py-2 px-1  text-gray-300 text-3xl">
+                    <button onClick={() => handleDownload()} className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
                       <LiaDownloadSolid />
                     </button>
-                  <button onClick={() => document.getElementById("fullScreenPreview").close() } className="hover:text-gray-100">
+                  <button onClick={() => document.getElementById("fullScreenPreview").close() } className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
                     <RxCross2 />
                   </button>
                 </div>
@@ -138,6 +155,7 @@ const handleDownload = async () => {
                 </div>
               </div>
            </dialog>
+
         </div>
             }
             </div>
