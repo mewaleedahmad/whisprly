@@ -114,10 +114,10 @@ const handleDownload = async () => {
                 />
             </div>
           </div>
-          <div className={`chat-bubble text-[14px] ${msg.image ? "p-1  " : ""}  max-w-[270px] flex flex-col gap-[5px] items-start justify-center  lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
+          <div className={`chat-bubble text-[14px] ${msg.image ? "p-[2px]  " : ""}  max-w-[260px] lg:max-w-[300px] flex flex-col gap-[5px] items-start justify-center  lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"} `}>
             <>
-            {msg.image && <img onLoad={()=>scrollToBottom()} src={msg.image} className="rounded-xl cursor-pointer" onClick={()=>handlePreview(msg.image)} />}
-            {msg.message && <p className={`${msg?.image ? "ps-3" : ""}`}>{msg.message}</p>}
+            {msg.image && <img onLoad={()=>scrollToBottom()} src={msg.image} className="rounded-2xl overflow-hidden  cursor-pointer" onClick={()=>handlePreview(msg.image)} />}
+            {msg.message && <p className={`${msg?.image ? "px-3" : ""}`}>{msg.message}</p>}
             </>
           </div>
           {
@@ -127,34 +127,42 @@ const handleDownload = async () => {
             </h5>
           }
 
-          <dialog id="fullScreenPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+          <dialog id="fullScreenPreview" className="modal fixed inset-0 z-50 bg-black bg-opacity-80 overflow-hidden">
             <Toaster
-                 position="top-center"
-                 reverseOrder={false}
-                 toastOptions={{
-                  style: {
-                    background: '#171b1d', 
-                    color: 'white', 
-                    duration : 3000,
-                  },
-                }}
-               />
-              <div className="modal-box scrollable-div max-w-3xl relative bg-transparent p-0">
-                <div className="header  flex items-end justify-end gap-3 py-2 px-1  text-gray-300 text-3xl">
-                    <button onClick={() => handleDownload()} className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
-                      <LiaDownloadSolid />
-                    </button>
-                  <button onClick={() => document.getElementById("fullScreenPreview").close() } className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
-                    <RxCross2 />
-                  </button>
-                </div>
-                <div className={` flex justify-center items-center `}>
-                  {previewImage && (
-                    <img src={previewImage}  className="w-full object-contain  max-h-max" />
-                  )}
-                </div>
-              </div>
-           </dialog>
+              position="top-center"
+              reverseOrder={false}
+              toastOptions={{
+                style: {
+                  background: '#171b1d', 
+                  color: 'white', 
+                  duration: 3000,
+                },
+              }}
+            />
+            <div className="absolute top-4 right-6 flex gap-1 z-10">
+              <button 
+                onClick={() => handleDownload()} 
+                className="p-2 rounded-full border-none outline-none bg-black bg-opacity-50 text-white hover:bg-quaternary transition-all"
+              >
+                <LiaDownloadSolid size={24} />
+              </button>
+              <button 
+                onClick={() => document.getElementById("fullScreenPreview").close()} 
+                className="p-2 rounded-full border-none outline-none bg-black bg-opacity-50 text-white hover:bg-quaternary transition-all"
+              >
+                <RxCross2 size={24} />
+              </button>
+            </div>
+            <div className="w-full h-full flex items-center justify-center">
+              {previewImage && (
+                <img 
+                  src={previewImage} 
+                  className="max-h-[90vh] max-w-[90vw] object-contain" 
+                  alt="Preview"
+                />
+              )}
+            </div>
+          </dialog>
 
         </div>
             }

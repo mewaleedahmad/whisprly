@@ -29,7 +29,6 @@ const useUpdatePassword = ()=>{
               }
              if (response.status === 200) {
                 toast.success(data.message)
-                return;
             }
             return data;
            

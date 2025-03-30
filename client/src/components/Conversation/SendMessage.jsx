@@ -85,11 +85,11 @@ const SendMessage = () => {
       {image && 
       <div className="absolute bg-quaternary rounded-md p-[2px] bottom-[75px] left-1">
         <div onClick={()=>handleRemoveImage()} className="absolute right-0 cursor-pointer top-0 "><MdCancel className="size-[18px] text-gray-400 "/></div>
-      <img src={image} className=" size-[4.5rem] cursor-pointer rounded-md" onClick={()=>handleFullScreenPreview()}/>
+      <img src={image} className=" size-[4rem] object-cover cursor-pointer rounded-md" onClick={()=>handleFullScreenPreview()}/>
       </div>
       }
        <div className="input-file">
-    <label htmlFor="file-input" className=" flex items-center text-gray-500 hover:text-gray-400  cursor-pointer justify-center ">
+    <label htmlFor="file-input" className=" flex items-center text-gray-500 hover:text-gray-300  cursor-pointer justify-center ">
        <PiImagesSquare className="size-8"/>
      </label>
      <input type="file" id="file-input" accept="image/png, image/jpeg, image/jpg, image/webp, image/heic ,image/heif" className="hidden"
@@ -100,26 +100,31 @@ const SendMessage = () => {
         <input {...register("message")}  autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
-    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-400   text-3xl">
+    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-300   text-3xl">
         <VscSend/>
     </button>
     </form>
 
-    <dialog id="imgSelectionPreview" className="modal fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
-              <div className="modal-box scrollable-div max-w-3xl relative bg-transparent p-0">
-                <div className="header  flex items-end justify-end gap-3 py-2 px-1  text-gray-300 text-3xl">
-                  <button onClick={() => document.getElementById("imgSelectionPreview").close() } className="hover:text-gray-100 btn-ghost hover:bg-primary p-[5px]  rounded-full">
-                    <RxCross2 />
-                  </button>
-                </div>
-                <div className={` flex justify-center items-center `}>
-                  {image && (
-                    <img src={image}  className="w-full object-contain  max-h-max" />
-                  )}
-                </div>
-              </div>
+     <dialog id="imgSelectionPreview" className="modal fixed inset-0 z-50 bg-black bg-opacity-80 overflow-hidden">
+            
+            <div className="absolute top-4 right-6 flex gap-1 z-10">
+              <button 
+                onClick={() => document.getElementById("imgSelectionPreview").close()} 
+                className="p-2 rounded-full bg-black border-none outline-none bg-opacity-50 text-white hover:bg-quaternary transition-all"
+              >
+                <RxCross2 size={24} />
+              </button>
+            </div>
+            <div className="w-full h-full flex items-center justify-center">
+              {image && (
+                <img 
+                  src={image} 
+                  className="max-h-[90vh] max-w-[90vw] object-contain" 
+                  alt="Preview"
+                />
+              )}
+            </div>
        </dialog>
-       
    </>
     
   );

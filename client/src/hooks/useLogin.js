@@ -16,7 +16,7 @@ const useLogin = () => {
             const data = await response.json();
 
              if (response.status === 400) {
-                throw new Error(data.message)
+                throw new Error(data.error)
               }
              if (response.status === 200) {
                 toast.success(data.message)
