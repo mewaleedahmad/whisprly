@@ -2,6 +2,8 @@ import conversationModel from "../models/conversation.model.js";
 import messageModel from "../models/message.model.js";
 import userModel from "../models/user.model.js";
 import { io, userSocketMap } from "../socket/socket.js"
+import {v2 as cloudinary} from "cloudinary"
+
 
 export const getFriends = async (req, res) => {
   try {
@@ -73,7 +75,6 @@ export const addFriend = async (req, res) => {
         new: true,
       }),
     ]);
-    // io.emit("getFriends",newFriend)
     res.status(200).json(newFriend);
   } catch (error) {
     res.status(500).json({ error: "Internal Server Error" });
@@ -119,6 +120,13 @@ export const removeFriend = async (req, res) => {
         receiverId: receiverId,
       })
     ]);
+
+    try {
+     await cloudinary.api.delete_resources_by_prefix(`Whisprly/chat-images/${receiverId}`)
+     await cloudinary.api.delete_folder(`Whisprly/chat-images/${receiverId}`)
+    }catch (error) {
+      console.log("Error deleting the media in cloudinary")
+    }
 
     res.status(200).json({ message: "Friend Removed" });
   } catch (error) {

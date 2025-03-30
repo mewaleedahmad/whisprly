@@ -103,7 +103,7 @@ export const resetPassword = async(req,res)=>{
             decoded = jwt.verify(token,process.env.TOKEN_SECRET)
         } catch (jwtError) {
             if (jwtError.name === 'TokenExpiredError') {
-                return res.status(401).json({ error: "Password reset link has expired, Request a new one" });
+                return res.status(401).json({ error: "Password Reset link has expired! Request a new one" });
             }
             return res.status(401).json({ error: "Invalid or expired token" });
         }
@@ -111,7 +111,7 @@ export const resetPassword = async(req,res)=>{
         const user = await userModel.findOne({email:decoded?.email})
 
         if(!user){
-            return res.status(400).json({error:"Account Not Found"})
+            return res.status(404).json({error:"Account Not Found"})
         }
 
         if(password !== confirmPassword){
@@ -143,7 +143,7 @@ export const sendEmail = async (req,res)=>{
         }
 
         const token = jwt.sign({email},process.env.TOKEN_SECRET,{
-            expiresIn : "60m"
+            expiresIn : "1h"
         })
 
         const resetUrl = `${CLIENT_URL}/reset-password/${token}`;

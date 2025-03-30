@@ -2,7 +2,6 @@ import messageModel from "../models/message.model.js";
 import conversationModel from "../models/conversation.model.js";
 import { io, userSocketMap } from "../socket/socket.js"
 import {v2 as cloudinary} from "cloudinary"
-import { v4 as uuidv4 } from 'uuid';
 
 export const sendMessage = async (req, res) =>  {
   try {
