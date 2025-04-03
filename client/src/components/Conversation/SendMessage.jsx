@@ -71,12 +71,13 @@ const SendMessage = () => {
      msgData.image = image
     }
     
+    reset()
+    setImage(null)
+    
     await sendMessage(selectedConversation?._id,msgData)
     if(!convoAlreadyExists){
       setAddConversation(selectedConversation)
     }
-    reset()
-    setImage(null)
   }
 
   return (
@@ -100,7 +101,7 @@ const SendMessage = () => {
         <input {...register("message")}  autoComplete="off" type="text" className="grow text-gray-300 " name="message" placeholder={`What's in your mind.....`} />
       </label>
     </div>
-    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-300   text-3xl">
+    <button disabled={isSubmitting}  type="submit"  className="bg-transparent text-gray-500 rounded-badge hover:text-gray-300 cursor-pointer  text-3xl">
         <VscSend/>
     </button>
     </form>
@@ -119,7 +120,7 @@ const SendMessage = () => {
               {image && (
                 <img 
                   src={image} 
-                  className="max-h-[90vh] max-w-[90vw] object-contain" 
+                  className="max-h-[90vh] max-w-[90vw]  object-contain" 
                   alt="Preview"
                 />
               )}
