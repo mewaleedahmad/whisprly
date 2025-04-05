@@ -8,7 +8,7 @@ import useMarkMessageSeen from "../../hooks/useMarkMessageSeen";
 
 const Message = () => {
   const [loading,setLoading] = useState(false)
-  const {conversations,setConversations,selectedConversation,setSelectedConversation,messages,setMessages,setLoadingState,lastMessage} = useGlobalState();
+  const {conversations,setConversations,selectedConversation,setSelectedConversation,messages,setMessages,setLoadingState,lastMessage,setLastMessage} = useGlobalState();
   const {getConversations} = useGetConversations()
   const {getMessages} = useGetMessages()
   const {getLastMessage} = useGetLastMessage()
@@ -53,7 +53,8 @@ const Message = () => {
 
 useEffect(()=>{
   const handleGetLastMessage = async()=>{
-    await getLastMessage()
+    const data = await getLastMessage()
+    setLastMessage(data)
   }
   handleGetLastMessage()
 },[messages])
@@ -63,6 +64,7 @@ useEffect(()=>{
   return ()=>{
     setSelectedConversation(null)
     setMessages([])
+    setLastMessage([])
     setLoadingState(false)
   }
 },[setLoadingState, setMessages, setSelectedConversation])
@@ -94,7 +96,7 @@ useEffect(()=>{
          className={`w-full flex items-center justify-between  py-2 px-6 cursor-pointer ${selectedConversation?._id === convo?._id ? "bg-secondary" : ""  } hover:bg-secondary`}>
           <div className="flex gap-3 items-center ">
             <div className={`avatar ${isActive ? "online" : "offline"}`}>
-              <div className="w-12 bg-quaternary rounded-full">
+              <div className="w-12 bg-secondary skeleton rounded-full">
                 <img src={convo.profilePic} />
               </div>
             </div>

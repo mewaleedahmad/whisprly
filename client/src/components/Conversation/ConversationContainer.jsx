@@ -111,7 +111,7 @@ const handleDownload = async () => {
                 {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick  />  }               
             </div>
           <div className="chat-image avatar">
-            <div className="w-10 bg-quaternary rounded-full">
+            <div className="w-10 bg-secondary skeleton rounded-full">
               <img
                 src={msg?.senderId === myMessage ? myPic : selectedConversation.profilePic}
                 />

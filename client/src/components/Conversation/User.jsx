@@ -29,7 +29,7 @@ const User = () => {
       <div onClick={()=>setSelectedConversation(null)} className="absolute left-4 font-bold lg:hidden cursor-pointer"><MdOutlineKeyboardBackspace className="text-3xl text-white"/></div>
      <div  className="flex ps-10 lg:ps-0 gap-3">
       <div className={`avatar ${isActive ? "online": "offline"}`}>
-        <div className="w-12 rounded-full">
+        <div className="w-12 bg-secondary skeleton rounded-full">
           <img src={selectedConversation.profilePic} />
         </div>
       </div>
