@@ -5,7 +5,7 @@ import { MdWavingHand } from "react-icons/md";
 const NoChatSelected = () => {
   const {authUser} = useAuthContext()
   return (
-    <div className="w-full h-full hidden lg:flex  items-center justify-center">
+    <div className="w-full h-full hidden xl:flex  items-center justify-center">
       <div className="flex flex-col text-2xl text-gray-300 font-semibold gap-2 justify-center items-center">
         <div className="flex items-center gap-2">
         <p>Welcome</p>

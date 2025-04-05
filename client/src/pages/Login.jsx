@@ -56,9 +56,9 @@ const Login = () => {
   return (
     <>
       <div className="w-full min-h-screen flex  justify-center overflow-hidden  ">
-        <div className=" w-full  lg:flex lg:flex-col lg:justify-center py-5 pb-12  overflow-hidden background-blur ">
+        <div className=" w-full  xl:flex xl:flex-col xl:justify-center py-5 pb-12  overflow-hidden background-blur ">
           <Logo />
-          <div className="flex flex-col items-center justify-center mt-40 lg:mt-6 ">
+          <div className="flex flex-col items-center justify-center mt-40 xl:mt-6 ">
             <h1 className="text-center text-[2.4rem] font-semibold gradient-text ">
               Login
             </h1>

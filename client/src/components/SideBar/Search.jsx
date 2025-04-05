@@ -81,7 +81,7 @@ const Search = () => {
                 </div>
 
                 <dialog id="removeFriend" className="modal ">
-                  <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+                  <div className="modal-box py-6 absolute top-24 xl:relative xl:top-0  bg-primary w-full xl:w-[450px] xl:max-w-[500px] rounded-xl shadow-lg p-3">
                     <form method="dialog">
                       <button className="btn btn-sm btn-circle text-gray-400 text-lg btn-ghost absolute right-2 top-2">
                         ✕

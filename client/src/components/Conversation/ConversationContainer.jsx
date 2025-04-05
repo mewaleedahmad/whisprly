@@ -18,7 +18,7 @@ const ConversationContainer = () => {
   const messagesEndRef = useRef(null)
 
   const scroll = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+    messagesEndRef.current?.scrollIntoView()
   }
   const scrollToBottom = ()=>{
     scroll()
@@ -79,7 +79,7 @@ const handleDownload = async () => {
 
   return (
     <div className="w-full py-2 h-full">
-      <section className="lg:px-4 px-2 py-4  flex hidden-scrollable-div flex-col gap-4">
+      <section className="xl:px-4 px-2 py-4  flex hidden-scrollable-div flex-col gap-4">
         {loadingState ? 
           <>
           {[1,2,3,4].map((i)=>(
@@ -88,13 +88,13 @@ const handleDownload = async () => {
             <div className="chat-image   avatar">
               <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
             </div>
-            <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32"></div>
+            <div className="chat-bubble bg-secondary  skeleton xl:w-40 w-32"></div>
           </div>
             <div className="chat chat-start">
             <div className="chat-image   avatar">
               <div className="w-11 h-11  bg-secondary rounded-full skeleton"></div>
             </div>
-            <div className="chat-bubble bg-secondary  skeleton lg:w-40 w-32 "></div>
+            <div className="chat-bubble bg-secondary  skeleton xl:w-40 w-32 "></div>
           </div>
             </div>
           ))}
@@ -108,7 +108,7 @@ const handleDownload = async () => {
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
             <div className="chat-header flex text-gray-300 items-center gap-[2px] text-xs mx-1 mb-1 opacity-80">
                 <p>{getLocalTime(msg?.createdAt)} </p>
-                {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick   />  }               
+                {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick className="text-gray-400"  />  }               
             </div>
           <div className="chat-image avatar">
             <div className="w-10 bg-secondary skeleton rounded-full">
@@ -117,7 +117,7 @@ const handleDownload = async () => {
                 />
             </div>
           </div>
-          <div className={`chat-bubble text-[14px] ${msg.image ? "p-[2px]  " : ""}  max-w-[260px] lg:max-w-[300px] flex flex-col gap-[5px] items-start justify-center  lg:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"}  `}>
+          <div className={`chat-bubble text-[14px] ${msg.image ? "p-[2px]  " : ""}  max-w-[260px] xl:max-w-[300px] flex flex-col gap-[5px] items-start justify-center  xl:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"}  `}>
             <>
             {msg.image && <img onLoad={()=>scrollToBottom()} src={msg.image} className={`rounded-2xl overflow-hidden cursor-pointer`} onClick={()=>handlePreview(msg.image)} />}
             {msg.message && <p className={`${msg?.image ? "px-3" : ""}`}>{msg.message}</p>}

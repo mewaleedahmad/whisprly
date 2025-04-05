@@ -26,8 +26,8 @@ const User = () => {
   
   return (
     <div className="w-full flex items-center justify-between p-5  border-b borderColor">
-      <div onClick={()=>setSelectedConversation(null)} className="absolute left-4 font-bold lg:hidden cursor-pointer"><MdOutlineKeyboardBackspace className="text-3xl text-white"/></div>
-     <div  className="flex ps-10 lg:ps-0 gap-3">
+      <div onClick={()=>setSelectedConversation(null)} className="absolute left-4 font-bold xl:hidden cursor-pointer"><MdOutlineKeyboardBackspace className="text-3xl text-white"/></div>
+     <div  className="flex ps-10 xl:ps-0 gap-3">
       <div className={`avatar ${isActive ? "online": "offline"}`}>
         <div className="w-12 bg-secondary skeleton rounded-full">
           <img src={selectedConversation.profilePic} />
@@ -39,7 +39,7 @@ const User = () => {
       </div>
       </div>
       <dialog id="removeFriend" className="modal ">
-        <div className="modal-box py-6 absolute top-24 lg:relative lg:top-0  bg-primary w-full lg:w-[450px] lg:max-w-[500px] rounded-xl shadow-lg p-3">
+        <div className="modal-box py-6 absolute top-24 xl:relative xl:top-0  bg-primary w-full xl:w-[450px] xl:max-w-[500px] rounded-xl shadow-lg p-3">
           <form method="dialog">
             <button className="btn btn-sm text-xl   btn-circle text-gray-400 btn-ghost absolute right-2 top-2">
               ✕

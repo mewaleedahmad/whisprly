@@ -53,10 +53,10 @@ const ResetPassword =()=>{
   return (
     <>
       <div className="w-full min-h-screen flex  justify-center overflow-hidden  ">
-        <div className=" w-full  lg:flex lg:flex-col lg:justify-center py-5 pb-12  overflow-hidden background-blur ">
+        <div className=" w-full  xl:flex xl:flex-col xl:justify-center py-5 pb-12  overflow-hidden background-blur ">
           <Logo />
           {!showSuccessBox ? 
-          <div className="flex flex-col items-center justify-center mt-40 lg:mt-6 ">
+          <div className="flex flex-col items-center justify-center mt-40 xl:mt-6 ">
           <h1 className="text-center text-[2.4rem] font-semibold gradient-text ">
             Reset Password
           </h1>
@@ -99,13 +99,13 @@ const ResetPassword =()=>{
      </form>
         </div>
         : 
-        <div className="flex flex-col items-center justify-center mt-40 lg:mt-6">
-          <div className=" w-[90%] lg:w-[40%] py-8 p-4 text-center bg-primary bg-opacity-80 rounded-lg shadow-lg border-y-4 border-[#863ffa]">
-            <h1 className="text-3xl lg:text-4xl font-semibold mb-5 gradient-text flex items-center justify-center gap-2">
-            <IoCheckmarkCircle className="text-[#863ffa] text-3xl lg:text-4xl" />
+        <div className="flex flex-col items-center justify-center mt-40 xl:mt-6">
+          <div className=" w-[90%] xl:w-[40%] py-8 p-4 text-center bg-primary bg-opacity-80 rounded-lg shadow-lg border-y-4 border-[#863ffa]">
+            <h1 className="text-3xl xl:text-4xl font-semibold mb-5 gradient-text flex items-center justify-center gap-2">
+            <IoCheckmarkCircle className="text-[#863ffa] text-3xl xl:text-4xl" />
               Success
               </h1>
-            <p className="text-gray-200 text-lg lg:text-2xl mb-8">Your password has been  updated.</p>
+            <p className="text-gray-200 text-lg xl:text-2xl mb-8">Your password has been  updated.</p>
             <Link 
               to="/login" 
               className="text-white w-full bg-gradient-to-r from-[#863ffa] to-[#3ec0fc] hover:bg-gradient-to-br focus:ring-2 focus:outline-none focus:ring-purple-800 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
