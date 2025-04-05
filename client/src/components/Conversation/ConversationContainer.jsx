@@ -106,9 +106,9 @@ const handleDownload = async () => {
             {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
             &&
             <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
-            <div className="chat-header flex items-center gap-1 text-xs mx-1 mb-1 opacity-80">
+            <div className="chat-header flex text-gray-300 items-center gap-[2px] text-xs mx-1 mb-1 opacity-80">
                 <p>{getLocalTime(msg?.createdAt)} </p>
-                {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick  />  }               
+                {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick   />  }               
             </div>
           <div className="chat-image avatar">
             <div className="w-10 bg-secondary skeleton rounded-full">
@@ -137,7 +137,7 @@ const handleDownload = async () => {
           </div>
           {
             msg.senderId == myMessage && 
-             <h5 className="chat-footer text-xs mx-1 opacity-80">
+             <h5 className="chat-footer text-gray-300 text-xs mx-1 opacity-80">
                {msg?.seen && <p>seen</p>}
             </h5>
           }
