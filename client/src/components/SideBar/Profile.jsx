@@ -111,7 +111,7 @@ const Profile = () => {
               <div key={user._id} className={`w-full ${index < friendRequests.length - 1  ? "border-1 border-b border-secondary" : ""} flex items-center justify-between py-2  cursor-default`}>
            <div className="flex gap-2 items-center  flex-grow">
              <div className={`avatar`}>
-               <div className="w-10 bg-quaternary rounded-full">
+               <div className="w-10 bg-secondary skeleton rounded-full">
                  <img src={user.profilePic} />
                </div>
              </div>

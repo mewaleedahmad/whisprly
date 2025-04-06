@@ -38,8 +38,8 @@ const SendMessage = () => {
       return
     }
 
-    if(i.size > 8 * 1024 * 1024){
-      toast.error("Please select an image less than 8 mb")
+    if(i.size > 10 * 1024 * 1024){
+      toast.error("Please select an image less than 10 mb")
       return 
   }
    

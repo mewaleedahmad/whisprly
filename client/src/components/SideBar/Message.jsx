@@ -18,8 +18,24 @@ const Message = () => {
 
   function getLocalTime(isoString) {
     try {
-      const date = new Date(isoString); // Parse the ISO string
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+      const inputDate = new Date(isoString);
+      const today = new Date();
+      
+      // Check if dates are the same day
+      const isToday = inputDate.getFullYear() === today.getFullYear() &&
+                      inputDate.getMonth() === today.getMonth() &&
+                      inputDate.getDate() === today.getDate();
+
+      if (isToday) {
+        return inputDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      } else {
+        // Format as DD/MM/YY when not today
+        return inputDate.toLocaleDateString('en-GB', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit'
+        });
+      }
     } catch (error) {
       console.error("Invalid ISO string provided:", error);
     }

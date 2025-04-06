@@ -7,10 +7,12 @@ import { LiaDownloadSolid } from "react-icons/lia";
 import toast, { Toaster } from "react-hot-toast";
 import { TiTick } from "react-icons/ti";
 import Lottie from "lottie-react"
+import { HiOutlineDotsVertical } from "react-icons/hi";
 
 const ConversationContainer = () => {
   const {messages,selectedConversation,loadingState} = useGlobalState()
   const {authUser} = useAuthContext()
+  const [showMsgInfoId,setShowMsgInfoId] = useState(null)
   const [previewImage,setPreviewImage] = useState(null)
   const {markMessageSeen} = useMarkMessageSeen()
   const myMessage = authUser._id
@@ -24,12 +26,15 @@ const ConversationContainer = () => {
     scroll()
   }
 
+  const handleMsgInfo = (id)=>{
+    setShowMsgInfoId(id)
+  }
   const handlePreview = (url)=>{
     setPreviewImage(url)
     document.getElementById("fullScreenPreview").showModal()
   }
 
-const handleDownload = async () => {
+  const handleDownload = async () => {
   if (previewImage) {
     try {
       const response = await fetch(previewImage);
@@ -49,12 +54,17 @@ const handleDownload = async () => {
       console.error("Failed to download image:", error);
     }
   }
-};
+  };
 
-  function getLocalTime(isoString) {
+  function getLocalTime(isoString,option) {
     try {
       const date = new Date(isoString); // Parse the ISO string
-      return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+      if(option){
+        const options = {day: 'numeric', month: 'long', year: 'numeric' };
+       return date.toLocaleDateString('en-US', options);
+      }else{
+        return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Format time in local time zone
+      }
     } catch (error) {
       console.error("Invalid ISO string provided:", error);
     }
@@ -105,8 +115,8 @@ const handleDownload = async () => {
             <div key={msg?._id}>
             {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
             &&
-            <div key={msg?._id} className={`chat ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
-            <div className="chat-header flex text-gray-300 items-center gap-[2px] text-xs mx-1 mb-1 opacity-80">
+            <div key={msg?._id} onMouseEnter={()=>handleMsgInfo(msg?._id)} onMouseLeave={()=>handleMsgInfo(null)} className={`chat  ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
+            <div className="chat-header flex text-gray-300 items-center gap-[2px] text-xs ms-3 me-1 mb-1 opacity-80">
                 <p>{getLocalTime(msg?.createdAt)} </p>
                 {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick className="text-gray-400"  />  }               
             </div>
@@ -117,7 +127,8 @@ const handleDownload = async () => {
                 />
             </div>
           </div>
-          <div className={`chat-bubble text-[14px] ${msg.image ? "p-[2px]  " : ""}  max-w-[260px] xl:max-w-[300px] flex flex-col gap-[5px] items-start justify-center  xl:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"}  `}>
+         <div className={`flex ${msg?.senderId === authUser._id ? "flex-row-reverse" : ""} gap-2 items-center`}>
+           <div className={`chat-bubble text-[14px] ${msg.image ? "p-[2px]  " : ""}  max-w-[260px] xl:max-w-[300px] flex flex-col gap-[5px] items-start justify-center  xl:text-base text-gray-100 ${msg?.senderId === myMessage ? "bg-violet-700" : "bg-secondary"}  `}>
             <>
             {msg.image && <img onLoad={()=>scrollToBottom()} src={msg.image} className={`rounded-2xl overflow-hidden cursor-pointer`} onClick={()=>handlePreview(msg.image)} />}
             {msg.message && <p className={`${msg?.image ? "px-3" : ""}`}>{msg.message}</p>}
@@ -134,7 +145,19 @@ const handleDownload = async () => {
             </div>
             }
             </>
-          </div>
+            </div>
+           {
+             (showMsgInfoId === msg._id) &&
+               <div className={`dropdown dropdown-top ${msg?.senderId === authUser._id ? "dropdown-end" : ""}  rounded-full p-[5px] hover:bg-secondary`} >
+                 <div tabIndex={0}>
+                   <HiOutlineDotsVertical className="cursor-pointer  hover:text-gray-200 text-gray-400"/>
+                 </div>
+                 <ul tabIndex={0} className="dropdown-content my-2 text-gray-400 menu bg-quaternary rounded-lg z-10 w-28 shadow-sm" >
+                   <li className=" text-center ">{getLocalTime(msg.createdAt,"option")}</li>
+                 </ul>
+               </div>
+            }
+         </div>
           {
             msg.senderId == myMessage && 
              <h5 className="chat-footer text-gray-300 text-xs mx-1 opacity-80">
