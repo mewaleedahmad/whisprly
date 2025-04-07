@@ -86,16 +86,7 @@ const ConversationContainer = () => {
     }
   }, [messages, selectedConversation?._id, authUser._id]);
 
-  const handleContextMenu = (e, msgId) => {
-    e.preventDefault() // Prevent default context menu
-    handleMsgInfo(msgId)
-    // Auto-hide after 3 seconds
-    setTimeout(() => {
-      setShowMsgInfoId(null)
-    }, 3000)
-    return false
-  }
-
+  
   return (
     <div className="w-full py-2 h-full">
       <section className="xl:px-4 px-2 py-4  flex hidden-scrollable-div flex-col gap-4">
@@ -124,7 +115,7 @@ const ConversationContainer = () => {
             <div key={msg?._id}>
             {((msg.senderId === authUser._id && msg.receiverId === selectedConversation?._id) || (msg.senderId === selectedConversation._id && msg.receiverId === authUser._id)) 
             &&
-            <div key={msg?._id}  onContextMenu={(e) => handleContextMenu(e, msg?._id)} onMouseEnter={()=>handleMsgInfo(msg?._id)} onMouseLeave={()=>handleMsgInfo(null)} className={`chat  ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
+            <div key={msg?._id} onMouseEnter={()=>handleMsgInfo(msg?._id)} onMouseLeave={()=>handleMsgInfo(null)} className={`chat  ${msg?.senderId === myMessage ? "chat-end" : "chat-start"} `}>
             <div className="chat-header flex text-gray-300 items-center gap-[2px] text-xs ms-3 me-1 mb-1 opacity-80">
                 <p>{getLocalTime(msg?.createdAt)} </p>
                 {!msg.isOptimistic && msg.senderId === authUser._id && <TiTick className="text-gray-400"  />  }               
