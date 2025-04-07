@@ -148,7 +148,7 @@ const ConversationContainer = () => {
             </div>
            {
              (showMsgInfoId === msg._id) &&
-               <div className={`dropdown dropdown-top ${msg?.senderId === authUser._id ? "dropdown-end" : ""}  rounded-full p-[5px] hover:bg-secondary`} >
+               <div className={`dropdown dropdown-top ${msg?.senderId === authUser._id ? "dropdown-top" : "dropdown-left"}  rounded-full p-[5px] hover:bg-secondary`} >
                  <div tabIndex={0}>
                    <HiOutlineDotsVertical className="cursor-pointer  hover:text-gray-200 text-gray-400"/>
                  </div>
