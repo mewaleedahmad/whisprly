@@ -15,12 +15,11 @@ Whisprly is a modern, real-time chat application developed with the **MERN** sta
 - ⚡ **Optimized Performance**: Fast, fluid UI ensuring a smooth and responsive user experience.
 
 
-## **📸 Screenshots**
-
-![Imgur](https://i.imgur.com/SMmRClH.png)
-![Imgur](https://i.imgur.com/bLdhUSC.png)
-![Imgur](https://i.imgur.com/qHG4BQU.png)
-![Imgur](https://i.imgur.com/qCwWJYO.png)
+## **📸 Screenshots**Project Screenshot
+![Project Screenshot](./screenshots/1.png)
+![Project Screenshot](./screenshots/2.png)
+![Project Screenshot](./screenshots/3.png)
+![Project Screenshot](./screenshots/4.png)
 
 
 ## **🛠 Technology Stack**
