@@ -75,6 +75,7 @@ const SendMessage = () => {
     setImage(null)
     
     await sendMessage(selectedConversation?._id,msgData)
+    
     if(!convoAlreadyExists){
       setAddConversation(selectedConversation)
     }

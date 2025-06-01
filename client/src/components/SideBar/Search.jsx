@@ -46,16 +46,16 @@ const Search = () => {
   
   return (
     <div className="relative w-full p-4 mt-1">
-      <label className="input input-bordered  flex items-center bg-transparent border borderColor">
+      <label className="input relative pe-11  input-bordered gap-4 w-full flex items-center bg-transparent border borderColor">
         <input
           type="search"
-          className="grow text-gray-300 bg-transparent focus:outline-none"
+          className="flex-1 text-gray-300 bg-transparent  focus:outline-none"
           placeholder="Search by username"
           value={searchText}
           onChange={handleInputChange}
           onClick={handleSubmit}
         />
-        <button className="pl-3 text-gray-300 cursor-default hover:text-gray-50">
+        <button className="absolute self-center right-4 text-gray-300 cursor-default hover:text-gray-50">
           <GoSearch />
         </button>
       </label>
