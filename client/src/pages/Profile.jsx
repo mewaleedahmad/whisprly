@@ -117,7 +117,6 @@ const Profile = () => {
     try {
         const res = await updateProfilePic(file);
         if(res.message){
-            toast.success(res.message);
             document.getElementById("image-crop").close();
             resetImageStates();
         }
