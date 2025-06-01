@@ -15,7 +15,7 @@ Whisprly is a modern, real-time chat application developed with the **MERN** sta
 - ⚡ **Optimized Performance**: Fast, fluid UI ensuring a smooth and responsive user experience.
 
 
-## **📸 Screenshots**Project Screenshot
+## **📸 Screenshots**
 ![Project Screenshot](./screenshots/1.png)
 ![Project Screenshot](./screenshots/2.png)
 ![Project Screenshot](./screenshots/3.png)
@@ -35,7 +35,6 @@ Whisprly is a modern, real-time chat application developed with the **MERN** sta
 | **Daisy UI**    | Tailwind CSS component library for pre-built UI elements |
 | **Socket.io**   | Real-time bidirectional communication for instant messaging |
 | **Cloud Storage**| Secure storage for profile images and shared media |
-| **JWT**         | JSON Web Tokens for secure authentication and authorization |
 
 ---
 
