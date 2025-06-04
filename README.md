@@ -1,6 +1,6 @@
 # **Whisprly - Real-Time Web Chat Application**
 
-Whisprly is a modern, real-time chat application developed with the **MERN** stack, utilizing **Socket.io** for seamless instant messaging. It enables users to connect, communicate, and share media in a secure, responsive, and interactive environment.
+Whisprly is a real-time web based chat application developed with the **MERN** stack, utilizing **Socket.io** for seamless instant messaging. It enables users to connect, communicate, and share media in a secure, responsive, and interactive environment.
 
 ## **🌟 Key Features**
 
