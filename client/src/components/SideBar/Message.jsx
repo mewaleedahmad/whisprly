@@ -119,7 +119,7 @@ useEffect(()=>{
             <div className="name">
               <div className="flex gap-2 items-center">
               <h3>{convo.fullName}</h3>
-              {convo.userName === "waleed_gondal" &&
+              {convo.userName === "mewaleedahmad" &&
                <div className="text-[10px]  bg-[#6473e4] text-white rounded-xl px-1">Creater</div> }
               </div>
             {matchingMessage &&
