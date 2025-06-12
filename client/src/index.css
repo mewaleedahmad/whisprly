@@ -6,10 +6,11 @@ html,
 body {
   width: 100vw;
   height: 100vh;
-  background : url("/background-swirl.jpg");
+  background-color: #0e0918; /* Dark background color that matches your theme */
+  background-image: url("/background-swirl.jpg");
   background-repeat: no-repeat;
   background-size: cover;
-   
+  transition: background-image 0.3s ease-in;
 }
 :root {
   --color-primary: theme('colors.primary');
