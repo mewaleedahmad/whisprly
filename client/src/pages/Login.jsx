@@ -117,7 +117,7 @@ const Login = () => {
           {showResetDialog && (
             <div 
               ref={dialogRef}
-              className="absolute bottom-16 right-0 bg-primary border border-gray-700 rounded-lg shadow-lg p-4 w-80"
+              className="absolute bottom-16 right-0 bg-primary border border-gray-700 rounded-lg shadow-lg p-4 w-96"
             >
               <h3 className="text-lg font-semibold mb-2 text-white">Reset Password</h3>
               <p className="text-gray-400 text-sm mb-4">

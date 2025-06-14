@@ -18,7 +18,9 @@ const useSendEmail = () => {
         if (response.status === 400) {
           throw new Error(data.error)
         }
-        toast.success("Password reset link sent to your email")
+        if (response.status === 200) {
+          toast.success(data.message)
+        }
       } catch (error) {
         toast.error(error.message || "Something went wrong")
       }

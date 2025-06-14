@@ -2,7 +2,7 @@ import userModel from '../models/user.model.js';
 import bcrypt from "bcryptjs"
 import generateTokenAndSetCookie from '../utils/generateTokenAndSetCookie.js';
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer"
+import { Resend } from "resend";
 import {CLIENT_URL} from "../config/config.js"
 
 export const signup = async(req,res)=>{
@@ -135,6 +135,7 @@ export const resetPassword = async(req,res)=>{
 
 export const sendEmail = async (req,res)=>{
     try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
         const {email} = req.body
         const checkUserExists = await userModel.findOne({email})
     
@@ -221,27 +222,18 @@ export const sendEmail = async (req,res)=>{
                 </body>
                 </html>`
 
-        const transporter = nodemailer.createTransport({
-            host: process.env.EMAIL_HOST,
-            port:465,
-            secure: true,
-            auth: {
-              user: process.env.EMAIL_USER,
-              pass: process.env.EMAIL_PASSWORD
-            }
-          });
+           const {error } = await resend.emails.send({
+             from: "Whisprly <noreply@waleedahmad.online>",
+             to: [email],
+             subject: "Password Reset Request",
+             html: emailTemplate,
+           });
+         
+           if (error) {
+            console.log(error)
+             return res.status(400).json({ error });
+           }
 
-        const mailOptions = {
-            from:{
-                name:"Whisprly",
-                address : process.env.EMAIL_USER
-            } ,
-            to: email,
-            subject: "Reset Password Request",
-            html: emailTemplate
-        }
-
-        await transporter.sendMail(mailOptions)
         res.status(200).json({message:"Password reset link sent to your email"})
         
     } catch (error) {
