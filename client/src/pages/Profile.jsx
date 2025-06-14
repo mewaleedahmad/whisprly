@@ -185,7 +185,7 @@ const Profile = () => {
                   {...accountInfo("newEmail")}
                   className="auth-btn bg-primary"
                   value={userDets.email}
-                  onChange={(e)=>setUserDets({...userDets, email: e.target.value})}
+                  onChange={(e)=>setUserDets({...userDets, email: e.target.value.toLowerCase().replace(/\s/g, '')})}
                   placeholder="Email"
                 />
               </label>
@@ -197,7 +197,7 @@ const Profile = () => {
                   {...accountInfo("newUserName")}
                   className="auth-btn"
                   value={userDets.userName}
-                  onChange={(e)=>setUserDets({...userDets, userName: e.target.value})}
+                  onChange={(e)=>setUserDets({...userDets, userName: e.target.value.toLowerCase().replace(/\s/g, '')})}
                   placeholder="Username"
                 />
               </label>

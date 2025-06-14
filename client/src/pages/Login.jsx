@@ -70,6 +70,7 @@ const Login = () => {
                 <input
                   {...register("email")}
                   type="text"
+                  onChange={(e) => e.target.value = e.target.value.toLowerCase().replace(/\s/g, '')}
                   id="email"
                   className="auth-btn "
                   placeholder="Email"
@@ -128,7 +129,8 @@ const Login = () => {
                 <input
                 {...registerEmail("email")}
                   type="text"
-                  className="auth-btn "
+                  className="auth-btn"
+                  onChange={(e) => e.target.value = e.target.value.toLowerCase().replace(/\s/g, '')}
                   placeholder="Email"
                 />
               </label>

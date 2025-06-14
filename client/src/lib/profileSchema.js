@@ -3,11 +3,12 @@ import {z} from "zod"
 export const profileAccountSchema = z.object({
     newEmail: z
     .string()
-    .email("Invalid email address"),
+    .email("Invalid email address")
+    .transform((val) => val.toLowerCase().trim().replace(/\s+/g, "")),
   newUserName: z
     .string()
     .min(5, "Username must be atleast 5 characters long")
-    .transform((val) => val.toLowerCase().replace(/\s+/g, "")),
+    .transform((val) => val.toLowerCase().trim().replace(/\s+/g, "")),
   newFullName: z
     .string()
     .min(5, "Fullname must be atleast 5 characters long"),

@@ -18,11 +18,7 @@ const SignUp = () => {
   const handleSelectGender = (e) => {
     setSelectedGender(e.target.value);
   };
-  const handleUsernameChange = (e) => {
-    const value = e.target.value;
-    e.target.value = value.toLowerCase().replace(/\s+/g, "");
-  };
-  
+ 
   const {signUp} = useSignUp()
 
   const {
@@ -48,14 +44,14 @@ const SignUp = () => {
 
             <label className="input input-bordered input-field-styles  flex items-center gap-2">
               <MdEmail />
-              <input {...register("email")} type="email" className="auth-btn" name="email"  placeholder="Email" />
+              <input {...register("email")} onChange={(e) => e.target.value = e.target.value.toLowerCase().replace(/\s/g, '')} type="email" className="auth-btn" name="email"  placeholder="Email" />
             </label>
             {errors.email && (
               <p className="error-msg">{errors.email.message}</p>
             )}
             <label className="input input-bordered flex input-field-styles items-center gap-2">
               <FaUserCircle />
-              <input {...register("userName")} onChange={handleUsernameChange} type="text" className="auth-btn" name="userName"  placeholder="Username" />
+              <input {...register("userName")} onChange={(e) => e.target.value = e.target.value.toLowerCase().replace(/\s/g, '')} type="text" className="auth-btn" name="userName"  placeholder="Username" />
             </label>
             {errors.userName && (
               <p className="error-msg">{errors.userName.message}</p>

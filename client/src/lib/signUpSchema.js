@@ -5,12 +5,13 @@ const signUpSchema = z
     email: z
       .string()
       .nonempty("Email is required")
-      .email("Invalid email address"),
+      .email("Invalid email address")
+      .transform((val) => val.toLowerCase().trim().replace(/\s+/g, "")),
     userName: z
       .string()
       .nonempty("Username is required")
       .min(5, "Username must be atleast 5 characters long")
-      .transform((val) => val.toLowerCase().replace(/\s+/g, "")),
+      .transform((val) => val.toLowerCase().trim().replace(/\s+/g, "")),
     fullName: z
       .string()
       .nonempty("Full name is required")
